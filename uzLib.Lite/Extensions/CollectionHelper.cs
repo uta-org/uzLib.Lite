@@ -34,5 +34,10 @@ namespace uzLib.Lite.Extensions
             list.Add(item);
             return list;
         }
+
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> data)
+        {
+            return !(data != null && data.Any());
+        }
     }
 }

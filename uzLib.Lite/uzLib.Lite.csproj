@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\CollectionHelper.cs" />
+    <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\StringHelper.cs" />

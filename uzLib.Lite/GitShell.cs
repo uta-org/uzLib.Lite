@@ -7,13 +7,16 @@ namespace uzLib.Lite
 {
     public class GitShell
     {
-        //private Process CurrentProcess;
-
         public ProcessStartInfo CurrentInfo { get; private set; }
 
         public GitShell()
         {
             CurrentInfo = new ProcessStartInfo("git");
+
+            CurrentInfo.UseShellExecute = false;
+            CurrentInfo.RedirectStandardInput = true;
+            CurrentInfo.RedirectStandardOutput = true;
+            CurrentInfo.RedirectStandardError = true;
         }
 
         public Task<int> SendCommand(string command)
