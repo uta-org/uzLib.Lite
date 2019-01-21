@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace uzLib.Lite.Extensions
 {
@@ -20,6 +21,18 @@ namespace uzLib.Lite.Extensions
                 action(item, i);
                 i++;
             }
+        }
+
+        public static T AddValue<T>(this List<T> list, T item)
+        {
+            list.Insert(0, item);
+            return list.First();
+        }
+
+        public static List<T> AddAndGet<T>(this List<T> list, T item)
+        {
+            list.Add(item);
+            return list;
         }
     }
 }

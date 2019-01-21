@@ -14,6 +14,11 @@ namespace uzLib.Lite.Extensions
             return fileName;
         }
 
+        public static string GetFileNameFromUrlWithoutExtension(this string url)
+        {
+            return Path.GetFileNameWithoutExtension(GetFileNameFromUrl(url));
+        }
+
         public static string GetFileNameFromUrl(this string url)
         {
             string fileName = "";
@@ -55,6 +60,32 @@ namespace uzLib.Lite.Extensions
             fileName = fileName.Split('&').LastOrDefault().Split('=').LastOrDefault();
 
             return GetFileNameValidChar(fileName);
+        }
+
+        public static bool IsValidPath(this string path, bool allowRelativePaths = false)
+        {
+            bool isValid = true;
+
+            try
+            {
+                string fullPath = Path.GetFullPath(path);
+
+                if (allowRelativePaths)
+                {
+                    isValid = Path.IsPathRooted(path);
+                }
+                else
+                {
+                    string root = Path.GetPathRoot(path);
+                    isValid = string.IsNullOrEmpty(root.Trim(new char[] { '\\', '/' })) == false;
+                }
+            }
+            catch
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }
