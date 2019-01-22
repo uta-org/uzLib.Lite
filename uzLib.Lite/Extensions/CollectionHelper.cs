@@ -35,6 +35,12 @@ namespace uzLib.Lite.Extensions
             return list;
         }
 
+        public static List<T> AddRangeAndGet<T>(this List<T> list, IEnumerable<T> items)
+        {
+            list.AddRange(items);
+            return list;
+        }
+
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> data)
         {
             return !(data != null && data.Any());
