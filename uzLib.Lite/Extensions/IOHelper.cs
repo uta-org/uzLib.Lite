@@ -134,5 +134,10 @@ namespace uzLib.Lite.Extensions
 
             return result;
         }
+
+        public static bool IsRelative(string workingPath, string path)
+        {
+            return path.Contains(workingPath);
+        }
     }
 }
