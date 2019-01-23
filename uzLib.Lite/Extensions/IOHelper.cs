@@ -137,7 +137,21 @@ namespace uzLib.Lite.Extensions
 
         public static bool IsRelative(string workingPath, string path)
         {
-            return path.Contains(workingPath);
+            int times;
+            return IsRelative(workingPath, path, out times);
+        }
+
+        public static bool IsRelative(string workingPath, string path, out int times)
+        {
+            times = 0;
+            string upperPath = workingPath;
+            while (!(path.Contains(upperPath) || string.IsNullOrEmpty(upperPath)))
+            {
+                upperPath = Path.GetDirectoryName(upperPath);
+                ++times;
+            }
+
+            return !string.IsNullOrEmpty(upperPath);
         }
     }
 }

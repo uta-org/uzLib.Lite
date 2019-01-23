@@ -31,12 +31,18 @@ namespace uzLib.Lite.Extensions
 
         public static List<T> AddAndGet<T>(this List<T> list, T item)
         {
+            if (item == null)
+                return list;
+
             list.Add(item);
             return list;
         }
 
         public static List<T> AddRangeAndGet<T>(this List<T> list, IEnumerable<T> items)
         {
+            if (items == null)
+                return list;
+
             list.AddRange(items);
             return list;
         }
