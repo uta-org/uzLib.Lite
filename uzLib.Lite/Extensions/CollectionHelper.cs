@@ -23,30 +23,6 @@ namespace uzLib.Lite.Extensions
             }
         }
 
-        public static T AddValue<T>(this List<T> list, T item)
-        {
-            list.Insert(0, item);
-            return list.First();
-        }
-
-        public static List<T> AddAndGet<T>(this List<T> list, T item)
-        {
-            if (item == null)
-                return list;
-
-            list.Add(item);
-            return list;
-        }
-
-        public static List<T> AddRangeAndGet<T>(this List<T> list, IEnumerable<T> items)
-        {
-            if (items == null)
-                return list;
-
-            list.AddRange(items);
-            return list;
-        }
-
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> data)
         {
             return !(data != null && data.Any());
