@@ -8,12 +8,18 @@ namespace uzLib.Lite.Core
         private object MyObject { get; }
 
         private static bool IsInserting { get; set; }
+        private static int DefaultCursorSize { get; set; }
         public string KeyName => IsKey() && (ConsoleKeyInfo)MyObject != null ? ((ConsoleKeyInfo)MyObject).Key.ToString() : "Null";
         public string OutputString => !IsKey() && MyObject != null ? (string)MyObject : string.Empty;
 
         public static event Action<string> ReadInput = delegate { };
 
         public static event Action<ConsoleKeyInfo> ReadKey = delegate { };
+
+        static ConsoleOutput()
+        {
+            DefaultCursorSize = Console.CursorSize;
+        }
 
         private ConsoleOutput()
         {
@@ -118,6 +124,7 @@ namespace uzLib.Lite.Core
                 else if (readKeyResult.Key == ConsoleKey.Insert)
                 {
                     IsInserting = !IsInserting;
+                    Console.CursorSize = IsInserting ? 100 : DefaultCursorSize;
                 }
 #if DEBUG
                 else if (readKeyResult.Key == ConsoleKey.UpArrow)
@@ -171,6 +178,8 @@ namespace uzLib.Lite.Core
                         // Sum one to the cur index (we appended one char)
                         ++curIndex;
                     }
+
+                    ReadInput?.Invoke(retString);
                 }
 
                 if (char.IsControl(readKeyResult.KeyChar) &&

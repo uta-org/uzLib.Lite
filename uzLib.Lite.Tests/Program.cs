@@ -12,6 +12,8 @@ namespace uzLib.Lite.Tests
     {
         private static void Main(string[] args)
         {
+            //Console.ReadLine();
+
             Console.Write("Write test string: ");
             var test = ConsoleOutput.ReadLineOrKey();
 
