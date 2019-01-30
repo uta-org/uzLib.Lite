@@ -1,9 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uzLib.Lite", "uzLib.Lite\uzLib.Lite.csproj", "{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "uzLib.Lite.Tests", "uzLib.Lite.Tests\uzLib.Lite.Tests.csproj", "{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +16,10 @@ Global
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
