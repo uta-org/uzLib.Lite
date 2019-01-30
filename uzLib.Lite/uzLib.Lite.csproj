@@ -43,17 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ConsoleOutput.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DictionaryHelper.cs" />
+    <Compile Include="Core\Enums.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
-    <Compile Include="GitShell.cs" />
-    <Compile Include="Interfaces\IStarted.cs" />
-    <Compile Include="NativeMethods.cs" />
+    <Compile Include="Extensions\UriHelper.cs" />
+    <Compile Include="Interoperability\GitShell.cs" />
+    <Compile Include="Interoperability\NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singleton.cs" />
+    <Compile Include="Core\Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

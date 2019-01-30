@@ -33,9 +33,9 @@ namespace uzLib.Lite.Extensions
             return dictionary[key];
         }
 
-        public static bool HasValues<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key)
+        public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key)
         {
-            return dictionary.ContainsKey(key) && dictionary[key].Count > 0;
+            return !(dictionary.ContainsKey(key) && dictionary[key].Count > 0);
         }
     }
 }

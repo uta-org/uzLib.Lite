@@ -75,5 +75,13 @@ namespace uzLib.Lite.Extensions
             list.AddRange(items);
             return list;
         }
+
+        public static void AddNullableRange<T>(this List<T> list, IEnumerable<T> col)
+        {
+            if (col.IsNullOrEmpty())
+                return;
+
+            list.AddRange(col);
+        }
     }
 }
