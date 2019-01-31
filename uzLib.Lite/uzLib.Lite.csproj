@@ -49,6 +49,7 @@
     <Compile Include="Extensions\DictionaryHelper.cs" />
     <Compile Include="Core\Enums.cs" />
     <Compile Include="Extensions\ExceptionHelper.cs" />
+    <Compile Include="Extensions\HashSetHelper.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
