@@ -16,6 +16,8 @@ namespace uzLib.Lite.Core
 
         public static event Action<ConsoleKeyInfo> ReadKey = delegate { };
 
+        public int CurrentRightPad { get; private set; }
+
         static ConsoleOutput()
         {
             DefaultCursorSize = Console.CursorSize;
@@ -52,11 +54,13 @@ namespace uzLib.Lite.Core
         }
 
         // returns null if user pressed Escape, or the contents of the line if they pressed Enter.
-        public static ConsoleOutput ReadLineOrKey()
+        public static ConsoleOutput ReadLineOrKey(bool inline = false)
         {
             string retString = "";
 
-            int curIndex = 0;
+            int curRightPad,
+                curIndex = 0;
+
             do
             {
                 ConsoleKeyInfo readKeyResult = Console.ReadKey(true);
@@ -66,8 +70,12 @@ namespace uzLib.Lite.Core
                 {
                     ReadInput?.Invoke(retString);
 
-                    Console.WriteLine();
-                    return new ConsoleOutput(retString);
+                    curRightPad = Console.CursorLeft;
+
+                    if (!inline)
+                        Console.WriteLine();
+
+                    return new ConsoleOutput(retString) { CurrentRightPad = curRightPad };
                 }
 
                 // handle backspace
@@ -198,8 +206,12 @@ namespace uzLib.Lite.Core
 
                     ReadKey?.Invoke(readKeyResult);
 
-                    Console.WriteLine();
-                    return new ConsoleOutput(readKeyResult);
+                    curRightPad = Console.CursorLeft;
+
+                    if (!inline)
+                        Console.WriteLine();
+
+                    return new ConsoleOutput(readKeyResult) { CurrentRightPad = curRightPad };
                 }
             }
             while (true);

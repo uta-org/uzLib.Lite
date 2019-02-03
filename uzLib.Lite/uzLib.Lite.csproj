@@ -53,6 +53,7 @@
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\StringHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
     <Compile Include="Interoperability\GitShell.cs" />
     <Compile Include="Interoperability\NativeMethods.cs" />
