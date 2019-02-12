@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ConsoleOutput.cs" />
+    <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DictionaryHelper.cs" />
