@@ -1,5 +1,4 @@
-﻿using SymLinker.Linker.LinkCreators;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -7,6 +6,8 @@ using System.Text;
 
 namespace uzLib.Lite.Plugins.SymLinker
 {
+    using SymLinker.LinkCreators;
+
     public class Linker
     {
         #region Actions
