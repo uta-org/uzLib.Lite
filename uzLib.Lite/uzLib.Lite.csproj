@@ -35,6 +35,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,15 +53,17 @@
     <Compile Include="Extensions\ExceptionHelper.cs" />
     <Compile Include="Extensions\HashSetHelper.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
-    <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
     <Compile Include="Extensions\SerializationHelper.cs" />
     <Compile Include="Extensions\StringHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
-    <Compile Include="Interoperability\GitShell.cs" />
-    <Compile Include="Interoperability\NativeMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Plugins\SymLinker\Abstracts\ISymLinkCreator.cs" />
+    <Compile Include="Plugins\SymLinker\LinkCreators\LinuxSymLinkCreator.cs" />
+    <Compile Include="Plugins\SymLinker\LinkCreators\OSXSymLinkCreator.cs" />
+    <Compile Include="Plugins\SymLinker\LinkCreators\WindowsSymLinkCreator.cs" />
+    <Compile Include="Plugins\SymLinker\Linker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
