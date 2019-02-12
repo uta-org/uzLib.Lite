@@ -24,5 +24,16 @@ namespace uzLib.Lite.Interoperability
 
             return CurrentInfo.RunProcessAsync();
         }
+
+        public async Task<string> ReadCommand(string command)
+        {
+            CurrentInfo.Arguments = command;
+
+            using (Process process = new Process())
+            {
+                await CurrentInfo.RunProcessAsync(process);
+                return process.StandardOutput.ReadToEnd();
+            }
+        }
     }
 }

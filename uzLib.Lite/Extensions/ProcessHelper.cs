@@ -23,6 +23,14 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        public static async Task<int> RunProcessAsync(this ProcessStartInfo info, Process process)
+        {
+            process.StartInfo = info;
+            process.EnableRaisingEvents = true;
+
+            return await RunProcessAsync(process).ConfigureAwait(false);
+        }
+
         public static async Task<int> RunProcessAsync(this ProcessStartInfo info)
         {
             using (var process = new Process
