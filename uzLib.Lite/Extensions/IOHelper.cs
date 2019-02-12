@@ -153,5 +153,11 @@ namespace uzLib.Lite.Extensions
 
             return !string.IsNullOrEmpty(upperPath);
         }
+
+        public static bool IsDirectory(this string path)
+        {
+            FileAttributes fa = File.GetAttributes(path);
+            return (fa & FileAttributes.Directory) != 0;
+        }
     }
 }
