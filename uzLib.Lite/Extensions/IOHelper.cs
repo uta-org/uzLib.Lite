@@ -156,8 +156,15 @@ namespace uzLib.Lite.Extensions
 
         public static bool IsDirectory(this string path)
         {
-            FileAttributes fa = File.GetAttributes(path);
-            return (fa & FileAttributes.Directory) != 0;
+            try
+            {
+                FileAttributes fa = File.GetAttributes(path);
+                return (fa & FileAttributes.Directory) != 0;
+            }
+            catch
+            { // The provided path doesn't exists
+                return false;
+            }
         }
     }
 }
