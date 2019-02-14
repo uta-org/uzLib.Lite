@@ -72,6 +72,7 @@
     <Compile Include="Plugins\SymLinker\LinkCreators\OSXSymLinkCreator.cs" />
     <Compile Include="Plugins\SymLinker\LinkCreators\WindowsSymLinkCreator.cs" />
     <Compile Include="Plugins\SymLinker\Linker.cs" />
+    <Compile Include="Shells\StaticShell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -166,5 +166,34 @@ namespace uzLib.Lite.Extensions
                 return false;
             }
         }
+
+        public static string GetTopLevelDir(string filePath)
+        { // This wouldn't work for Linux paths
+            string tempFilePath = (string)filePath.Clone();
+            if (tempFilePath.Contains(("..\\")))
+                tempFilePath = tempFilePath.Replace("..\\", "");
+
+            string temp = Path.GetDirectoryName(tempFilePath);
+            if (temp.Contains("\\"))
+                temp = temp.Substring(0, temp.IndexOf("\\"));
+
+            if (tempFilePath != filePath)
+                return filePath.Substring(0, filePath.IndexOf(temp) + temp.Length);
+            else
+                return temp;
+        }
+
+        public static string GoUpInTree(string path, int times)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                path = Path.GetDirectoryName(path);
+
+                if (string.IsNullOrEmpty(path))
+                    throw new Exception($"You go up in the three more times than allowed. (Max == {i})");
+            }
+
+            return path;
+        }
     }
 }
