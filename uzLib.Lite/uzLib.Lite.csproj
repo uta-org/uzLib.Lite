@@ -55,6 +55,7 @@
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DictionaryHelper.cs" />
     <Compile Include="Core\Enums.cs" />
+    <Compile Include="Extensions\DOMHelper.cs" />
     <Compile Include="Extensions\ExceptionHelper.cs" />
     <Compile Include="Extensions\GitHelper.cs" />
     <Compile Include="Extensions\HashSetHelper.cs" />

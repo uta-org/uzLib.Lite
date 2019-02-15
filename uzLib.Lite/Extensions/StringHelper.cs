@@ -20,15 +20,21 @@ namespace uzLib.Lite.Extensions
             return string.Format(format, args);
         }
 
-        public static string FirstCharToUpper(this string input)
+        public static string FirstCharToUpper(this string input, bool exSensitive = false)
         {
             switch (input)
             {
                 case null:
-                    throw new ArgumentNullException(nameof(input));
+                    if (exSensitive)
+                        throw new ArgumentNullException(nameof(input));
+                    else
+                        return null;
 
                 case "":
-                    throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                    if (exSensitive)
+                        throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                    else
+                        return string.Empty;
 
                 default:
                     if (char.IsLower(input.First()))
