@@ -16,7 +16,7 @@ namespace uzLib.Lite.Core.Input
         /// <returns></returns>
         public static bool NextConfirm(string title)
         {
-            return NextConfirm(title, Color.Gray);
+            return NextConfirm(title, Color.LightGray);
         }
 
         /// <summary>

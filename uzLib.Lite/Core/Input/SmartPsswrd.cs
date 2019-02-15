@@ -30,7 +30,7 @@ namespace uzLib.Lite.Core.Input
             KeyHandler keyHandler = new KeyHandler(new Console2(), _history, AutoCompletionHandler);
             string text = GetText(keyHandler);
 
-            if (String.IsNullOrWhiteSpace(text) && !String.IsNullOrWhiteSpace(@default))
+            if (string.IsNullOrWhiteSpace(text) && !string.IsNullOrWhiteSpace(@default))
             {
                 text = @default;
             }
