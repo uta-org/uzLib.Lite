@@ -1,17 +1,36 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
+using System.Drawing;
+
+using Console = Colorful.Console;
 
 namespace uzLib.Lite.Core.Input
 {
     public static class SmartInput
     {
+        /// <summary>
+        /// Read a confirmation input [yN] from console.
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <returns></returns>
         public static bool NextConfirm(string title)
+        {
+            return NextConfirm(title, Color.Gray);
+        }
+
+        /// <summary>
+        /// Read a confirmation input [yN] from console.
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <param name="color">The color.</param>
+        /// <returns></returns>
+        public static bool NextConfirm(string title, Color color)
         {
             ConsoleKey response;
             do
             {
-                Console.Write($"{title} [yN] ");
+                Console.Write($"{title} [yN] ", color);
                 response = Console.ReadKey(false).Key;
                 if (response != ConsoleKey.Enter)
                 {

@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Colorful.Console, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\ZWSetup\packages\Colorful.Console.1.2.9\lib\net461\Colorful.Console.dll</HintPath>
+    </Reference>
     <Reference Include="LibGit2Sharp, Version=0.25.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
       <HintPath>..\..\QuickFork\packages\LibGit2Sharp.0.25.4\lib\netstandard2.0\LibGit2Sharp.dll</HintPath>
     </Reference>
@@ -41,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ConsoleOutput.cs" />
+    <Compile Include="Core\Input\Internal\Console2.cs" />
+    <Compile Include="Core\Input\Interfaces\IAutoCompleteHandler.cs" />
+    <Compile Include="Core\Input\Internal\IConsole.cs" />
+    <Compile Include="Core\Input\Internal\KeyHandler.cs" />
+    <Compile Include="Core\Input\SmartInput.cs" />
+    <Compile Include="Core\Input\SmartPsswrd.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
     <Compile Include="Extensions\ConsoleHelper.cs" />
