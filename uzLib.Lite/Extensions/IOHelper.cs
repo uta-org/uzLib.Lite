@@ -190,7 +190,7 @@ namespace uzLib.Lite.Extensions
                 path = Path.GetDirectoryName(path);
 
                 if (string.IsNullOrEmpty(path))
-                    throw new Exception($"You go up in the three more times than allowed. (Max == {i})");
+                    throw new Exception($"Cannot go up in the directory tree more times than allowed. (Max == {i})");
             }
 
             return path;
