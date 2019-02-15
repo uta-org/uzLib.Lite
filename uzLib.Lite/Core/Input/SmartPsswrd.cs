@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace uzLib.Lite.Core.Input
 {
+    using Internal;
+    using Interfaces;
+
     public static class SmartPsswrd
     {
         private static List<string> _history;
 
-        static ReadLine()
+        static SmartPsswrd()
         {
             _history = new List<string>();
         }
