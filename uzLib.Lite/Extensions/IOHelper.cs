@@ -195,5 +195,13 @@ namespace uzLib.Lite.Extensions
 
             return path;
         }
+
+        public static string GetTemporaryDirectory(string prefix = "", string suffix = "")
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), prefix + Path.GetRandomFileName() + suffix);
+            Directory.CreateDirectory(tempDirectory);
+
+            return tempDirectory;
+        }
     }
 }

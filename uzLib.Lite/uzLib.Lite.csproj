@@ -36,6 +36,9 @@
     <Reference Include="Colorful.Console, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\ZWSetup\packages\Colorful.Console.1.2.9\lib\net461\Colorful.Console.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.13.2.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\..\ZWSetup\packages\DotNetZip.1.13.2\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="LibGit2Sharp, Version=0.25.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
       <HintPath>..\..\QuickFork\packages\LibGit2Sharp.0.25.4\lib\netstandard2.0\LibGit2Sharp.dll</HintPath>
     </Reference>
@@ -62,6 +65,7 @@
     <Compile Include="Core\Input\SmartPsswrd.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
+    <Compile Include="Extensions\CompressionHelper.cs" />
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DictionaryHelper.cs" />
     <Compile Include="Core\Enums.cs" />
