@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace uzLib.Lite.Extensions
 {
@@ -202,6 +203,33 @@ namespace uzLib.Lite.Extensions
             Directory.CreateDirectory(tempDirectory);
 
             return tempDirectory;
+        }
+
+        public static bool IsValidPath(this string path) => !Regex.IsMatch(path, "[" + Regex.Escape(new string(Path.GetInvalidPathChars())) + "]");
+
+        public static bool IsValidFilename(this string path) => !Regex.IsMatch(path, "[" + Regex.Escape(new string(Path.GetInvalidFileNameChars())) + "]");
+
+        public static void WriteToFile(this MemoryStream stream, string outputDir, string fileName)
+        {
+            if (!IsValidPath(outputDir))
+                throw new ArgumentException("Invalid path specified.", "outputDir");
+
+            if (!IsValidFilename(fileName))
+                throw new ArgumentException("Invalid path specified.", "fileName");
+
+            stream.WriteToFile(Path.Combine(outputDir, fileName));
+        }
+
+        public static void WriteToFile(this MemoryStream stream, string path)
+        {
+            if (!IsValidFilename(path))
+                throw new ArgumentException("Invalid path specified.", "path");
+
+            using (FileStream file = File.Create(path))
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                stream.CopyTo(file);
+            }
         }
     }
 }
