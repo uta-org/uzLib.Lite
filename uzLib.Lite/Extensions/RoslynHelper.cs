@@ -2,6 +2,7 @@
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Emit;
 using Microsoft.CodeAnalysis.FindSymbols;
 using System;
@@ -16,6 +17,11 @@ namespace uzLib.Lite.Extensions
 {
     public static class RoslynHelper
     {
+        private static int dupedItems = 0,
+                           noDupedItems = 0;
+
+        private static HashSet<string> assemblyNames = new HashSet<string>();
+
         /*private const string ProjectLiteral = "ResolveProjectReferences",
                              AssemblyLiteral = "ResolveAssemblyReferences";
 
@@ -71,20 +77,50 @@ namespace uzLib.Lite.Extensions
             }
         }*/
 
-        public static CSharpCompilation FindAllMissingReferences(this CSharpCompilation compilation, Solution solution, Project project)
+        public static void StartDebugging()
         {
+            assemblyNames.Clear();
+        }
+
+        public static CSharpCompilation AddAllMissingReferences(this CSharpCompilation compilation, Solution solution, Project project)
+        {
+            if (assemblyNames == null)
+                assemblyNames = new HashSet<string>();
+
             foreach (var document in project.Documents)
             {
-                //var model = document.GetSemanticModelAsync().Result;
+                var model = document.GetSemanticModelAsync().Result;
                 var root = document.GetSyntaxRootAsync().Result;
-                var symbols = compilation.GetAllSymbols(root);
 
-                foreach (var symbol in symbols)
-                    foreach (var item in SymbolFinder.FindReferencesAsync(symbol, solution).Result)
-                        foreach (var location in item.Locations)
-                        {
-                            Console.WriteLine($"Found assembly {location.Document.Project.AssemblyName}!", Color.Green);
-                        }
+                root.DescendantNodesAndSelf().OfType<UsingDirectiveSyntax>().ForEach(@using =>
+                {
+                    // Thanks to: https://stackoverflow.com/a/13688863/3286975
+                    NameSyntax ns = @using.Name;
+
+                    if (assemblyNames.Add(ns.GetText().ToString()))
+                        ++noDupedItems;
+                    else
+                        ++dupedItems;
+                });
+
+                // WIP: Remove relative using directives
+                // +++: Add system references with the typeof(object) trick
+                // +++: Detect NuGet packages (they can be obtained by reading the csproj file (with the other class))
+                // +++: Detect ProjectReferences (and compile it if needed (recursivity here))
+
+                //var symbols = compilation.GetAllSymbols(root);
+
+                //foreach (var symbol in symbols)
+                //    foreach (var item in SymbolFinder.FindReferencesAsync(symbol, solution).Result)
+                //        foreach (var location in item.Locations)
+                //        {
+                //            //Console.WriteLine($"Found assembly {location.Document.Project.AssemblyName}!", Color.Green);
+
+                //            if (assemblyNames.Add(location.Document.Project.AssemblyName))
+                //                ++noDupedItems;
+                //            else
+                //                ++dupedItems;
+                //        }
             }
 
             //SymbolFinder.FindReferencesAsync(null, null).Result.ForEach(r => compilation.AddReferences());
@@ -95,6 +131,20 @@ namespace uzLib.Lite.Extensions
             //return compilation.AddReferences(GetReferences(project.FilePath).Select(path => MetadataReference.CreateFromFile(path)));
 
             return null;
+        }
+
+        public static void EndDebugging()
+        {
+            Console.WriteLine();
+
+            Console.WriteLine($"There was found a total of {noDupedItems} references (not duped).");
+            Console.WriteLine($"Duped item count: {dupedItems} (Total: {dupedItems + noDupedItems})");
+
+            Console.WriteLine();
+
+            assemblyNames.ForEach(name => Console.WriteLine($"Found assembly {name}!", Color.Green));
+
+            Console.WriteLine();
         }
 
         public static IEnumerable<ISymbol> GetAllSymbols(this CSharpCompilation compilation, SyntaxNode root)
