@@ -83,5 +83,10 @@ namespace uzLib.Lite.Extensions
 
             list.AddRange(col);
         }
+
+        public static bool IsNullOrEmpty<T>(this IList<T> data)
+        {
+            return data == null || data != null && data.Count == 0;
+        }
     }
 }

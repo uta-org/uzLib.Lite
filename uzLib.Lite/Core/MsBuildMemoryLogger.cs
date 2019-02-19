@@ -6,6 +6,8 @@ using System.Text;
 
 namespace uzLib.Lite.Core
 {
+    using Extensions;
+
     public class MsBuildMemoryLogger : ConsoleLogger
     {
         public bool HasErrors { get; private set; }
@@ -21,9 +23,9 @@ namespace uzLib.Lite.Core
 
         private IList<string> BuildMessagesList { get; set; }
 
-        private string BuildDetails => string.Join(Environment.NewLine, BuildDetails);
+        private string BuildDetails => !BuildDetailsList.IsNullOrEmpty() ? string.Join(Environment.NewLine, BuildDetailsList) : string.Empty;
 
-        private string BuildMessages => string.Join(Environment.NewLine, BuildMessagesList);
+        private string BuildMessages => !BuildMessagesList.IsNullOrEmpty() ? string.Join(Environment.NewLine, BuildMessagesList) : string.Empty;
 
         /// <summary>
         /// Initialize is guaranteed to be called by MSBuild at the start of the build
