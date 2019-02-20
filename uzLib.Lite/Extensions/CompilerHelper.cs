@@ -1,14 +1,17 @@
-﻿using Microsoft.Build.Evaluation;
+﻿using Microsoft.Build.BuildEngine;
+using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+
+using Console = Colorful.Console;
 
 namespace uzLib.Lite.Extensions
 {
     using Core;
-    using Microsoft.Build.BuildEngine;
-    using System.IO;
 
     public static class CompilerHelper
     {
@@ -21,24 +24,26 @@ namespace uzLib.Lite.Extensions
             bool isException = false;
             ProjectCollection pc = new ProjectCollection();
 
-            //if (emit)
-            //    Environment.SetEnvironmentVariable(EmitSolution, "1");
-            //else if (!emit && Environment.GetEnvironmentVariable(EmitSolution) == "1")
-            //    Environment.SetEnvironmentVariable(EmitSolution, "0");
+            if (emit)
+            {
+                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(EmitSolution, EnvironmentVariableTarget.Machine)))
+                {
+                    Console.WriteLine("You must restart this proccess to make it work!", Color.Yellow);
+                    Environment.SetEnvironmentVariable(EmitSolution, "1", EnvironmentVariableTarget.Machine);
+                }
 
-            //// act
-            //var instances = SolutionProjectGenerator.Generate(solution, null, null, new BuildEventContext(0, 0, 0, 0), null);
+                if (Directory.GetFiles(Path.GetDirectoryName(solutionPath), "*.cache", SearchOption.TopDirectoryOnly).Length == 0)
+                {
+                    var foo = SolutionWrapperProject.Generate(
+                        solutionPath,
+                        ToolLocationHelper.CurrentToolsVersion,
+                        null);
 
-            //// assert
-            //var projectBravoMetaProject = instances[1];
-
-            //// saves the in-memory metaproj to disk
-            //projectBravoMetaProject.ToProjectRootElement().Save(projectBravoMetaProject.FullPath);
-
-            var foo = SolutionWrapperProject.Generate(
-                solutionPath,
-                ToolLocationHelper.CurrentToolsVersion,
-                null);
+                    //Console.WriteLine(foo);
+                }
+            }
+            else if (!emit && Environment.GetEnvironmentVariable(EmitSolution, EnvironmentVariableTarget.Machine) == "1")
+                Environment.SetEnvironmentVariable(EmitSolution, "0", EnvironmentVariableTarget.Machine);
 
             // THERE ARE A LOT OF PROPERTIES HERE, THESE MAP TO THE MSBUILD CLI PROPERTIES
 
@@ -47,10 +52,10 @@ namespace uzLib.Lite.Extensions
                 { "Configuration", configuration }, // always "Debug"
                 { "Platform", platform }, // always "Any CPU"
                 // { "RebuildT4Templates" , "true" },
-                { "VSToolsPath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Microsoft Visual Studio", "2017", "BuildTools") },
-                { "LangVersion", "6" },
+                // { "VSToolsPath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Microsoft Visual Studio", "2017", "BuildTools") },
+                //{ "LangVersion", "6" },
                 { "ToolsVersion", ToolLocationHelper.CurrentToolsVersion },
-                { "VisualStudioVersion", ToolLocationHelper.CurrentToolsVersion },
+                //{ "VisualStudioVersion", ToolLocationHelper.CurrentToolsVersion },
                 { "OutputPath", outputDir }
             };
 
