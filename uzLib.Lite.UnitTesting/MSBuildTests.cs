@@ -5,6 +5,7 @@ using System.Xml;
 using Microsoft.Build.Construction;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
+using Microsoft.Build.Logging;
 using Microsoft.Build.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -100,6 +101,7 @@ namespace uzLib.Lite.UnitTesting
             var parameters = new BuildParameters()
             {
                 DisableInProcNode = true,
+                Loggers = new[] { new ConsoleLogger() }
             };
 
             return CreateTest(targets, manager, request, parameters, clearCache);

@@ -56,11 +56,11 @@ namespace uzLib.Lite.Extensions
                 { "ToolsVersion", ToolLocationHelper.CurrentToolsVersion },
                 //{ "VisualStudioVersion", ToolLocationHelper.CurrentToolsVersion },
                 { "OutputPath", outputDir },
-                { "TargetFrameworkVersion", "v4.6.1" },
-                { "MSBuildRuntimeVersion", "" },
-                { "MSBuildFrameworkToolsPath", "" },
-                { "MSBuildFrameworkToolsPath64", "" },
-                { "MSBuildFrameworkToolsPath32", "" }
+                //{ "TargetFrameworkVersion", "v4.6.1" },
+                //{ "MSBuildRuntimeVersion", "" },
+                //{ "MSBuildFrameworkToolsPath", "" },
+                //{ "MSBuildFrameworkToolsPath64", "" },
+                //{ "MSBuildFrameworkToolsPath32", "" }
             };
 
             //Dictionary<string, string> globalProperty = new Dictionary<string, string>();
@@ -114,6 +114,11 @@ namespace uzLib.Lite.Extensions
                 Console.WriteLine($"You must restart this proccess to take of the new env var '{envVar}'!", Color.Yellow);
                 Environment.SetEnvironmentVariable(envVar, val, EnvironmentVariableTarget.Machine);
             }
+        }
+
+        public static string GetEnv(string envVar)
+        {
+            return Environment.GetEnvironmentVariable(envVar);
         }
     }
 }
