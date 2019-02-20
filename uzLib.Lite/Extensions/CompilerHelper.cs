@@ -17,11 +17,8 @@ namespace uzLib.Lite.Extensions
     {
         private const string EmitSolution = "MSBuildEmitSolution";
 
-        public static bool Compile(string solutionPath, string outputDir, out string outString, string configuration = "Debug", string platform = "Any CPU", bool emit = true)
+        public static bool Compile(string solutionPath, string outputDir, string configuration = "Debug", string platform = "Any CPU", bool emit = false)
         {
-            outString = "";
-
-            bool isException = false;
             ProjectCollection pc = new ProjectCollection();
 
             if (emit)
@@ -50,23 +47,11 @@ namespace uzLib.Lite.Extensions
             {
                 { "Configuration", configuration }, // always "Debug"
                 { "Platform", platform }, // always "Any CPU"
-                // { "RebuildT4Templates" , "true" },
-                // { "VSToolsPath", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Microsoft Visual Studio", "2017", "BuildTools") },
-                //{ "LangVersion", "6" },
                 { "ToolsVersion", ToolLocationHelper.CurrentToolsVersion },
-                //{ "VisualStudioVersion", ToolLocationHelper.CurrentToolsVersion },
                 { "OutputPath", outputDir },
-                //{ "TargetFrameworkVersion", "v4.6.1" },
-                //{ "MSBuildRuntimeVersion", "" },
-                //{ "MSBuildFrameworkToolsPath", "" },
-                //{ "MSBuildFrameworkToolsPath64", "" },
-                //{ "MSBuildFrameworkToolsPath32", "" }
             };
 
-            //Dictionary<string, string> globalProperty = new Dictionary<string, string>();
-            //globalProperty.Add("OutputPath", outputDir);
-
-            var logger = new MsBuildMemoryLogger();
+            var logger = new ConsoleLogger();
 
             BuildParameters bp = new BuildParameters(pc)
             {
@@ -85,26 +70,17 @@ namespace uzLib.Lite.Extensions
             {
                 BuildResult buildResult = BuildManager.DefaultBuildManager.Build(bp, buildRequest);
                 // A SIMPLE WAY TO CHECK THE RESULT
-                if (buildResult.OverallResult == BuildResultCode.Success)
-                {
-                }
+                return buildResult.OverallResult == BuildResultCode.Success);
             }
-            catch (Exception ex)
+            catch
             {
-                isException = true;
-                outString = ex.ToString();
+                throw;
             }
             finally
             {
                 pc.UnregisterAllLoggers();
                 logger.Shutdown();
             }
-
-            if (isException)
-                return false;
-
-            outString = logger.GetLog();
-            return logger.HasErrors;
         }
 
         private static void SetEnv(string envVar, string val)
