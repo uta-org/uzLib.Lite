@@ -26,11 +26,10 @@ namespace uzLib.Lite.Extensions
 
             if (emit)
             {
-                if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(EmitSolution, EnvironmentVariableTarget.Machine)))
-                {
-                    Console.WriteLine("You must restart this proccess to make it work!", Color.Yellow);
-                    Environment.SetEnvironmentVariable(EmitSolution, "1", EnvironmentVariableTarget.Machine);
-                }
+                SetEnv(EmitSolution, "1");
+                SetEnv("MSBUILD_EXE_PATH", @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\MSBuild\15.0\Bin");
+                SetEnv("VSINSTALLDIR", @"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional");
+                SetEnv("VisualStudioVersion", @"15.0");
 
                 if (Directory.GetFiles(Path.GetDirectoryName(solutionPath), "*.cache", SearchOption.TopDirectoryOnly).Length == 0)
                 {
@@ -56,7 +55,12 @@ namespace uzLib.Lite.Extensions
                 //{ "LangVersion", "6" },
                 { "ToolsVersion", ToolLocationHelper.CurrentToolsVersion },
                 //{ "VisualStudioVersion", ToolLocationHelper.CurrentToolsVersion },
-                { "OutputPath", outputDir }
+                { "OutputPath", outputDir },
+                { "TargetFrameworkVersion", "v4.6.1" },
+                { "MSBuildRuntimeVersion", "" },
+                { "MSBuildFrameworkToolsPath", "" },
+                { "MSBuildFrameworkToolsPath64", "" },
+                { "MSBuildFrameworkToolsPath32", "" }
             };
 
             //Dictionary<string, string> globalProperty = new Dictionary<string, string>();
@@ -101,6 +105,15 @@ namespace uzLib.Lite.Extensions
 
             outString = logger.GetLog();
             return logger.HasErrors;
+        }
+
+        private static void SetEnv(string envVar, string val)
+        {
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
+            {
+                Console.WriteLine($"You must restart this proccess to take of the new env var '{envVar}'!", Color.Yellow);
+                Environment.SetEnvironmentVariable(envVar, val, EnvironmentVariableTarget.Machine);
+            }
         }
     }
 }
