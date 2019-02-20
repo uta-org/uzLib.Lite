@@ -1,30 +1,44 @@
 ﻿using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
-using Microsoft.Build.Framework;
-using Microsoft.Build.Logging;
 using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-//using System.Drawing;
-
-//using Console = Colorful.Console;
 
 namespace uzLib.Lite.Extensions
 {
     using Core;
+    using Microsoft.Build.BuildEngine;
     using System.IO;
 
     public static class CompilerHelper
     {
-        public static bool Compile(string solutionPath, string outputDir, out string outString, string configuration = "Debug", string platform = "Any CPU")
+        private const string EmitSolution = "MSBuildEmitSolution";
+
+        public static bool Compile(string solutionPath, string outputDir, out string outString, string configuration = "Debug", string platform = "Any CPU", bool emit = true)
         {
             outString = "";
 
             bool isException = false;
             ProjectCollection pc = new ProjectCollection();
+
+            //if (emit)
+            //    Environment.SetEnvironmentVariable(EmitSolution, "1");
+            //else if (!emit && Environment.GetEnvironmentVariable(EmitSolution) == "1")
+            //    Environment.SetEnvironmentVariable(EmitSolution, "0");
+
+            //// act
+            //var instances = SolutionProjectGenerator.Generate(solution, null, null, new BuildEventContext(0, 0, 0, 0), null);
+
+            //// assert
+            //var projectBravoMetaProject = instances[1];
+
+            //// saves the in-memory metaproj to disk
+            //projectBravoMetaProject.ToProjectRootElement().Save(projectBravoMetaProject.FullPath);
+
+            var foo = SolutionWrapperProject.Generate(
+                solutionPath,
+                ToolLocationHelper.CurrentToolsVersion,
+                null);
 
             // THERE ARE A LOT OF PROPERTIES HERE, THESE MAP TO THE MSBUILD CLI PROPERTIES
 
@@ -45,10 +59,17 @@ namespace uzLib.Lite.Extensions
 
             var logger = new MsBuildMemoryLogger();
 
-            BuildParameters bp = new BuildParameters(pc);
-            bp.Loggers = new[] { logger };
+            BuildParameters bp = new BuildParameters(pc)
+            {
+                Loggers = new[] { logger }
+            };
 
-            BuildRequestData buildRequest = new BuildRequestData(solutionPath, globalProperties, ToolLocationHelper.CurrentToolsVersion, new string[] { "Build" }, null);
+            BuildRequestData buildRequest = new BuildRequestData(
+                projectFullPath: solutionPath,
+                globalProperties: globalProperties,
+                toolsVersion: ToolLocationHelper.CurrentToolsVersion,
+                targetsToBuild: new string[] { "Build" },
+                hostServices: null);
 
             // THIS IS WHERE THE MAGIC HAPPENS - IN PROCESS MSBUILD
             try
