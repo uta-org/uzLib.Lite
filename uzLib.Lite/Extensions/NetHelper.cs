@@ -38,7 +38,7 @@ namespace uzLib.Lite.Extensions
             return string.Empty;
         }
 
-        public static string MakeRequest(this string url, string AcceptHeader)
+        public static string MakeRequest(this string url, string AcceptHeader = "")
         {
             try
             {
@@ -49,7 +49,9 @@ namespace uzLib.Lite.Extensions
                     webRequest.Timeout = 12000;
                     webRequest.UserAgent = "request";
                     webRequest.ContentType = "application/json";
-                    webRequest.Accept = AcceptHeader;
+
+                    if (!string.IsNullOrEmpty(AcceptHeader))
+                        webRequest.Accept = AcceptHeader;
 
                     using (Stream s = webRequest.GetResponse().GetResponseStream())
                     using (StreamReader sr = new StreamReader(s))
