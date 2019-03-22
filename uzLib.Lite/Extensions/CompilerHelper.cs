@@ -70,7 +70,7 @@ namespace uzLib.Lite.Extensions
             {
                 BuildResult buildResult = BuildManager.DefaultBuildManager.Build(bp, buildRequest);
                 // A SIMPLE WAY TO CHECK THE RESULT
-                return buildResult.OverallResult == BuildResultCode.Success);
+                return buildResult.OverallResult == BuildResultCode.Success;
             }
             catch
             {

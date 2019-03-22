@@ -94,7 +94,6 @@
     <Compile Include="Core\Input\Internal\KeyHandler.cs" />
     <Compile Include="Core\Input\SmartInput.cs" />
     <Compile Include="Core\Input\SmartPsswrd.cs" />
-    <Compile Include="Core\MsBuildMemoryLogger.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
     <Compile Include="Extensions\CompilerHelper.cs" />
@@ -108,6 +107,7 @@
     <Compile Include="Extensions\HashSetHelper.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\NetHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\ReflectionHelper.cs" />
     <Compile Include="Extensions\RoslynHelper.cs" />
