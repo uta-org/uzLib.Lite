@@ -38,6 +38,18 @@ namespace uzLib.Lite.Extensions
             return destinationFilename;
         }
 
+        public static void Unzip(string source, string destination)
+        {
+            if (!destination.IsDirectory())
+                throw new ArgumentException("Destination must be a folder.", "destination");
+
+            if (!Directory.Exists(destination))
+                Directory.CreateDirectory(destination);
+
+            using (ZipFile zipFile = ZipFile.Read(source))
+                zipFile.ExtractAll(destination, ExtractExistingFileAction.OverwriteSilently);
+        }
+
         private static string GetCleanFolderName(string source, string filepath)
         {
             if (string.IsNullOrWhiteSpace(filepath))

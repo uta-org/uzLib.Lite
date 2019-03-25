@@ -68,5 +68,13 @@ namespace uzLib.Lite.Extensions
 
             return string.Empty;
         }
+
+        public static void DownloadFile(string url, string filePath)
+        {
+            // Create a new WebClient instance.
+            using (WebClient myWebClient = new WebClient())
+                // Download the Web resource and save it into the current filesystem folder.
+                myWebClient.DownloadFile(url, filePath);
+        }
     }
 }

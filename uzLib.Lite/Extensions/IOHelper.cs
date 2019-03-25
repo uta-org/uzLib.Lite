@@ -231,5 +231,10 @@ namespace uzLib.Lite.Extensions
                 stream.CopyTo(file);
             }
         }
+
+        public static bool IsDirectoryEmptyOrNull(this string folderPath)
+        {
+            return !Directory.Exists(folderPath) || Directory.Exists(folderPath) && Directory.GetFiles(folderPath).Length == 0;
+        }
     }
 }
