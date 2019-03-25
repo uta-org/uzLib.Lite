@@ -197,9 +197,13 @@ namespace uzLib.Lite.Extensions
             return path;
         }
 
-        public static string GetTemporaryDirectory(string prefix = "", string suffix = "")
+        public static string GetTemporaryDirectory(string prefix = "", string suffix = "", bool useRandomness = true)
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), prefix + Path.GetRandomFileName() + suffix);
+            string tempPath = Path.GetTempPath(),
+                   interfix = useRandomness ? Path.GetRandomFileName() : "-" + Directory.GetFiles(tempPath, "*", SearchOption.TopDirectoryOnly).Where(f => f.Contains(prefix)).Count().ToString(); 
+            // If random is false, then avoid collision by cheking number of files with that prefix ^^^
+
+            string tempDirectory = Path.Combine(tempPath, prefix + interfix + suffix);
             Directory.CreateDirectory(tempDirectory);
 
             return tempDirectory;
@@ -235,6 +239,66 @@ namespace uzLib.Lite.Extensions
         public static bool IsDirectoryEmptyOrNull(this string folderPath)
         {
             return !Directory.Exists(folderPath) || Directory.Exists(folderPath) && Directory.GetFiles(folderPath).Length == 0;
+        }
+
+        /// <summary>
+        /// Attempt to empty the folder. Return false if it fails (locked files...).
+        /// </summary>
+        /// <param name="folderPath"></param>
+        /// <returns>true on success</returns>
+        public static bool EmptyFolder(string folderPath)
+        {
+            if (!folderPath.IsDirectory())
+                throw new ArgumentException("folderPath must be a folder.", "folderPath");
+
+            bool errors = false;
+            DirectoryInfo dir = new DirectoryInfo(folderPath);
+
+            foreach (FileInfo fi in dir.EnumerateFiles())
+            {
+                try
+                {
+                    fi.IsReadOnly = false;
+                    fi.Delete();
+
+                    //Wait for the item to disapear (avoid 'dir not empty' error).
+                    while (fi.Exists)
+                    {
+                        System.Threading.Thread.Sleep(10);
+                        fi.Refresh();
+                    }
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    errors = true;
+                }
+            }
+
+            foreach (DirectoryInfo di in dir.EnumerateDirectories())
+            {
+                try
+                {
+                    EmptyFolder(di.FullName);
+                    di.Delete();
+
+                    //Wait for the item to disapear (avoid 'dir not empty' error).
+                    while (di.Exists)
+                    {
+                        System.Threading.Thread.Sleep(10);
+                        di.Refresh();
+                    }
+                }
+                catch (IOException e)
+                {
+                    Console.WriteLine(e.Message);
+                    errors = true;
+                }
+            }
+
+            Directory.Delete(folderPath);
+
+            return !errors;
         }
     }
 }
