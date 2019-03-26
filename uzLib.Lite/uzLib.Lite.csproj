@@ -60,6 +60,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\QuickFork\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Onion.SolutionParser.Parser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\ZWSetup\packages\Onion.SolutionParser.Parser.1.0.0.0\lib\net45\Onion.SolutionParser.Parser.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\ZWSetup\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
@@ -114,6 +117,7 @@
     <Compile Include="Extensions\SerializationHelper.cs" />
     <Compile Include="Extensions\StringHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
+    <Compile Include="Extensions\VSHelper.cs" />
     <Compile Include="Shells\GitShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Singleton.cs" />

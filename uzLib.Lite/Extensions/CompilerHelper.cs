@@ -69,6 +69,7 @@ namespace uzLib.Lite.Extensions
             try
             {
                 BuildResult buildResult = BuildManager.DefaultBuildManager.Build(bp, buildRequest);
+
                 // A SIMPLE WAY TO CHECK THE RESULT
                 return buildResult.OverallResult == BuildResultCode.Success;
             }
