@@ -88,5 +88,15 @@ namespace uzLib.Lite.Extensions
         {
             return data == null || data != null && data.Count == 0;
         }
+
+        public static List<T> AddSafe<T>(this List<T> list, T item)
+        {
+            if (list == null)
+                list = new List<T>();
+
+            list.Add(item);
+
+            return list;
+        }
     }
 }
