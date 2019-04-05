@@ -164,5 +164,65 @@ namespace uzLib.Lite.Extensions
         {
             return !(dictionary.ContainsKey(key) && dictionary[key].Count > 0);
         }
+
+        /// <summary>
+        /// Safes the get.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static TValue SafeGet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        {
+            if (dictionary.ContainsKey(key))
+                return dictionary[key];
+
+            return default(TValue);
+        }
+
+        /// <summary>
+        /// Indexes the of.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static int IndexOf<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        {
+            int i = 0;
+            foreach (var pair in dictionary)
+            {
+                if (pair.Key.Equals(key))
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Indexes the of.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static int IndexOf<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TValue value)
+        {
+            int i = 0;
+            foreach (var pair in dictionary)
+            {
+                if (pair.Value.Equals(value))
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
     }
 }
