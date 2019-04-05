@@ -8,6 +8,14 @@ namespace uzLib.Lite.Unity.Extensions
     public static class ColorHelper
     {
         /// <summary>
+        /// Gets the orange.
+        /// </summary>
+        /// <value>
+        /// The orange.
+        /// </value>
+        public static Color Orange { get { return Color.Lerp(Color.yellow, Color.red, 0.5f); } }
+
+        /// <summary>
         /// Ares the colors similar.
         /// </summary>
         /// <param name="c1">The c1.</param>

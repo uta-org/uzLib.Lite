@@ -108,5 +108,81 @@ namespace uzLib.Lite.Unity.Extensions
         {
             return new Rect(rect.x, rect.y + height, rect.width, rect.height);
         }
+
+        /// <summary>
+		/// Clamps all coordinates between 0 and 1.
+		/// </summary>
+		public static Rect Clamp01(this Rect rect)
+        {
+            float xMin = rect.xMin;
+            float xMax = rect.xMax;
+            float yMin = rect.yMin;
+            float yMax = rect.yMax;
+
+            xMin = Mathf.Clamp01(xMin);
+            xMax = Mathf.Clamp01(xMax);
+            yMin = Mathf.Clamp01(yMin);
+            yMax = Mathf.Clamp01(yMax);
+
+            return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        /// <summary>
+        /// Determines whether [contains] [the specified other].
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="other">The other.</param>
+        /// <returns>
+        ///   <c>true</c> if [contains] [the specified other]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool Contains(this Rect rect, Rect other)
+        {
+            return rect.xMax >= other.xMax && rect.xMin <= other.xMin && rect.yMax >= other.yMax && rect.yMin <= other.yMin;
+        }
+
+        /// <summary>
+        /// Intersections the specified other.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="other">The other.</param>
+        /// <returns></returns>
+        public static Rect Intersection(this Rect rect, Rect other)
+        {
+            float xMax = Mathf.Min(rect.xMax, other.xMax);
+            float yMax = Mathf.Min(rect.yMax, other.yMax);
+
+            float xMin = Mathf.Max(rect.xMin, other.xMin);
+            float yMin = Mathf.Max(rect.yMin, other.yMin);
+
+            return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        /// <summary>
+        /// Normalizeds the specified outter.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="outter">The outter.</param>
+        /// <returns></returns>
+        public static Rect Normalized(this Rect rect, Rect outter)
+        {
+            float xMin = (rect.xMin - outter.xMin) / outter.width;
+            float xMax = (rect.xMax - outter.xMin) / outter.width;
+
+            float yMin = (rect.yMin - outter.yMin) / outter.height;
+            float yMax = (rect.yMax - outter.yMin) / outter.height;
+
+            return new Rect(xMin, yMin, xMax - xMin, yMax - yMin);
+        }
+
+        /// <summary>
+        /// Creates the rect.
+        /// </summary>
+        /// <param name="center">The center.</param>
+        /// <param name="size">The size.</param>
+        /// <returns></returns>
+        public static Rect CreateRect(Vector2 center, Vector2 size)
+        {
+            return new Rect(center - size / 2.0f, size);
+        }
     }
 }

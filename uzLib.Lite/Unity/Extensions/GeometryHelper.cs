@@ -153,5 +153,145 @@ namespace uzLib.Lite.Unity.Extensions
             else
                 return (af2 >= 0 ? 1 : -1) * af2 - af1;
         }
+
+        /// <summary>
+        /// Determines whether [is greater or equal] [the specified other].
+        /// </summary>
+        /// <param name="local">The local.</param>
+        /// <param name="other">The other.</param>
+        /// <returns>
+        ///   <c>true</c> if [is greater or equal] [the specified other]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsGreaterOrEqual(this Vector2 local, Vector2 other)
+        {
+            if (local.x >= other.x && local.y >= other.y)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Determines whether [is lesser or equal] [the specified other].
+        /// </summary>
+        /// <param name="local">The local.</param>
+        /// <param name="other">The other.</param>
+        /// <returns>
+        ///   <c>true</c> if [is lesser or equal] [the specified other]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsLesserOrEqual(this Vector2 local, Vector2 other)
+        {
+            if (local.x <= other.x && local.y <= other.y)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Determines whether the specified other is greater.
+        /// </summary>
+        /// <param name="local">The local.</param>
+        /// <param name="other">The other.</param>
+        /// <param name="orOperator">if set to <c>true</c> [or operator].</param>
+        /// <returns>
+        ///   <c>true</c> if the specified other is greater; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsGreater(this Vector2 local, Vector2 other, bool orOperator = false)
+        {
+            if (orOperator)
+            {
+                if (local.x > other.x || local.y > other.y)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if (local.x > other.x && local.y > other.y)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified other is lesser.
+        /// </summary>
+        /// <param name="local">The local.</param>
+        /// <param name="other">The other.</param>
+        /// <param name="orOperator">if set to <c>true</c> [or operator].</param>
+        /// <returns>
+        ///   <c>true</c> if the specified other is lesser; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsLesser(this Vector2 local, Vector2 other, bool orOperator = false)
+        {
+            if (orOperator)
+            {
+                if (local.x < other.x || local.y < other.y)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if (local.x < other.x && local.y < other.y)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// To the vec2 with x and z.
+        /// </summary>
+        /// <param name="vec3">The vec3.</param>
+        /// <returns></returns>
+        public static Vector2 ToVec2WithXAndZ(this Vector3 vec3)
+        {
+            return new Vector2(vec3.x, vec3.z);
+        }
+
+        /// <summary>
+        /// Withes the x and z.
+        /// </summary>
+        /// <param name="vec3">The vec3.</param>
+        /// <returns></returns>
+        public static Vector3 WithXAndZ(this Vector3 vec3)
+        {
+            return new Vector3(vec3.x, 0f, vec3.z);
+        }
+
+        /// <summary>
+        /// Inverteds the specified vec3.
+        /// </summary>
+        /// <param name="vec3">The vec3.</param>
+        /// <returns></returns>
+        public static Vector3 Inverted(this Vector3 vec3)
+        {
+            return new Vector3(1.0f / vec3.x, 1.0f / vec3.y, 1.0f / vec3.z);
+        }
+
+        /// <summary>
+        /// Gets the ray from center.
+        /// </summary>
+        /// <param name="cam">The cam.</param>
+        /// <returns></returns>
+        public static Ray GetRayFromCenter(this Camera cam)
+        {
+            Vector3 viewportPos = new Vector3(0.5f, 0.5f, 0f);
+            return cam.ViewportPointToRay(viewportPos);
+        }
+
+        /// <summary>
+        /// Gizmoses the draw line from camera.
+        /// </summary>
+        public static void GizmosDrawLineFromCamera()
+        {
+            if (null == Camera.main)
+                return;
+
+            Ray ray = Camera.main.GetRayFromCenter();
+
+            Gizmos.DrawLine(ray.origin, ray.origin + ray.direction * Camera.main.farClipPlane);
+        }
     }
 }
