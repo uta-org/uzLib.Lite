@@ -3,8 +3,19 @@ using System.Linq;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The DictionaryHelper class
+    /// </summary>
     public static class DictionaryHelper
     {
+        /// <summary>
+        /// Adds or set the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
         public static void AddOrSet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))
@@ -13,6 +24,15 @@ namespace uzLib.Lite.Extensions
                 dictionary[key] = value;
         }
 
+        /// <summary>
+        /// Adds or append the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
         public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue[] values)
         {
             if (!dictionary.ContainsKey(key))
@@ -27,6 +47,15 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds or append the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))
@@ -41,6 +70,15 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds or append the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
         public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, TValue[]> dictionary, TKey key, params TValue[] values)
         {
             if (!dictionary.ContainsKey(key))
@@ -55,6 +93,15 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds or append the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, TValue[]> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))
@@ -69,6 +116,15 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds and get the specified value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
         public static TValue AddAndGet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
             if (!dictionary.ContainsKey(key))
@@ -77,6 +133,14 @@ namespace uzLib.Lite.Extensions
             return dictionary[key];
         }
 
+        /// <summary>
+        /// Gets the specified key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
         public static TValue Get<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
             where TValue : class, new()
         {
@@ -86,6 +150,16 @@ namespace uzLib.Lite.Extensions
             return dictionary[key];
         }
 
+        /// <summary>
+        /// Determines whether [is null or empty] [the specified key].
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>
+        ///   <c>true</c> if [is null or empty] [the specified key]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key)
         {
             return !(dictionary.ContainsKey(key) && dictionary[key].Count > 0);

@@ -12,8 +12,17 @@ using System.Text.RegularExpressions;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The VSHelper class
+    /// </summary>
     public static class VSHelper
     {
+        /// <summary>
+        /// Gets the start name of up project.
+        /// </summary>
+        /// <param name="slnPath">The SLN path.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Solution doesn't have an startup project set.</exception>
         public static string GetStartUpProjectName(string slnPath)
         {
             var startupProject = GetStartUpProject(slnPath);
@@ -24,6 +33,18 @@ namespace uzLib.Lite.Extensions
             return startupProject.Name;
         }
 
+        /// <summary>
+        /// Gets the start up project.
+        /// </summary>
+        /// <param name="slnPath">The SLN path.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">slnPath</exception>
+        /// <exception cref="ArgumentException">
+        /// Requested SLN file doesn't exists. - slnPath
+        /// or
+        /// Specified argument must be a file path with extension SLN. - slnPath
+        /// </exception>
+        /// <exception cref="Exception">Couldn't find .suo file with the solution path specified.</exception>
         public static Project GetStartUpProject(string slnPath)
         {
             if (string.IsNullOrEmpty(slnPath))
@@ -82,6 +103,12 @@ namespace uzLib.Lite.Extensions
          - The 'Array.Copy' needs a shift of 4: Array.Copy(bytes, i2 +4+ tokenBytes.Length + 2, guidBytes, 0, guidBytes.Length);
          */
 
+        /// <summary>
+        /// Reads the startup options.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">No file selected. - filePath</exception>
         private static Guid ReadStartupOptions(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
@@ -110,6 +137,21 @@ namespace uzLib.Lite.Extensions
             return new Guid(Regex.Match(headingStr, regexpToken).Groups[regexpGroup].Value);
         }
 
+        /// <summary>
+        /// Extracts the stream.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <param name="streamName">Name of the stream.</param>
+        /// <param name="output">The output.</param>
+        /// <exception cref="ArgumentNullException">
+        /// filePath
+        /// or
+        /// streamName
+        /// or
+        /// output
+        /// </exception>
+        /// <exception cref="Win32Exception">
+        /// </exception>
         private static void ExtractStream(string filePath, string streamName, Stream output)
         {
             if (string.IsNullOrEmpty(filePath)) throw new ArgumentNullException("filePath");
@@ -154,11 +196,24 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// STGs the open storage.
+        /// </summary>
+        /// <param name="pwcsName">Name of the PWCS.</param>
+        /// <param name="pstgPriority">The PSTG priority.</param>
+        /// <param name="grfMode">The GRF mode.</param>
+        /// <param name="snbExclude">The SNB exclude.</param>
+        /// <param name="reserved">The reserved.</param>
+        /// <param name="ppstgOpen">The PPSTG open.</param>
+        /// <returns></returns>
         [DllImport("ole32.dll")]
         private static extern int StgOpenStorage([MarshalAs(UnmanagedType.LPWStr)] string pwcsName, IStorage pstgPriority, STGM grfMode, IntPtr snbExclude, uint reserved, out IStorage ppstgOpen);
 
         #region Nested type: IStorage
 
+        /// <summary>
+        /// The IStorage class
+        /// </summary>
         [ComImport, Guid("0000000b-0000-0000-C000-000000000046"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
         private interface IStorage
         {
@@ -174,12 +229,27 @@ namespace uzLib.Lite.Extensions
 
         #region Nested type: STGM
 
+        /// <summary>
+        /// The STGM class
+        /// </summary>
         [Flags]
         private enum STGM
         {
+            /// <summary>
+            /// The read
+            /// </summary>
             READ = 0x00000000,
+
+            /// <summary>
+            /// The share deny write
+            /// </summary>
             SHARE_DENY_WRITE = 0x00000020,
+
+            /// <summary>
+            /// The share exclusive
+            /// </summary>
             SHARE_EXCLUSIVE = 0x00000010,
+
             // other values not declared for simplicity
         }
 

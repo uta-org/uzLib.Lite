@@ -5,8 +5,16 @@ using System.Text.RegularExpressions;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The IOHelper class
+    /// </summary>
     public static class IOHelper
     {
+        /// <summary>
+        /// Gets the file name valid character.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns></returns>
         public static string GetFileNameValidChar(this string fileName)
         {
             foreach (var item in Path.GetInvalidFileNameChars())
@@ -15,11 +23,21 @@ namespace uzLib.Lite.Extensions
             return fileName;
         }
 
+        /// <summary>
+        /// Gets the file name from URL without extension.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
         public static string GetFileNameFromUrlWithoutExtension(this string url)
         {
             return Path.GetFileNameWithoutExtension(GetFileNameFromUrl(url));
         }
 
+        /// <summary>
+        /// Gets the file name from URL.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
         public static string GetFileNameFromUrl(this string url)
         {
             string fileName = "";
@@ -63,6 +81,14 @@ namespace uzLib.Lite.Extensions
             return GetFileNameValidChar(fileName);
         }
 
+        /// <summary>
+        /// Determines whether [is valid path] [the specified allow relative paths].
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="allowRelativePaths">if set to <c>true</c> [allow relative paths].</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid path] [the specified allow relative paths]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsValidPath(this string path, bool allowRelativePaths = false)
         {
             bool isValid = true;
@@ -89,6 +115,12 @@ namespace uzLib.Lite.Extensions
             return isValid;
         }
 
+        /// <summary>
+        /// Makes the relative path.
+        /// </summary>
+        /// <param name="workingDirectory">The working directory.</param>
+        /// <param name="fullPath">The full path.</param>
+        /// <returns></returns>
         public static string MakeRelativePath(string workingDirectory, string fullPath)
         {
             string result = string.Empty;
@@ -136,12 +168,29 @@ namespace uzLib.Lite.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Determines whether the specified working path is relative.
+        /// </summary>
+        /// <param name="workingPath">The working path.</param>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified working path is relative; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsRelative(string workingPath, string path)
         {
             int times;
             return IsRelative(workingPath, path, out times);
         }
 
+        /// <summary>
+        /// Determines whether the specified working path is relative.
+        /// </summary>
+        /// <param name="workingPath">The working path.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="times">The times.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified working path is relative; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsRelative(string workingPath, string path, out int times)
         {
             times = 0;
@@ -155,6 +204,13 @@ namespace uzLib.Lite.Extensions
             return !string.IsNullOrEmpty(upperPath);
         }
 
+        /// <summary>
+        /// Determines whether this instance is directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified path is directory; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsDirectory(this string path)
         {
             try
@@ -168,6 +224,11 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Gets the top level dir.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns></returns>
         public static string GetTopLevelDir(string filePath)
         { // This wouldn't work for Linux paths
             string tempFilePath = (string)filePath.Clone();
@@ -184,6 +245,13 @@ namespace uzLib.Lite.Extensions
                 return temp;
         }
 
+        /// <summary>
+        /// Goes up in tree.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="times">The times.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">Cannot go up in the directory tree more times than allowed. (Max == {i}</exception>
         public static string GoUpInTree(string path, int times)
         {
             for (int i = 0; i < times; i++)
@@ -197,10 +265,17 @@ namespace uzLib.Lite.Extensions
             return path;
         }
 
+        /// <summary>
+        /// Gets the temporary directory.
+        /// </summary>
+        /// <param name="prefix">The prefix.</param>
+        /// <param name="suffix">The suffix.</param>
+        /// <param name="useRandomness">if set to <c>true</c> [use randomness].</param>
+        /// <returns></returns>
         public static string GetTemporaryDirectory(string prefix = "", string suffix = "", bool useRandomness = true)
         {
             string tempPath = Path.GetTempPath(),
-                   interfix = useRandomness ? Path.GetRandomFileName() : "-" + Directory.GetFiles(tempPath, "*", SearchOption.TopDirectoryOnly).Where(f => f.Contains(prefix)).Count().ToString(); 
+                   interfix = useRandomness ? Path.GetRandomFileName() : "-" + Directory.GetFiles(tempPath, "*", SearchOption.TopDirectoryOnly).Where(f => f.Contains(prefix)).Count().ToString();
             // If random is false, then avoid collision by cheking number of files with that prefix ^^^
 
             string tempDirectory = Path.Combine(tempPath, prefix + interfix + suffix);
@@ -209,10 +284,35 @@ namespace uzLib.Lite.Extensions
             return tempDirectory;
         }
 
+        /// <summary>
+        /// Determines whether [is valid path].
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid path] [the specified path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsValidPath(this string path) => !Regex.IsMatch(path, "[" + Regex.Escape(new string(Path.GetInvalidPathChars())) + "]");
 
+        /// <summary>
+        /// Determines whether [is valid filename].
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid filename] [the specified path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsValidFilename(this string path) => !Regex.IsMatch(path, "[" + Regex.Escape(new string(Path.GetInvalidFileNameChars())) + "]");
 
+        /// <summary>
+        /// Writes to file.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="outputDir">The output dir.</param>
+        /// <param name="fileName">Name of the file.</param>
+        /// <exception cref="ArgumentException">
+        /// Invalid path specified. - outputDir
+        /// or
+        /// Invalid path specified. - fileName
+        /// </exception>
         public static void WriteToFile(this MemoryStream stream, string outputDir, string fileName)
         {
             if (!IsValidPath(outputDir))
@@ -224,6 +324,12 @@ namespace uzLib.Lite.Extensions
             stream.WriteToFile(Path.Combine(outputDir, fileName));
         }
 
+        /// <summary>
+        /// Writes to file.
+        /// </summary>
+        /// <param name="stream">The stream.</param>
+        /// <param name="path">The path.</param>
+        /// <exception cref="ArgumentException">Invalid path specified. - path</exception>
         public static void WriteToFile(this MemoryStream stream, string path)
         {
             if (!IsValidFilename(path))
@@ -236,6 +342,13 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Determines whether [is directory empty or null].
+        /// </summary>
+        /// <param name="folderPath">The folder path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is directory empty or null] [the specified folder path]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsDirectoryEmptyOrNull(this string folderPath)
         {
             return !Directory.Exists(folderPath) || Directory.Exists(folderPath) && Directory.GetFiles(folderPath).Length == 0;

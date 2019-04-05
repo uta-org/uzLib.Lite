@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The SerializationHelper class
+    /// </summary>
     public static class SerializationHelper
     {
+        /// <summary>
+        /// Tries the deserialize.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path">The path.</param>
+        /// <param name="obj">The object.</param>
+        /// <param name="createFile">if set to <c>true</c> [create file].</param>
+        /// <returns></returns>
         public static bool TryDeserialize<T>(string path, out T obj, bool createFile = true)
             where T : new()
         {
@@ -37,6 +48,13 @@ namespace uzLib.Lite.Extensions
             return true;
         }
 
+        /// <summary>
+        /// Determines whether [is valid json].
+        /// </summary>
+        /// <param name="strInput">The string input.</param>
+        /// <returns>
+        ///   <c>true</c> if [is valid json] [the specified string input]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsValidJSON(this string strInput)
         {
             strInput = strInput.Trim();
@@ -104,6 +122,11 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Deserializes the specified arr.
+        /// </summary>
+        /// <param name="arr">The arr.</param>
+        /// <returns></returns>
         public static async Task<object> Deserialize(this byte[] arr)
         {
             object obj = await arr._Deserialize<object>();

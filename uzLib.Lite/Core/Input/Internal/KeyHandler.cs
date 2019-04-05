@@ -6,30 +6,109 @@ namespace uzLib.Lite.Core.Input.Internal
 {
     using Interfaces;
 
+    /// <summary>
+    /// The KeyHandler class
+    /// </summary>
     internal class KeyHandler
     {
+        /// <summary>
+        /// The cursor position
+        /// </summary>
         private int _cursorPos;
+
+        /// <summary>
+        /// The cursor limit
+        /// </summary>
         private int _cursorLimit;
+
+        /// <summary>
+        /// The text
+        /// </summary>
         private StringBuilder _text;
+
+        /// <summary>
+        /// The history
+        /// </summary>
         private List<string> _history;
+
+        /// <summary>
+        /// The history index
+        /// </summary>
         private int _historyIndex;
+
+        /// <summary>
+        /// The key information
+        /// </summary>
         private ConsoleKeyInfo _keyInfo;
+
+        /// <summary>
+        /// The key actions
+        /// </summary>
         private Dictionary<string, Action> _keyActions;
+
+        /// <summary>
+        /// The completions
+        /// </summary>
         private string[] _completions;
+
+        /// <summary>
+        /// The completion start
+        /// </summary>
         private int _completionStart;
+
+        /// <summary>
+        /// The completions index
+        /// </summary>
         private int _completionsIndex;
+
+        /// <summary>
+        /// The console2
+        /// </summary>
         private IConsole Console2;
 
+        /// <summary>
+        /// Determines whether [is start of line].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is start of line]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsStartOfLine() => _cursorPos == 0;
 
+        /// <summary>
+        /// Determines whether [is end of line].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is end of line]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsEndOfLine() => _cursorPos == _cursorLimit;
 
+        /// <summary>
+        /// Determines whether [is start of buffer].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is start of buffer]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsStartOfBuffer() => Console2.CursorLeft == 0;
 
+        /// <summary>
+        /// Determines whether [is end of buffer].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is end of buffer]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsEndOfBuffer() => Console2.CursorLeft == Console2.BufferWidth - 1;
 
+        /// <summary>
+        /// Determines whether [is in automatic complete mode].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is in automatic complete mode]; otherwise, <c>false</c>.
+        /// </returns>
         private bool IsInAutoCompleteMode() => _completions != null;
 
+        /// <summary>
+        /// Moves the cursor left.
+        /// </summary>
         private void MoveCursorLeft()
         {
             if (IsStartOfLine())
@@ -43,18 +122,28 @@ namespace uzLib.Lite.Core.Input.Internal
             _cursorPos--;
         }
 
+        /// <summary>
+        /// Moves the cursor home.
+        /// </summary>
         private void MoveCursorHome()
         {
             while (!IsStartOfLine())
                 MoveCursorLeft();
         }
 
+        /// <summary>
+        /// Builds the key input.
+        /// </summary>
+        /// <returns></returns>
         private string BuildKeyInput()
         {
             return (_keyInfo.Modifiers != ConsoleModifiers.Control && _keyInfo.Modifiers != ConsoleModifiers.Shift) ?
                 _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
         }
 
+        /// <summary>
+        /// Moves the cursor right.
+        /// </summary>
         private void MoveCursorRight()
         {
             if (IsEndOfLine())
@@ -68,12 +157,18 @@ namespace uzLib.Lite.Core.Input.Internal
             _cursorPos++;
         }
 
+        /// <summary>
+        /// Moves the cursor end.
+        /// </summary>
         private void MoveCursorEnd()
         {
             while (!IsEndOfLine())
                 MoveCursorRight();
         }
 
+        /// <summary>
+        /// Clears the line.
+        /// </summary>
         private void ClearLine()
         {
             MoveCursorEnd();
@@ -81,6 +176,10 @@ namespace uzLib.Lite.Core.Input.Internal
                 Backspace();
         }
 
+        /// <summary>
+        /// Writes the new string.
+        /// </summary>
+        /// <param name="str">The string.</param>
         private void WriteNewString(string str)
         {
             ClearLine();
@@ -88,14 +187,25 @@ namespace uzLib.Lite.Core.Input.Internal
                 WriteChar(character);
         }
 
+        /// <summary>
+        /// Writes the string.
+        /// </summary>
+        /// <param name="str">The string.</param>
         private void WriteString(string str)
         {
             foreach (char character in str)
                 WriteChar(character);
         }
 
+        /// <summary>
+        /// Writes the character.
+        /// </summary>
         private void WriteChar() => WriteChar(_keyInfo.KeyChar);
 
+        /// <summary>
+        /// Writes the character.
+        /// </summary>
+        /// <param name="c">The c.</param>
         private void WriteChar(char c)
         {
             if (IsEndOfLine())
@@ -118,6 +228,9 @@ namespace uzLib.Lite.Core.Input.Internal
             _cursorLimit++;
         }
 
+        /// <summary>
+        /// Backspaces this instance.
+        /// </summary>
         private void Backspace()
         {
             if (IsStartOfLine())
@@ -134,6 +247,9 @@ namespace uzLib.Lite.Core.Input.Internal
             _cursorLimit--;
         }
 
+        /// <summary>
+        /// Deletes this instance.
+        /// </summary>
         private void Delete()
         {
             if (IsEndOfLine())
@@ -149,6 +265,9 @@ namespace uzLib.Lite.Core.Input.Internal
             _cursorLimit--;
         }
 
+        /// <summary>
+        /// Transposes the chars.
+        /// </summary>
         private void TransposeChars()
         {
             // local helper functions
@@ -176,6 +295,9 @@ namespace uzLib.Lite.Core.Input.Internal
             MoveCursorRight();
         }
 
+        /// <summary>
+        /// Starts the automatic complete.
+        /// </summary>
         private void StartAutoComplete()
         {
             while (_cursorPos > _completionStart)
@@ -186,6 +308,9 @@ namespace uzLib.Lite.Core.Input.Internal
             WriteString(_completions[_completionsIndex]);
         }
 
+        /// <summary>
+        /// Nexts the automatic complete.
+        /// </summary>
         private void NextAutoComplete()
         {
             while (_cursorPos > _completionStart)
@@ -199,6 +324,9 @@ namespace uzLib.Lite.Core.Input.Internal
             WriteString(_completions[_completionsIndex]);
         }
 
+        /// <summary>
+        /// Previouses the automatic complete.
+        /// </summary>
         private void PreviousAutoComplete()
         {
             while (_cursorPos > _completionStart)
@@ -212,6 +340,9 @@ namespace uzLib.Lite.Core.Input.Internal
             WriteString(_completions[_completionsIndex]);
         }
 
+        /// <summary>
+        /// Previouses the history.
+        /// </summary>
         private void PrevHistory()
         {
             if (_historyIndex > 0)
@@ -221,6 +352,9 @@ namespace uzLib.Lite.Core.Input.Internal
             }
         }
 
+        /// <summary>
+        /// Nexts the history.
+        /// </summary>
         private void NextHistory()
         {
             if (_historyIndex < _history.Count)
@@ -233,12 +367,21 @@ namespace uzLib.Lite.Core.Input.Internal
             }
         }
 
+        /// <summary>
+        /// Resets the automatic complete.
+        /// </summary>
         private void ResetAutoComplete()
         {
             _completions = null;
             _completionsIndex = 0;
         }
 
+        /// <summary>
+        /// Gets the text.
+        /// </summary>
+        /// <value>
+        /// The text.
+        /// </value>
         public string Text
         {
             get
@@ -247,6 +390,12 @@ namespace uzLib.Lite.Core.Input.Internal
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KeyHandler"/> class.
+        /// </summary>
+        /// <param name="console">The console.</param>
+        /// <param name="history">The history.</param>
+        /// <param name="autoCompleteHandler">The automatic complete handler.</param>
         public KeyHandler(IConsole console, List<string> history, IAutoCompleteHandler autoCompleteHandler)
         {
             Console2 = console;
@@ -328,6 +477,10 @@ namespace uzLib.Lite.Core.Input.Internal
             };
         }
 
+        /// <summary>
+        /// Handles the specified key information.
+        /// </summary>
+        /// <param name="keyInfo">The key information.</param>
         public void Handle(ConsoleKeyInfo keyInfo)
         {
             _keyInfo = keyInfo;

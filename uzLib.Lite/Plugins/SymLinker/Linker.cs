@@ -13,17 +13,46 @@ namespace uzLib.Lite.Plugins.SymLinker
         #region Actions
 
         // Attach to these to get warnings, errors, and informaion out of SymLinkerCore
+        /// <summary>
+        /// The on warn
+        /// </summary>
         public Action<string> OnWarn;
 
+        /// <summary>
+        /// The on error
+        /// </summary>
         public Action<string> OnError;
+
+        /// <summary>
+        /// The on information
+        /// </summary>
         public Action<string> OnInfo;
 
         #endregion Actions
 
+        /// <summary>
+        /// The source
+        /// </summary>
         private string source;
+
+        /// <summary>
+        /// The destination
+        /// </summary>
         private string dest;
+
+        /// <summary>
+        /// The destionation file name
+        /// </summary>
         private string destFileName;
+
+        /// <summary>
+        /// The errors
+        /// </summary>
         private List<Error> errors = new List<Error>();
+
+        /// <summary>
+        /// The linker
+        /// </summary>
         private ISymLinkCreator linker = null;
 
         /// <summary>

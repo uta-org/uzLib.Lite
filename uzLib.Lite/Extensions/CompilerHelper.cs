@@ -11,12 +11,25 @@ using Console = Colorful.Console;
 
 namespace uzLib.Lite.Extensions
 {
-    using Core;
-
+    /// <summary>
+    /// The CompilerHelper class
+    /// </summary>
     public static class CompilerHelper
     {
+        /// <summary>
+        /// The emit solution
+        /// </summary>
         private const string EmitSolution = "MSBuildEmitSolution";
 
+        /// <summary>
+        /// Compiles the specified solution path.
+        /// </summary>
+        /// <param name="solutionPath">The solution path.</param>
+        /// <param name="outputDir">The output dir.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="platform">The platform.</param>
+        /// <param name="emit">if set to <c>true</c> [emit].</param>
+        /// <returns></returns>
         public static bool Compile(string solutionPath, string outputDir, string configuration = "Debug", string platform = "Any CPU", bool emit = false)
         {
             ProjectCollection pc = new ProjectCollection();
@@ -84,6 +97,11 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Sets the environment variable.
+        /// </summary>
+        /// <param name="envVar">The env variable.</param>
+        /// <param name="val">The value.</param>
         private static void SetEnv(string envVar, string val)
         {
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
@@ -93,6 +111,11 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Gets the envionment variable.
+        /// </summary>
+        /// <param name="envVar">The env variable.</param>
+        /// <returns></returns>
         public static string GetEnv(string envVar)
         {
             return Environment.GetEnvironmentVariable(envVar);

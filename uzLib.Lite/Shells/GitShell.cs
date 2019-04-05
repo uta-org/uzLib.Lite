@@ -4,10 +4,22 @@ using uzLib.Lite.Extensions;
 
 namespace uzLib.Lite.Shells
 {
+    /// <summary>
+    /// The GitShell class
+    /// </summary>
     public class GitShell
     {
+        /// <summary>
+        /// Gets the current information.
+        /// </summary>
+        /// <value>
+        /// The current information.
+        /// </value>
         public ProcessStartInfo CurrentInfo { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GitShell"/> class.
+        /// </summary>
         public GitShell()
         {
             CurrentInfo = new ProcessStartInfo("git");
@@ -18,6 +30,11 @@ namespace uzLib.Lite.Shells
             CurrentInfo.RedirectStandardError = true;
         }
 
+        /// <summary>
+        /// Sends the command.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns></returns>
         public Task<int> SendCommand(string command)
         {
             CurrentInfo.Arguments = command;
@@ -25,6 +42,11 @@ namespace uzLib.Lite.Shells
             return CurrentInfo.RunProcessAsync();
         }
 
+        /// <summary>
+        /// Reads the command.
+        /// </summary>
+        /// <param name="command">The command.</param>
+        /// <returns></returns>
         public async Task<string> ReadCommand(string command)
         {
             CurrentInfo.Arguments = command;

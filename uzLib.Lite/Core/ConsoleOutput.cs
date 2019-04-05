@@ -2,31 +2,96 @@
 
 namespace uzLib.Lite.Core
 {
+    /// <summary>
+    /// The ConsoleOutput class
+    /// </summary>
     public class ConsoleOutput
     {
+        /// <summary>
+        /// Gets or sets the type of the output.
+        /// </summary>
+        /// <value>
+        /// The type of the output.
+        /// </value>
         private ConsoleOutputType OutputType { get; set; }
+
+        /// <summary>
+        /// Gets my object.
+        /// </summary>
+        /// <value>
+        /// My object.
+        /// </value>
         private object MyObject { get; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is inserting.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is inserting; otherwise, <c>false</c>.
+        /// </value>
         private static bool IsInserting { get; set; }
+
+        /// <summary>
+        /// Gets or sets the default size of the cursor.
+        /// </summary>
+        /// <value>
+        /// The default size of the cursor.
+        /// </value>
         private static int DefaultCursorSize { get; set; }
+
+        /// <summary>
+        /// Gets the name of the key.
+        /// </summary>
+        /// <value>
+        /// The name of the key.
+        /// </value>
         public string KeyName => IsKey() && (ConsoleKeyInfo)MyObject != null ? ((ConsoleKeyInfo)MyObject).Key.ToString() : "Null";
+
+        /// <summary>
+        /// Gets the output string.
+        /// </summary>
+        /// <value>
+        /// The output string.
+        /// </value>
         public string OutputString => !IsKey() && MyObject != null ? (string)MyObject : string.Empty;
 
+        /// <summary>
+        /// Occurs when [read input].
+        /// </summary>
         public static event Action<string> ReadInput = delegate { };
 
+        /// <summary>
+        /// Occurs when [read key].
+        /// </summary>
         public static event Action<ConsoleKeyInfo> ReadKey = delegate { };
 
+        /// <summary>
+        /// Gets the current right pad.
+        /// </summary>
+        /// <value>
+        /// The current right pad.
+        /// </value>
         public int CurrentRightPad { get; private set; }
 
+        /// <summary>
+        /// Initializes the <see cref="ConsoleOutput"/> class.
+        /// </summary>
         static ConsoleOutput()
         {
             DefaultCursorSize = Console.CursorSize;
         }
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ConsoleOutput"/> class from being created.
+        /// </summary>
         private ConsoleOutput()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConsoleOutput"/> class.
+        /// </summary>
+        /// <param name="obj">The object.</param>
         public ConsoleOutput(object obj)
         {
             MyObject = obj;
@@ -34,11 +99,23 @@ namespace uzLib.Lite.Core
             OutputType = obj is ConsoleKeyInfo ? ConsoleOutputType.Key : ConsoleOutputType.Value;
         }
 
+        /// <summary>
+        /// Determines whether this instance is key.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is key; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsKey()
         {
             return OutputType == ConsoleOutputType.Key;
         }
 
+        /// <summary>
+        /// Determines whether [is exit key].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if [is exit key]; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsExitKey()
         {
             if (!IsKey())
@@ -48,12 +125,21 @@ namespace uzLib.Lite.Core
             return (info.Modifiers & ConsoleModifiers.Control) != 0 && info.Key == ConsoleKey.B;
         }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        /// <returns></returns>
         public string GetValue()
         {
             return (string)MyObject;
         }
 
-        // returns null if user pressed Escape, or the contents of the line if they pressed Enter.
+        /// <summary>
+        /// Reads the line or key.
+        /// </summary>
+        /// <param name="inline">if set to <c>true</c> [inline].</param>
+        /// <returns></returns>
+        // Note: Returns null if user pressed Escape, or the contents of the line if they pressed Enter.
         public static ConsoleOutput ReadLineOrKey(bool inline = false)
         {
             string retString = "";

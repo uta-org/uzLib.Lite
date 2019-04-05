@@ -10,8 +10,18 @@ using CompressionLevel = Ionic.Zlib.CompressionLevel;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The CompressionHelper class
+    /// </summary>
     public static class CompressionHelper
     {
+        /// <summary>
+        /// Zips the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="destination">The destination.</param>
+        /// <param name="fileExtension">The file extension.</param>
+        /// <returns></returns>
         public static string Zip(string source, string destination, string fileExtension = "zip")
         {
             string destinationFilename;
@@ -38,6 +48,12 @@ namespace uzLib.Lite.Extensions
             return destinationFilename;
         }
 
+        /// <summary>
+        /// Unzips the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="destination">The destination.</param>
+        /// <exception cref="ArgumentException">Destination must be a folder. - destination</exception>
         public static void Unzip(string source, string destination)
         {
             if (!destination.IsDirectory())
@@ -50,6 +66,12 @@ namespace uzLib.Lite.Extensions
                 zipFile.ExtractAll(destination, ExtractExistingFileAction.OverwriteSilently);
         }
 
+        /// <summary>
+        /// Gets the name of the clean folder.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="filepath">The filepath.</param>
+        /// <returns></returns>
         private static string GetCleanFolderName(string source, string filepath)
         {
             if (string.IsNullOrWhiteSpace(filepath))
@@ -69,6 +91,11 @@ namespace uzLib.Lite.Extensions
             return result;
         }
 
+        /// <summary>
+        /// Zips the specified object.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <returns></returns>
         public static async Task<IEnumerable<byte>> Zip(this object obj)
         {
             byte[] bytes = obj.Serialize();
@@ -83,6 +110,11 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Unzips the specified bytes.
+        /// </summary>
+        /// <param name="bytes">The bytes.</param>
+        /// <returns></returns>
         public static async Task<object> Unzip(this byte[] bytes)
         {
             using (MemoryStream msi = new MemoryStream(bytes))

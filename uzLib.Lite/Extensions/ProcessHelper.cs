@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The ProcessHelper class
+    /// </summary>
     public static class ProcessHelper
     {
         public static async Task<int> RunProcessAsync(string fileName, string args)
@@ -23,6 +26,12 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Runs the process asynchronous.
+        /// </summary>
+        /// <param name="info">The information.</param>
+        /// <param name="process">The process.</param>
+        /// <returns></returns>
         public static async Task<int> RunProcessAsync(this ProcessStartInfo info, Process process)
         {
             process.StartInfo = info;
@@ -31,6 +40,11 @@ namespace uzLib.Lite.Extensions
             return await RunProcessAsync(process).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Runs the process asynchronous.
+        /// </summary>
+        /// <param name="info">The information.</param>
+        /// <returns></returns>
         public static async Task<int> RunProcessAsync(this ProcessStartInfo info)
         {
             using (var process = new Process
@@ -43,6 +57,12 @@ namespace uzLib.Lite.Extensions
             }
         }
 
+        /// <summary>
+        /// Runs the process asynchronous.
+        /// </summary>
+        /// <param name="process">The process.</param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Could not start process: " + process</exception>
         public static Task<int> RunProcessAsync(this Process process)
         {
             var tcs = new TaskCompletionSource<int>();

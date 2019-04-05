@@ -3,8 +3,17 @@ using System.Linq;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The RoslynHelper class
+    /// </summary>
     public static class RoslynHelper
     {
+        /// <summary>
+        /// Adds the item.
+        /// </summary>
+        /// <param name="projPath">The proj path.</param>
+        /// <param name="folderPath">The folder path.</param>
+        /// <param name="saveFilePath">The save file path.</param>
         public static void AddItem(string projPath, string folderPath, string saveFilePath)
         {
             // Solved issue thanks to: https://stackoverflow.com/a/44260284/3286975

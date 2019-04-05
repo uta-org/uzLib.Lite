@@ -7,6 +7,9 @@ using Console = Colorful.Console;
 
 namespace uzLib.Lite.Core.Input
 {
+    /// <summary>
+    /// The SmartInput class
+    /// </summary>
     public static class SmartInput
     {
         /// <summary>

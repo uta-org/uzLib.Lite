@@ -4,8 +4,17 @@ using System.Net;
 
 namespace uzLib.Lite.Extensions
 {
+    /// <summary>
+    /// The NetHelper class
+    /// </summary>
     public static class NetHelper
     {
+        /// <summary>
+        /// Makes the request.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="headerCollection">The header collection.</param>
+        /// <returns></returns>
         public static string MakeRequest(this string url, params Tuple<string, string>[] headerCollection)
         {
             try
@@ -38,6 +47,12 @@ namespace uzLib.Lite.Extensions
             return string.Empty;
         }
 
+        /// <summary>
+        /// Makes the request.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="AcceptHeader">The accept header.</param>
+        /// <returns></returns>
         public static string MakeRequest(this string url, string AcceptHeader = "")
         {
             try
@@ -69,6 +84,11 @@ namespace uzLib.Lite.Extensions
             return string.Empty;
         }
 
+        /// <summary>
+        /// Downloads the file.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="filePath">The file path.</param>
         public static void DownloadFile(string url, string filePath)
         {
             // Create a new WebClient instance.
