@@ -11,7 +11,7 @@ namespace uzLib.Lite.Unity.Extensions
         /// <param name="value">The value.</param>
         /// <param name="multipleOf">The multiple to round off.</param>
         /// <returns></returns>
-        public static float MultipleOf(float value, float multipleOf)
+        public static float MultipleOf(this float value, float multipleOf)
         {
             return Mathf.Round(value / multipleOf) * multipleOf;
         }

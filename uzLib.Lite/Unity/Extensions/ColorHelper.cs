@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using uzLib.Lite.Extensions;
 
 namespace uzLib.Lite.Unity.Extensions
 {
@@ -46,6 +49,54 @@ namespace uzLib.Lite.Unity.Extensions
         public static Color GetRandomColor(bool isTransparent)
         {
             return new Color(Random.value, Random.value, Random.value, isTransparent ? 0 : 1);
+        }
+
+        /// <summary>
+        /// Gets the color of the similar.
+        /// </summary>
+        /// <param name="c1">The c1.</param>
+        /// <param name="cs">The cs.</param>
+        /// <returns></returns>
+        public static Color GetSimilarColor(this Color c1, IEnumerable<Color> cs)
+        {
+            return cs.OrderBy(x => x.ColorThreshold(c1)).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Colors the threshold.
+        /// </summary>
+        /// <param name="c1">The c1.</param>
+        /// <param name="c2">The c2.</param>
+        /// <returns></returns>
+        public static float ColorThreshold(this Color c1, Color c2)
+        {
+            return (Mathf.Abs(c1.r - c2.r) + Mathf.Abs(c1.g - c2.g) + Mathf.Abs(c1.b - c2.b));
+        }
+
+        /// <summary>
+        /// Colors the similary perc.
+        /// </summary>
+        /// <param name="a">a.</param>
+        /// <param name="b">The b.</param>
+        /// <returns></returns>
+        public static float ColorSimilaryPerc(this Color a, Color b)
+        {
+            return 1f - (a.ColorThreshold(b) / 3);
+        }
+
+        /// <summary>
+        /// Rounds the color off.
+        /// </summary>
+        /// <param name="c">The c.</param>
+        /// <param name="roundTo">The round to.</param>
+        /// <returns></returns>
+        public static Color RoundColorOff(this Color c, float roundTo = 5)
+        {
+            return new Color(
+                c.r.MultipleOf(roundTo),
+                c.g.MultipleOf(roundTo),
+                c.b.MultipleOf(roundTo),
+                1f);
         }
     }
 }
