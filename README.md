@@ -8,12 +8,12 @@ This API has an extensive list of methods for WinForms, System.Console and Unity
 
 ### List of interesting contents by namespaces
 
-➢ **uzLib.Lite.Core**
+- **uzLib.Lite.Core**
 	- Contains a Singleton implementation.
 	- Contains a Console wrapper to read lines or keys at the same time. (**ConsoleOutput** class, *method: ReadLineOrKey*)
 	- Inside of the Input namespace we can find some class that contains an implementation (**SmartPsswrd class**) to read `passwords` in screen without displaying it (as expected).
 
-➢ **uzLib.Lite.Extensions**
+- **uzLib.Lite.Extensions**
 	- Contains some *array/collection extensions* (add element to an array, check if *Dictionary/List/HashSet/IEnumerable* is null or empty (`IsNullOrEmpty`), ForEach extensions to execute `Action` callbacks (included with index) (expanded on paid API), `DisctintBy`...)
 	- Contains some Dictionary extensions methods:
 		- **FindIndex** (find item index by predicate)
@@ -27,14 +27,15 @@ This API has an extensive list of methods for WinForms, System.Console and Unity
 	- Contains some *byte extensions*: `RoundOff` method (to get a rounded byte)...
 	- Contains some *Color extensions*: **get threshold** between two colors, compare `color1` to **get similar color** from a IEnumerable of colors (2), *posterize convolution*, get percentage of similarity, round color...
 	- Contains a method extension to **compile *.sln files**... 
+	- Contains *compression extensions*: zip/unzip files from it's path, streams or objects (sync/async)...
+	- Contains 
 
 
+- **uzLib.Lite.Plugins.SymLinker**
 
-➢ **uzLib.Lite.Plugins.SymLinker**
+- **uzLib.Lite.Shells**
 
-➢ **uzLib.Lite.Shells**
-
-➢ **uzLib.Lite.Unity**
+- **uzLib.Lite.Unity**
 
 **TODO:** Write all the folders from the API and interesting things that it has.
 
