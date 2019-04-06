@@ -4,7 +4,7 @@
 
 ## Contents
 
-This API has an extensive list of methods for WinForms, System.Console and Unity3D.
+This API has an extensive list of methods to extend funcionality of .NET Framework classes, WinForms, System.Console and Unity3D, also it contains own/third party implementation:
 
 ### List of interesting contents by namespaces
 
@@ -26,10 +26,10 @@ This API has an extensive list of methods for WinForms, System.Console and Unity
 	- Contains some *Bitmap extensions*: get an `IEnumerable` of Colors from a `Bitmap` class or `Save` it to a path (or to a Stream (**TODO**)).
 	- Contains some *byte extensions*: `RoundOff` method (to get a rounded byte)...
 	- Contains some *Color extensions*: **get threshold** between two colors, compare `color1` to **get similar color** from a IEnumerable of colors (2), *posterize convolution*, get percentage of similarity, round color...
-	- Contains a method extension to **compile *.sln files**... 
+	- Contains a method extension to **compile \*.sln files**... 
 	- Contains *compression extensions*: zip/unzip files from it's path, streams or objects (sync/async)...
-	- Contains 
-
+	- Contains a *CodeDOM extension* to add `static` literal to new classes declared through `CodeTypeDeclaration` class.
+	- Contains a *DateTime extension* to get its *UNIX timestamp*(in `DateTime` not `DateTimeOffset` class).
 
 - **uzLib.Lite.Plugins.SymLinker**
 
