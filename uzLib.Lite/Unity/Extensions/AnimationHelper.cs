@@ -2,6 +2,9 @@
 
 namespace uzLib.Lite.Unity.Extensions
 {
+    /// <summary>
+    /// The AnimationHelper class
+    /// </summary>
     public static class AnimationHelper
     {
         /// <summary>

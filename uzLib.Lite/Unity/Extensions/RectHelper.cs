@@ -85,6 +85,9 @@ namespace uzLib.Lite.Unity.Extensions
         }
     }
 
+    /// <summary>
+    /// Some Rect extensions
+    /// </summary>
     public static class RectExtensions
     {
         /// <summary>
