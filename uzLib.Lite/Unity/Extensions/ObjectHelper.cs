@@ -12,15 +12,26 @@ namespace uzLib.Lite.Unity.Extensions
     public static class ObjectHelper
     {
         /// <summary>
+        /// Removes the components recursively.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="object">The object.</param>
+        public static void RemoveComponentsRecursively<T>(this GameObject @object)
+            where T : Component
+        {
+            var components = @object.GetComponentsInChildren<T>();
+
+            foreach (var comp in components)
+                Object.Destroy(comp);
+        }
+
+        /// <summary>
         /// Removes the colliders.
         /// </summary>
         /// <param name="object">The object.</param>
-        public static void RemoveColliders(GameObject @object)
+        public static void RemoveColliders(this GameObject @object)
         {
-            var colliders = @object.GetComponentsInChildren<Collider>();
-
-            foreach (var col in colliders)
-                Object.Destroy(col);
+            @object.RemoveComponentsRecursively<Collider>();
         }
 
         /// <summary>
