@@ -4,7 +4,7 @@
 
 ## Contents
 
-This API has an extensive list of methods to extend funcionality of .NET Framework classes, WinForms, System.Console and Unity3D, also it contains own/third party implementation:
+This API has an extensive list of methods to extend functionality of .NET Framework classes, WinForms, System.Console and Unity3D, also it contains own/third party implementation:
 
 ### List of interesting contents by namespaces
 
