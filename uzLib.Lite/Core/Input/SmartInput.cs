@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using System;
 using System.Globalization;
 using System.Text;
 using System.Drawing;
@@ -151,3 +152,4 @@ namespace uzLib.Lite.Core.Input
         }
     }
 }
+#endif

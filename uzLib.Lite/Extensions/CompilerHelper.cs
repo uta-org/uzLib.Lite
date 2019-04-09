@@ -4,10 +4,17 @@ using Microsoft.Build.Execution;
 using Microsoft.Build.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using System.Drawing;
 using Console = Colorful.Console;
+#else
+
+using UnityEngine;
+
+#endif
+
+using System.IO;
 
 namespace uzLib.Lite.Extensions
 {
@@ -106,7 +113,11 @@ namespace uzLib.Lite.Extensions
         {
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
             {
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
                 Console.WriteLine($"You must restart this proccess to take of the new env var '{envVar}'!", Color.Yellow);
+#else
+                Debug.LogWarning($"You must restart this proccess to take of the new env var '{envVar}'!");
+#endif
                 Environment.SetEnvironmentVariable(envVar, val, EnvironmentVariableTarget.Machine);
             }
         }

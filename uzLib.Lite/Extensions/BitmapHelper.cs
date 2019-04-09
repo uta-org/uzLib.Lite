@@ -1,9 +1,13 @@
-﻿using System;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+
+#endif
 
 namespace uzLib.Lite.Extensions
 {
@@ -17,6 +21,7 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         private static int BmpStride = 0;
 
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
         /// <summary>
         /// To the color.
         /// </summary>
@@ -99,6 +104,7 @@ namespace uzLib.Lite.Extensions
             //    }
             //}
         }
+#endif
 
         private static int Pn(int x, int y, int w)
         {
