@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -92,3 +93,4 @@ namespace uzLib.Lite.Extensions
         }
     }
 }
+#endif

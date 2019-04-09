@@ -1,5 +1,15 @@
 ﻿using System;
+
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
 using System.Drawing;
+
+#else
+
+using UnityEngine;
+
+#endif
+
 using System.Reflection;
 
 using Console = Colorful.Console;
@@ -35,7 +45,11 @@ namespace uzLib.Lite.Extensions
             }
             catch (Exception ex)
             {
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
                 Console.WriteLine(ex, Color.Red);
+#else
+                Debug.LogException(ex);
+#endif
             }
         }
 
@@ -68,7 +82,11 @@ namespace uzLib.Lite.Extensions
             }
             catch (Exception ex)
             {
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
                 Console.WriteLine(ex, Color.Red);
+#else
+                Debug.LogException(ex);
+#endif
             }
         }
 
