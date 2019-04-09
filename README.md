@@ -20,7 +20,7 @@ This API has an extensive list of methods to extend funcionality of .NET Framewo
 		- **GetIndex** (get index of existing item, if not, returns -1)
 		- **AddOrSet** (add value if key doesn't exists, if not update its value)
 			- **AddOrAppend** (the same as before, but for `List<T>/T[]` as **TValue**)
-		- **AddAdGet** (if key doesn't exist add it with specified value, then return it)
+		- **AddAndGet** (if key doesn't exist add it with specified value, then return it)
 			- **Get** (the same as before, but force generic types with constraints to be classes (`where TValue : class, new()`))
 			- **SafeGet** (try to get value if key exists if not returns default value (`default(TValue)`))
 	- Contains some *Bitmap extensions*: get an `IEnumerable` of Colors from a `Bitmap` class or `Save` it to a path (or to a Stream (**TODO**)).
@@ -75,6 +75,11 @@ Having issues? Just report in [the issue section](/issues). **Thanks for the fee
 ## Contribute
 
 Fork this repository, make your changes and then issue a pull request. If you find bugs or have new ideas that you do not want to implement yourself, file a bug report.
+
+### TODO
+
+- There are some methods missing from the text above.
+- Change `Safe` word on methods and use `Try`.
 
 ## Donate
 
