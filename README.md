@@ -70,7 +70,7 @@ For documentation, just check the [Documentation API](http://dev.z3nth10n.net/de
 
 ## Interesting Resources
 
-There is [an extensive of interesting resources](/docs/Interesting Resources/) that I would like to implement as third party utils onto this libraryy or maybe as reimplementations of paid assets.
+[There is an extensive of interesting resources](/docs/Interesting%20Resources/) that I would like to implement as third party utils onto this libraryy or maybe as reimplementations of paid assets.
 
 ## Issues
 
