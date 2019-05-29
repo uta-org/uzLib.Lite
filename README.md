@@ -68,6 +68,10 @@ Need help? Just clone this repository into your Unity project or in your solutio
 
 For documentation, just check the [Documentation API](http://dev.z3nth10n.net/dev/assets/uzlib.lite/docs).
 
+## Interesting Resources
+
+[There is an extensive of interesting resources](/docs/Interesting Resources) that I would like to implement as third party utils onto this libraryy or maybe as reimplementations of paid assets.
+
 ## Issues
 
 Having issues? Just report in [the issue section](/issues). **Thanks for the feedback!**
