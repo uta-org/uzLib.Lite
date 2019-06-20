@@ -1,5 +1,6 @@
 ﻿using UnityEngine.Core.Interfaces;
 using UnityEngine.Extensions;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.Core
 {
@@ -37,7 +38,7 @@ namespace UnityEngine.Core
                     if (m_Instance == null)
                     {
                         // Search for existing instance.
-                        m_Instance = (T) FindObjectOfType(typeof(T));
+                        m_Instance = (T)FindObjectOfType(typeof(T));
 
                         // Create new instance if one doesn't already exist.
                         if (m_Instance == null)
