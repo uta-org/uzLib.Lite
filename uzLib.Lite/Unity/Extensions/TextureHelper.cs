@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
 
-using uzLib.Lite.Extensions;
-
 namespace UnityEngine.Extensions
 {
     using Global.IMGUI;

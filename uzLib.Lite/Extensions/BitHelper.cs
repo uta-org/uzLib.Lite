@@ -8,26 +8,6 @@ namespace UnityEngine.Extensions
     public static class BitHelper
     {
         /// <summary>
-        ///     Converts to hexadecimal.
-        /// </summary>
-        /// <param name="byte">The byte.</param>
-        /// <returns></returns>
-        public static string ConvertToHex(this byte @byte)
-        {
-            return "0x" + BitConverter.ToString(new[] {@byte});
-        }
-
-        /// <summary>
-        ///     Converts to hexadecimal.
-        /// </summary>
-        /// <param name="bytes">The bytes.</param>
-        /// <returns></returns>
-        public static string ConvertToHex(this byte[] bytes)
-        {
-            return "0x" + BitConverter.ToString(bytes).Replace("-", " 0x");
-        }
-
-        /// <summary>
         ///     Gets the int from packed byte.
         /// </summary>
         /// <param name="input">The input.</param>
@@ -54,7 +34,7 @@ namespace UnityEngine.Extensions
         /// <returns></returns>
         public static int GetInt16FromBytes(this byte[] bytes, int offset)
         {
-            return BitConverter.ToInt16(new[] {bytes[offset], bytes[offset + 1]}, 0);
+            return BitConverter.ToInt16(new[] { bytes[offset], bytes[offset + 1] }, 0);
         }
     }
 }

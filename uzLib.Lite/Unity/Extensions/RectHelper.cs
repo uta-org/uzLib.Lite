@@ -93,29 +93,6 @@
         }
 
         /// <summary>
-        ///     Forces the width.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="width">The width.</param>
-        /// <returns></returns>
-        public static Rect ForceWidth(this Rect rect, float width)
-        {
-            return new Rect(rect.x, rect.y, width, rect.height);
-        }
-
-        /// <summary>
-        ///     Forces the both.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="width">The width.</param>
-        /// <param name="height">The height.</param>
-        /// <returns></returns>
-        public static Rect ForceBoth(this Rect rect, float width, float height)
-        {
-            return new Rect(rect.x, rect.y, width, height);
-        }
-
-        /// <summary>
         ///     Creates the offset.
         /// </summary>
         /// <param name="left">The left.</param>
@@ -233,28 +210,6 @@
         {
             // Debug.Log(position);
             return new Rect(rect.position - position, rect.size);
-        }
-
-        /// <summary>
-        ///     Sums the top margin.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="topMargin">The top margin.</param>
-        /// <returns></returns>
-        public static Rect SumTop(this Rect rect, float topMargin)
-        {
-            return new Rect(rect.position.x, rect.position.y + topMargin, rect.width, rect.height);
-        }
-
-        /// <summary>
-        ///     Rests the top margin.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="topMargin">The top margin.</param>
-        /// <returns></returns>
-        public static Rect RestTop(this Rect rect, float topMargin)
-        {
-            return new Rect(rect.position.x, rect.position.y - topMargin, rect.width, rect.height);
         }
 
         /// <summary>

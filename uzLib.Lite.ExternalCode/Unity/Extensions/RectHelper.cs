@@ -142,6 +142,29 @@ namespace UnityEngine.Extensions
     public static class RectExt
     {
         /// <summary>
+        ///     Forces the width.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <returns></returns>
+        public static Rect ForceWidth(this Rect rect, float width)
+        {
+            return new Rect(rect.x, rect.y, width, rect.height);
+        }
+
+        /// <summary>
+        ///     Forces the both.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
+        public static Rect ForceBoth(this Rect rect, float width, float height)
+        {
+            return new Rect(rect.x, rect.y, width, height);
+        }
+
+        /// <summary>
         ///     Forces the height.
         /// </summary>
         /// <param name="rect">The rect.</param>
@@ -172,6 +195,28 @@ namespace UnityEngine.Extensions
         public static Rect RestLeft(this Rect rect, float leftMargin)
         {
             return new Rect(rect.position.x - leftMargin, rect.position.y, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Sums the top margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="topMargin">The top margin.</param>
+        /// <returns></returns>
+        public static Rect SumTop(this Rect rect, float topMargin)
+        {
+            return new Rect(rect.position.x, rect.position.y + topMargin, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Rests the top margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="topMargin">The top margin.</param>
+        /// <returns></returns>
+        public static Rect RestTop(this Rect rect, float topMargin)
+        {
+            return new Rect(rect.position.x, rect.position.y - topMargin, rect.width, rect.height);
         }
     }
 }

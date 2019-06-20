@@ -78,20 +78,6 @@ namespace UnityEngine.Extensions
         }
 
         /// <summary>
-        ///     Determines whether this instance is null.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="struct">The structure.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified structure is null; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsNull<T>(this T @struct)
-            where T : struct
-        {
-            return @struct.Equals(null) || @struct.Equals(default);
-        }
-
-        /// <summary>
         ///     Gets the inheritance hierarchy.
         /// </summary>
         /// <param name="type">The type.</param>
