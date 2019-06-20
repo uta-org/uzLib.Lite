@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using uzLib.Lite.Extensions;
 
-namespace uzLib.Lite.Unity.Extensions
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The MathHelper class
@@ -167,6 +171,72 @@ namespace uzLib.Lite.Unity.Extensions
             }
 
             return dir;
+        }
+
+        /// <summary>
+        /// Get the nearest the value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static T NearestValue<T>(this IEnumerable<T> list, dynamic value)
+        {
+            if (!list.IsNullOrEmpty())
+                return list.Aggregate((x, y) => Math.Abs(x - value) < Math.Abs(y - value) ? x : y);
+
+            return default;
+        }
+
+        /// <summary>
+        /// Gets the negative value.
+        /// </summary>
+        /// <param name="f">The f.</param>
+        /// <returns></returns>
+        public static float GetNegativeValue(this float f)
+        {
+            return f < 0 ? f : -f;
+        }
+
+        /// <summary>
+        /// Gets the prefix.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static string GetPrefix(this long value)
+        {
+            if (value >= 100000000000) return (value / 1000000000).ToString("#,0") + " G";
+
+            if (value >= 10000000000) return (value / 1000000000D).ToString("0.#") + " G";
+
+            if (value >= 100000000) return (value / 1000000).ToString("#,0") + " M";
+
+            if (value >= 10000000) return (value / 1000000D).ToString("0.#") + " M";
+
+            if (value >= 100000) return (value / 1000).ToString("#,0") + " K";
+
+            if (value >= 10000) return (value / 1000D).ToString("0.#") + " K";
+
+            return value.ToString("#,0");
+        }
+
+        public static int Round(this float f)
+        {
+            return (int)f;
+        }
+
+        public static bool IsNumeric(this object Expression)
+        {
+            var isNum = int.TryParse(Convert.ToString(Expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo,
+                out var retNum);
+            return isNum;
+        }
+
+        public static int? TryParseAsInt(this object Expression)
+        {
+            var isNum = int.TryParse(Convert.ToString(Expression), NumberStyles.Any, NumberFormatInfo.InvariantInfo,
+                out var retNum);
+            return isNum ? (int?)retNum : null;
         }
     }
 }

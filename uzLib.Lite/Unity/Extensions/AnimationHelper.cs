@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace uzLib.Lite.Unity.Extensions
+﻿namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The AnimationHelper class

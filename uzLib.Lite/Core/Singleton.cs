@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using UnityEngine.Core.Interfaces;
 
 namespace uzLib.Lite.Core
 {
@@ -6,7 +7,7 @@ namespace uzLib.Lite.Core
     /// The Singleton class
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Singleton<T>
+    public class Singleton<T> : IStarted
         where T : class
     {
         /// <summary>
@@ -34,5 +35,7 @@ namespace uzLib.Lite.Core
                 _instance = value;
             }
         }
+
+        public bool IsStarted { get; set; }
     }
 }

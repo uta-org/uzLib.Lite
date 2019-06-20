@@ -1,7 +1,11 @@
-﻿using System;
+using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEngine.Extensions;
+using UnityEngine.Networking;
 
 namespace uzLib.Lite.Extensions
 {
@@ -205,26 +209,6 @@ namespace uzLib.Lite.Extensions
         }
 
         /// <summary>
-        /// Determines whether this instance is directory.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <returns>
-        ///   <c>true</c> if the specified path is directory; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsDirectory(this string path)
-        {
-            try
-            {
-                FileAttributes fa = File.GetAttributes(path);
-                return (fa & FileAttributes.Directory) != 0;
-            }
-            catch
-            { // The provided path doesn't exists
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Gets the top level dir.
         /// </summary>
         /// <param name="filePath">The file path.</param>
@@ -412,6 +396,80 @@ namespace uzLib.Lite.Extensions
             Directory.Delete(folderPath);
 
             return !errors;
+        }
+
+        /// <summary>
+        ///     Loads the texture from.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="action">The action.</param>
+        /// <param name="isWWW">if set to <c>true</c> [is WWW].</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">path</exception>
+        /// <exception cref="ArgumentException">File doesn't exists! - path</exception>
+        public static IEnumerator LoadTextureFrom(string path, Action<Texture2D> action, bool isWWW = true)
+        {
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentNullException(nameof(path));
+
+            if (!isWWW && !File.Exists(path))
+                throw new ArgumentException("File doesn't exists!", nameof(path));
+
+            const string prefixPath = "file:///";
+
+            if (!isWWW && !path.StartsWith(prefixPath))
+                path = prefixPath + path;
+
+            using (var request = UnityWebRequestTexture.GetTexture(path))
+            {
+                yield return request.SendWebRequest();
+
+                if (request.isNetworkError || request.isHttpError)
+                    Debug.LogError(request.error);
+                else
+                    action?.Invoke(((DownloadHandlerTexture)request.downloadHandler).texture);
+            }
+        }
+
+        /// <summary>
+        ///     Determines whether this instance is extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified extension is extension; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsExtension(this string extension)
+        {
+            return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
+        }
+
+        /// <summary>
+        /// Writes all bytes.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="bytes">The bytes.</param>
+        /// <exception cref="ArgumentNullException">path</exception>
+        public static void WriteAllBytes(string path, byte[] bytes)
+        {
+            if (string.IsNullOrEmpty(path))
+
+                throw new ArgumentNullException(nameof(path));
+
+            string folder = Path.GetDirectoryName(path);
+
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
+            File.WriteAllBytes(path, bytes);
+        }
+
+        /// <summary>
+        /// Creates an empty file.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        public static void CreateEmptyFile(string filename)
+        {
+            File.Create(filename).Dispose();
         }
     }
 }

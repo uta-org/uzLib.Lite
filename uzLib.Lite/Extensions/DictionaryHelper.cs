@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace uzLib.Lite.Extensions
@@ -223,6 +224,155 @@ namespace uzLib.Lite.Extensions
                 i++;
             }
             return -1;
+        }
+
+        /// <summary>
+        ///     Adds the or get.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static int? AddOrGet<TKey>(this Dictionary<TKey, int?> dictionary, TKey key)
+        {
+            if (!dictionary.ContainsKey(key)) dictionary.Add(key, dictionary.Count);
+
+            return dictionary[key];
+        }
+
+        /// <summary>
+        ///     Adds the or get.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static TValue AddOrGet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            return AddOrGet(dictionary, key, value, out var firstTime);
+        }
+
+        /// <summary>
+        ///     Adds the or get.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="firstTime">if set to <c>true</c> [first time].</param>
+        /// <returns></returns>
+        public static TValue AddOrGet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value,
+            out bool firstTime)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                firstTime = true;
+                dictionary.Add(key, value);
+            }
+
+            firstTime = false;
+
+            //return value;
+            return dictionary[key];
+        }
+
+        /// <summary>
+        ///     Adds value to dictionary once.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static bool AddOnce<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (!dictionary.ContainsKey(key))
+            {
+                dictionary.Add(key, value);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        ///     Returns a <see cref="string" /> that represents this instance.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="separator">The separator.</param>
+        /// <returns>
+        ///     A <see cref="string" /> that represents this instance.
+        /// </returns>
+        public static string ToString<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, string separator = null)
+        {
+            return string.Join(string.IsNullOrEmpty(separator) ? Environment.NewLine : separator,
+                dictionary.Select(kv => $"Key = {kv.Key}, Value = {kv.Value}"));
+        }
+
+        /// <summary>
+        ///     Gets the value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static TValue GetValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        {
+            return dictionary.ContainsKey(key) ? dictionary[key] : default;
+        }
+
+        /// <summary>
+        ///     Gets the index of a key.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key.</param>
+        /// <returns></returns>
+        public static int IndexOfKey<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        {
+            if (!dictionary.ContainsKey(key)) return -1;
+
+            return Array.IndexOf(dictionary.Keys.ToArray(), key);
+        }
+
+        /// <summary>
+        ///     Gets the index of a value.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static int IndexOfValue<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TValue value)
+        {
+            if (!dictionary.ContainsValue(value)) return -1;
+
+            return Array.IndexOf(dictionary.Values.ToArray(), value);
+        }
+
+        /// <summary>
+        ///     Checks if two dictionaries are equal.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary1">The dictionary1.</param>
+        /// <param name="dictionary2">The dictionary2.</param>
+        /// <param name="compareKeys">if set to <c>true</c> [compare keys].</param>
+        /// <returns></returns>
+        public static bool AreEqual<TKey, TValue>(Dictionary<TKey, TValue> dictionary1,
+            Dictionary<TKey, TValue> dictionary2, bool compareKeys = true)
+        {
+            if (compareKeys)
+                return dictionary1.Keys.SequenceEqual(dictionary2.Keys);
+            return dictionary1.Values.SequenceEqual(dictionary2.Values);
         }
     }
 }

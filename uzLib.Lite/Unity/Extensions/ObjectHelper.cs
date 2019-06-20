@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using UnityEngine;
 using uzLib.Lite.Extensions;
-using Object = UnityEngine.Object;
 
-namespace uzLib.Lite.Unity.Extensions
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The ObjectHelper class
@@ -259,6 +257,26 @@ namespace uzLib.Lite.Unity.Extensions
             {
                 obj.InvokeExceptionSafe(msg, args);
             }
+        }
+
+        /// <summary>
+        /// Gets the or add component.
+        /// </summary>
+        /// <param name="go">The go.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">go</exception>
+        public static Component GetOrAddComponent(this GameObject go, Type type)
+        {
+            if (go == null)
+                throw new ArgumentNullException(nameof(go));
+
+            var comp = go.GetComponent(type);
+
+            if (null == comp)
+                comp = go.AddComponent(type);
+
+            return comp;
         }
     }
 }

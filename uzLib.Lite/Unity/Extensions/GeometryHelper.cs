@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using uzLib.Lite.Extensions;
 
-using Random = UnityEngine.Random;
-
-namespace uzLib.Lite.Unity.Extensions
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The GeometryHelper class

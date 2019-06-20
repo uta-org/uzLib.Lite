@@ -1,106 +1,10 @@
-﻿using UnityEngine;
-
-namespace uzLib.Lite.Unity.Extensions
+﻿namespace UnityEngine.Extensions
 {
-    /// <summary>
-    /// The Rect Helper
-    /// </summary>
-    public class RectHelper
-    {
-        /// <summary>
-        /// Gets the default height.
-        /// </summary>
-        /// <value>
-        /// The default height.
-        /// </value>
-        public float DefaultHeight { get; private set; }
-
-        /// <summary>
-        /// The current height
-        /// </summary>
-        private float m_currentHeight;
-
-        /// <summary>
-        /// Gets the height of the current.
-        /// </summary>
-        /// <value>
-        /// The height of the current.
-        /// </value>
-        public float CurrentHeight { get { return m_currentHeight == 0 ? DefaultHeight : m_currentHeight; } }
-
-        /// <summary>
-        /// Gets the maximum height.
-        /// </summary>
-        /// <value>
-        /// The maximum height.
-        /// </value>
-        public float MaxHeight { get; private set; }
-
-        /// <summary>
-        /// The m rect
-        /// </summary>
-        private Rect m_rect;
-
-        /// <summary>
-        /// Prevents a default instance of the <see cref="RectHelper"/> class from being created.
-        /// </summary>
-        private RectHelper()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RectHelper"/> class.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        public RectHelper(Rect rect, float defaultHeight = 18)
-        {
-            m_rect = rect;
-            DefaultHeight = defaultHeight;
-            m_currentHeight += defaultHeight;
-        }
-
-        /// <summary>
-        /// Nexts the height.
-        /// </summary>
-        /// <returns></returns>
-        public Rect NextHeight(float height = default(float), bool forceHeight = true)
-        {
-            float y = height != default(float) ? height : GUILayoutUtility.GetLastRect().height;
-
-            var r = new Rect(m_rect.x, m_rect.y + y, m_rect.width, m_rect.height);
-            if (forceHeight)
-                r = r.ForceHeight(y);
-
-            m_rect.y += y;
-
-            if (forceHeight)
-                m_currentHeight += y;
-            else
-                m_currentHeight = m_rect.y;
-
-            if (m_currentHeight > MaxHeight)
-                MaxHeight = m_currentHeight;
-
-            return r;
-        }
-    }
-
     /// <summary>
     /// Some Rect extensions
     /// </summary>
-    public static class RectExtensions
+    public static class RectHelper
     {
-        /// <summary>
-        /// Forces the height.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="height">The height.</param>
-        /// <returns></returns>
-        public static Rect ForceHeight(this Rect rect, float height)
-        {
-            return new Rect(rect.x, rect.y, rect.width, height);
-        }
-
         /// <summary>
         /// Paddings the top.
         /// </summary>
@@ -113,9 +17,9 @@ namespace uzLib.Lite.Unity.Extensions
         }
 
         /// <summary>
-		/// Clamps all coordinates between 0 and 1.
-		/// </summary>
-		public static Rect Clamp01(this Rect rect)
+        /// Clamps all coordinates between 0 and 1.
+        /// </summary>
+        public static Rect Clamp01(this Rect rect)
         {
             float xMin = rect.xMin;
             float xMax = rect.xMax;
@@ -186,6 +90,286 @@ namespace uzLib.Lite.Unity.Extensions
         public static Rect CreateRect(Vector2 center, Vector2 size)
         {
             return new Rect(center - size / 2.0f, size);
+        }
+
+        /// <summary>
+        ///     Forces the width.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <returns></returns>
+        public static Rect ForceWidth(this Rect rect, float width)
+        {
+            return new Rect(rect.x, rect.y, width, rect.height);
+        }
+
+        /// <summary>
+        ///     Forces the both.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
+        public static Rect ForceBoth(this Rect rect, float width, float height)
+        {
+            return new Rect(rect.x, rect.y, width, height);
+        }
+
+        /// <summary>
+        ///     Creates the offset.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <param name="top">The top.</param>
+        /// <param name="bottom">The bottom.</param>
+        /// <returns></returns>
+        public static RectOffset CreateOffset(int left, int right, int top, int bottom)
+        {
+            return new RectOffset(left, right, top, bottom);
+        }
+
+        /// <summary>
+        ///     Creates the offset.
+        /// </summary>
+        /// <param name="horizontal">The horizontal.</param>
+        /// <param name="vertical">The vertical.</param>
+        /// <returns></returns>
+        public static RectOffset CreateOffset(int horizontal, int vertical)
+        {
+            return new RectOffset(horizontal, horizontal, vertical, vertical);
+        }
+
+        /// <summary>
+        ///     Creates the horizontal offset.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="right">The right.</param>
+        /// <returns></returns>
+        public static RectOffset CreateHorizontalOffset(int left, int right)
+        {
+            return new RectOffset(left, right, 0, 0);
+        }
+
+        /// <summary>
+        ///     Creates the vertical offset.
+        /// </summary>
+        /// <param name="top">The top.</param>
+        /// <param name="bottom">The bottom.</param>
+        /// <returns></returns>
+        public static RectOffset CreateVerticalOffset(int top, int bottom)
+        {
+            return new RectOffset(0, 0, top, bottom);
+        }
+
+        /// <summary>
+        ///     Creates the upper offset.
+        /// </summary>
+        /// <param name="left">The left.</param>
+        /// <param name="top">The top.</param>
+        /// <returns></returns>
+        public static RectOffset CreateUpperOffset(int left, int top)
+        {
+            return new RectOffset(left, 0, top, 0);
+        }
+
+        /// <summary>
+        ///     Creates the bottom offset.
+        /// </summary>
+        /// <param name="right">The right.</param>
+        /// <param name="bottom">The bottom.</param>
+        /// <returns></returns>
+        public static RectOffset CreateBottomOffset(int right, int bottom)
+        {
+            return new RectOffset(0, right, 0, bottom);
+        }
+
+        /// <summary>
+        ///     Sums the rects.
+        /// </summary>
+        /// <param name="rect1">The rect1.</param>
+        /// <param name="rect2">The rect2.</param>
+        /// <returns></returns>
+        public static Rect SumRects(Rect rect1, Rect rect2)
+        {
+            var width = Mathf.Max(rect1.width, rect2.width);
+            var height = Mathf.Max(rect1.height, rect2.height);
+
+            return new Rect(rect1.xMin + rect2.xMin, rect1.yMin + rect2.yMin, width, height);
+        }
+
+        /// <summary>
+        ///     Rests the rects.
+        /// </summary>
+        /// <param name="rect1">The rect1.</param>
+        /// <param name="rect2">The rect2.</param>
+        /// <returns></returns>
+        public static Rect RestRects(Rect rect1, Rect rect2)
+        {
+            var width = Mathf.Max(rect1.width, rect2.width);
+            var height = Mathf.Max(rect1.height, rect2.height);
+
+            return new Rect(rect1.xMin - rect2.xMin, rect1.yMin - rect2.yMin, width, height);
+        }
+
+        /// <summary>
+        ///     Sums the position.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
+        public static Rect SumPosition(this Rect rect, Vector2 position)
+        {
+            // Debug.Log(position);
+            return new Rect(rect.position + position, rect.size);
+        }
+
+        /// <summary>
+        ///     Rests the position.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="position">The position.</param>
+        /// <returns></returns>
+        public static Rect RestPosition(this Rect rect, Vector2 position)
+        {
+            // Debug.Log(position);
+            return new Rect(rect.position - position, rect.size);
+        }
+
+        /// <summary>
+        ///     Sums the top margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="topMargin">The top margin.</param>
+        /// <returns></returns>
+        public static Rect SumTop(this Rect rect, float topMargin)
+        {
+            return new Rect(rect.position.x, rect.position.y + topMargin, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Rests the top margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="topMargin">The top margin.</param>
+        /// <returns></returns>
+        public static Rect RestTop(this Rect rect, float topMargin)
+        {
+            return new Rect(rect.position.x, rect.position.y - topMargin, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Sums the left margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="leftMargin">The left margin.</param>
+        /// <returns></returns>
+        public static Rect SumLeft(this Rect rect, float leftMargin)
+        {
+            return new Rect(rect.position.x + leftMargin, rect.position.y, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Rests the left margin.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="leftMargin">The left margin.</param>
+        /// <returns></returns>
+        public static Rect RestLeft(this Rect rect, float leftMargin)
+        {
+            return new Rect(rect.position.x - leftMargin, rect.position.y, rect.width, rect.height);
+        }
+
+        /// <summary>
+        ///     Sums the height.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
+        public static Rect SumHeight(this Rect rect, float height)
+        {
+            return new Rect(rect.position.x, rect.position.y, rect.width, rect.height + height);
+        }
+
+        /// <summary>
+        ///     Rests the height.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
+        public static Rect RestHeight(this Rect rect, float height)
+        {
+            return new Rect(rect.position.x, rect.position.y, rect.width, rect.height - height);
+        }
+
+        /// <summary>
+        ///     Sums the width.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <returns></returns>
+        public static Rect SumWidth(this Rect rect, float width)
+        {
+            return new Rect(rect.position.x, rect.position.y, rect.width + width, rect.height);
+        }
+
+        /// <summary>
+        ///     Rests the width.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="width">The width.</param>
+        /// <returns></returns>
+        public static Rect RestWidth(this Rect rect, float width)
+        {
+            return new Rect(rect.position.x, rect.position.y, rect.width - width, rect.height);
+        }
+
+        /// <summary>
+        ///     Resets the position.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <returns></returns>
+        public static Rect ResetPosition(this Rect rect)
+        {
+            return new Rect(Vector2.zero, rect.size);
+        }
+
+        /// <summary>
+        /// Gets the centered rect.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="margin">The margin.</param>
+        /// <returns></returns>
+        public static Rect GetCenteredRect(this Rect rect, float margin)
+        {
+            return new Rect(
+                rect.xMin + margin,
+                rect.yMin + margin,
+                rect.width - margin * 2,
+                rect.height - margin * 2);
+        }
+
+        /// <summary>
+        /// Rounds the values.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <returns></returns>
+        public static Rect RoundValues(this Rect rect)
+        {
+            return new Rect(
+                Mathf.RoundToInt(rect.xMin),
+                Mathf.RoundToInt(rect.yMin),
+                Mathf.RoundToInt(rect.width),
+                Mathf.RoundToInt(rect.height));
+        }
+
+        /// <summary>
+        /// Gets the length.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <returns></returns>
+        public static int GetLength(this Rect rect)
+        {
+            return Mathf.RoundToInt(rect.width * rect.width);
         }
     }
 }

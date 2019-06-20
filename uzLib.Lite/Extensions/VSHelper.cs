@@ -1,7 +1,6 @@
 ﻿using Onion.SolutionParser.Parser;
 using Onion.SolutionParser.Parser.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;

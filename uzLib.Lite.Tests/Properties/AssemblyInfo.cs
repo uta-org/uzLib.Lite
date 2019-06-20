@@ -1,6 +1,6 @@
 ﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

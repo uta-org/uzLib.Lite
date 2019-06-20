@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
-namespace uzLib.Lite.Unity.Utils
+namespace UnityEngine.Utils
 {
     /// <summary>
     /// The GLDebug class

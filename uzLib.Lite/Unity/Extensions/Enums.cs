@@ -1,4 +1,4 @@
-﻿namespace uzLib.Lite.Unity.Extensions
+﻿namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The Marquee Direction Type.

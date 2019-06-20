@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using uzLib.Lite.Extensions;
 
-namespace uzLib.Lite.Unity.Extensions
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The UI Helper

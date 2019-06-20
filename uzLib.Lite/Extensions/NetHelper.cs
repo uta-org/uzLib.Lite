@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
+using UnityEngine.Extensions;
 
 namespace uzLib.Lite.Extensions
 {
@@ -95,6 +96,186 @@ namespace uzLib.Lite.Extensions
             using (WebClient myWebClient = new WebClient())
                 // Download the Web resource and save it into the current filesystem folder.
                 myWebClient.DownloadFile(url, filePath);
+        }
+
+        /// <summary>
+        ///     Checks for internet connection.
+        /// </summary>
+        /// <returns></returns>
+        public static bool CheckForInternetConnection()
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (client.OpenRead("http://clients3.google.com/generate_204"))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the name and extension from.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static string GetNameAndExtensionFrom(string url, out byte[] data)
+        {
+            string filename;
+
+            using (var wc = new WebClient())
+            {
+                data = wc.DownloadData(url);
+
+                filename = wc.GetNameFrom();
+                filename += wc.GetExtensionFrom();
+            }
+
+            return filename;
+        }
+
+        /// <summary>
+        ///     Gets the name from.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        public static string GetNameFrom(string url)
+        {
+            return GetNameFrom(url, out var data);
+        }
+
+        /// <summary>
+        ///     Gets the name from.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static string GetNameFrom(string url, out byte[] data)
+        {
+            using (var wc = new WebClient())
+            {
+                return wc.GetExtensionFrom(url, out data);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the name from.
+        /// </summary>
+        /// <param name="wc">The wc.</param>
+        /// <returns></returns>
+        public static string GetNameFrom(this WebClient wc)
+        {
+            if (!string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
+                return wc.ResponseHeaders["Content-Disposition"]
+                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        ///     Gets the name from.
+        /// </summary>
+        /// <param name="wc">The wc.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static string GetNameFrom(this WebClient wc, string url, out byte[] data)
+        {
+            data = wc.DownloadData(url);
+            if (!string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
+                return wc.ResponseHeaders["Content-Disposition"]
+                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        ///     Gets the extension from.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns></returns>
+        public static string GetExtensionFrom(string url)
+        {
+            return GetExtensionFrom(url, out var data);
+        }
+
+        /// <summary>
+        ///     Gets the extension from.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static string GetExtensionFrom(string url, out byte[] data)
+        {
+            using (var wc = new WebClient())
+            {
+                return wc.GetExtensionFrom(url, out data);
+            }
+        }
+
+        /// <summary>
+        ///     Gets the extension from.
+        /// </summary>
+        /// <param name="wc">The wc.</param>
+        /// <returns></returns>
+        public static string GetExtensionFrom(this WebClient wc)
+        {
+            var contentType = wc.ResponseHeaders["Content-Type"];
+            // Debug.Log("Content-Type: " + contentType);
+
+            return MimeTypeMap.GetExtension(contentType);
+        }
+
+        /// <summary>
+        ///     Gets the extension from.
+        /// </summary>
+        /// <param name="wc">The wc.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
+        public static string GetExtensionFrom(this WebClient wc, string url, out byte[] data)
+        {
+            data = wc.DownloadData(url);
+            var contentType = wc.ResponseHeaders["Content-Type"];
+            // Debug.Log("Content-Type: " + contentType);
+
+            return MimeTypeMap.GetExtension(contentType);
+        }
+
+        /// <summary>
+        ///     Determines whether this instance is URL.
+        /// </summary>
+        /// <param name="p">The p.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified p is URL; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsUrl(this string p)
+        {
+            return !new Uri(p).IsFile;
+        }
+
+        /// <summary>
+        ///     Downloads the HTML with progress.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="downloadProgress">The download progress.</param>
+        /// <param name="downloadString">The downloaded string.</param>
+        /// <returns></returns>
+        public static string DownloadHtmlWithProgress(string url, DownloadProgressChangedEventHandler downloadProgress,
+            DownloadStringCompletedEventHandler downloadString)
+        {
+            using (var wc = new WebClient())
+            {
+                wc.DownloadProgressChanged += downloadProgress;
+                wc.DownloadStringCompleted += downloadString;
+
+                return wc.DownloadString(url);
+            }
         }
     }
 }

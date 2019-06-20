@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 
 namespace uzLib.Lite.Extensions
 {
@@ -29,6 +29,44 @@ namespace uzLib.Lite.Extensions
         public static T[] Push<T>(this T[] source, T[] values)
         {
             return source.Concat(values).ToArray();
+        }
+        
+        /// <summary>
+        ///     Gets the value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        public static T GetValue<T>(this T[] array, int index)
+        {
+            try
+            {
+                return array[index];
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
+        /// <summary>
+        ///     Gets the value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="array">The array.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        public static T GetValue<T>(this object[] array, int index)
+        {
+            try
+            {
+                return (T) array[index];
+            }
+            catch
+            {
+                return default;
+            }
         }
     }
 }

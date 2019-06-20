@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Diagnostics;
+using System.Linq;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
@@ -102,6 +104,16 @@ namespace uzLib.Lite.Extensions
         public static bool HasMethod(this Assembly asm, string className, string methodName)
         {
             return asm.GetType(className).GetMethod(methodName) != null;
+        }
+
+        public static T GetAttributeFromCallingMethod<T>()
+            where T : Attribute
+        {
+            return (T)new StackTrace()
+                .GetFrame(1)
+                .GetMethod()
+                .GetCustomAttributes(false)
+                .FirstOrDefault(attr => attr.GetType() == typeof(T));
         }
     }
 }

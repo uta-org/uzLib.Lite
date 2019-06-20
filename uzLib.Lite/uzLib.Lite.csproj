@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Colorful.Console, Version=1.2.9.0, Culture=neutral, processorArchitecture=MSIL">
@@ -40,6 +42,9 @@
     <Reference Include="DotNetZip, Version=1.13.2.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.13.2\lib\net40\DotNetZip.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="LibGit2Sharp, Version=0.26.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
       <HintPath>..\packages\LibGit2Sharp.0.26.0\lib\net46\LibGit2Sharp.dll</HintPath>
@@ -166,6 +171,9 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TidyNetPortable">
+      <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity3D.UnityEngine.2018.3.5.1\lib\UnityEngine.dll</HintPath>
       <Private>True</Private>
@@ -179,30 +187,66 @@
     <Compile Include="Core\Input\Internal\KeyHandler.cs" />
     <Compile Include="Core\Input\SmartInput.cs" />
     <Compile Include="Core\Input\SmartPsswrd.cs" />
+    <Compile Include="Core\Interfaces\IStarted.cs" />
+    <Compile Include="Core\MonoSingleton.cs" />
+    <Compile Include="Core\Persistent.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />
+    <Compile Include="Extensions\AssemblyHelper.cs" />
+    <Compile Include="Extensions\AsyncHelper.cs" />
+    <Compile Include="Extensions\AttributeHelper.cs" />
+    <Compile Include="Extensions\BitHelper.cs" />
+    <Compile Include="Extensions\BitmapHelper.cs" />
+    <Compile Include="Extensions\BoolHelper.cs" />
+    <Compile Include="Extensions\ByteHelper.cs" />
     <Compile Include="Extensions\CollectionHelper.cs" />
     <Compile Include="Extensions\CompilerHelper.cs" />
     <Compile Include="Extensions\CompressionHelper.cs" />
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DateHelper.cs" />
+    <Compile Include="Extensions\DateTimeHelper.cs" />
     <Compile Include="Extensions\DictionaryHelper.cs" />
     <Compile Include="Core\Enums.cs" />
     <Compile Include="Extensions\DOMHelper.cs" />
+    <Compile Include="Extensions\EncryptationHelper.cs" />
+    <Compile Include="Extensions\Enums.cs" />
     <Compile Include="Extensions\ExceptionHelper.cs" />
+    <Compile Include="Extensions\ExpressionHelper.cs" />
+    <Compile Include="Extensions\FileHelper.cs" />
+    <Compile Include="Extensions\GenericHelper.cs" />
     <Compile Include="Extensions\GitHelper.cs" />
     <Compile Include="Extensions\HashSetHelper.cs" />
     <Compile Include="Extensions\HTMLHelper.cs" />
+    <Compile Include="Extensions\IDHelper.cs" />
+    <Compile Include="Extensions\JsonHelper.cs" />
     <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\MimeTypeMap.cs" />
     <Compile Include="Extensions\NetHelper.cs" />
+    <Compile Include="Extensions\NullableHelper.cs" />
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
+    <Compile Include="Extensions\QueueHelper.cs" />
     <Compile Include="Extensions\ReflectionHelper.cs" />
     <Compile Include="Extensions\RoslynHelper.cs" />
     <Compile Include="Extensions\SerializationHelper.cs" />
     <Compile Include="Extensions\StringHelper.cs" />
+    <Compile Include="Extensions\TimeSpanHelper.cs" />
+    <Compile Include="Extensions\TupleHelper.cs" />
+    <Compile Include="Extensions\TypeHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
     <Compile Include="Extensions\VSHelper.cs" />
+    <Compile Include="Unity\Extensions\RectHelper.cs" />
+    <Compile Include="Unity\Global\GlobalConstants.cs" />
+    <Compile Include="Unity\Global\GlobalIdentifier.cs" />
+    <Compile Include="Unity\Global\GlobalInput.cs" />
+    <Compile Include="Unity\Global\IMGUI\Enums.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUI.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUILayout.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUISkin.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUIUtility.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalStyles.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalStylesUtility.cs" />
+    <Compile Include="Unity\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Shells\GitShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\Singleton.cs" />
@@ -212,22 +256,52 @@
     <Compile Include="Plugins\SymLinker\LinkCreators\WindowsSymLinkCreator.cs" />
     <Compile Include="Plugins\SymLinker\Linker.cs" />
     <Compile Include="Shells\StaticShell.cs" />
+    <Compile Include="Unity\UI\Controls\ComboBox.cs" />
+    <Compile Include="Unity\UI\DockWindow.cs" />
+    <Compile Include="Unity\UI\FileBrowser.cs" />
+    <Compile Include="Unity\UI\Interfaces\Enums.cs" />
+    <Compile Include="Unity\UI\Interfaces\ICommonUI.cs" />
+    <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
+    <Compile Include="Unity\UI\Menus\RadioMenuAttribute.cs" />
+    <Compile Include="Unity\UI\Menus\RadioMenuComponent.cs" />
+    <Compile Include="Unity\UI\UIBalancedDraw.cs" />
+    <Compile Include="Unity\UI\UIEffect.cs" />
+    <Compile Include="Unity\UI\UILayout.cs" />
+    <Compile Include="Unity\UI\UIUtils.cs" />
     <Compile Include="Unity\Extensions\AnimationHelper.cs" />
     <Compile Include="Unity\Extensions\ColorHelper.cs" />
+    <Compile Include="Unity\Extensions\CoroutineHelper.cs" />
     <Compile Include="Unity\Extensions\Enums.cs" />
+    <Compile Include="Unity\Extensions\F.cs" />
     <Compile Include="Unity\Extensions\GeometryHelper.cs" />
     <Compile Include="Unity\Extensions\MathHelper.cs" />
     <Compile Include="Unity\Extensions\ObjectHelper.cs" />
-    <Compile Include="Unity\Extensions\RectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
+    <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
+    <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
+    <Compile Include="Unity\Utils\DebugTools\DebugHelper.cs" />
+    <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
+    <Compile Include="Utils\DownloadBatcher.cs" />
+    <Compile Include="Utils\Enums.cs" />
+    <Compile Include="Utils\Interfaces\IDownloadItem.cs" />
+    <Compile Include="Utils\NetRequester.cs" />
+    <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
+    <Compile Include="Utils\Threading\NamedHandler.cs" />
+    <Compile Include="Utils\Threading\ThreadMarker.cs" />
+    <Compile Include="Unity\Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\uzLib.Lite.ExternalCode\uzLib.Lite.ExternalCode.csproj">
+      <Project>{fce02434-f560-4d30-9d8c-f7bba0edc36f}</Project>
+      <Name>uzLib.Lite.ExternalCode</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

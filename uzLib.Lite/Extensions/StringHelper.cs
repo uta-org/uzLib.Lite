@@ -1,6 +1,10 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
+using UnityEngine;
+using UnityEngine.Extensions;
 
 namespace uzLib.Lite.Extensions
 {
@@ -85,6 +89,227 @@ namespace uzLib.Lite.Extensions
         public static bool IsNullOrWhiteSpace(this string str)
         {
             return string.IsNullOrWhiteSpace(str);
+        }
+
+        /// <summary>
+        ///     Determines whether [is base64 string].
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns>
+        ///     <c>true</c> if [is base64 string] [the specified string]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsBase64String(this string str)
+        {
+            if (string.IsNullOrWhiteSpace(str)) return false;
+
+            if (str.Length % 4 != 0) return false;
+
+            //decode - encode and compare
+            try
+            {
+                var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(str));
+                var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(decoded));
+                if (str.Equals(encoded, StringComparison.InvariantCultureIgnoreCase)) return true;
+            }
+            catch
+            {
+            }
+
+            return false;
+
+            //Span<byte> buffer = new Span<byte>(new byte[base64.Length]);
+            //return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
+        }
+
+        /// <summary>
+        ///     Strips the starting with.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <param name="stripAfter">The strip after.</param>
+        /// <returns></returns>
+        public static string StripStartingWith(this string s, string stripAfter)
+        {
+            if (s == null) return null;
+
+            var indexOf = s.IndexOf(stripAfter, StringComparison.Ordinal);
+
+            if (indexOf > -1) return s.Substring(0, indexOf);
+
+            return s;
+        }
+
+        /// <summary>
+        ///     Replaces the new lines.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="replacement">The replacement.</param>
+        /// <returns></returns>
+        public static string ReplaceNewLines(this string str, string replacement)
+        {
+            return Regex.Replace(str, @"\t|\n|\r", replacement);
+        }
+
+        /// <summary>
+        ///     Removes the new lines.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns></returns>
+        public static string RemoveNewLines(this string str)
+        {
+            return ReplaceNewLines(str, string.Empty);
+        }
+
+        /// <summary>
+        ///     Replace several ocurrences in a string at once.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="replacements">The replacements.</param>
+        /// <returns></returns>
+        public static string MulticaseReplace(this string str, params Tuple<string, string>[] replacements)
+        {
+            foreach (var replacement in replacements) str = str.Replace(replacement.Item1, replacement.Item2);
+
+            return str;
+        }
+
+        /// <summary>
+        ///     Removes several ocurrences in a string at once.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="replacements">The replacements.</param>
+        /// <returns></returns>
+        public static string MulticaseRemove(this string str, params string[] replacements)
+        {
+            foreach (var replacement in replacements) str = str.Replace(replacement, string.Empty);
+
+            return str;
+        }
+
+        /// <summary>
+        ///     Prints a detailed byte.
+        /// </summary>
+        /// <param name="byte">The byte.</param>
+        /// <param name="hexFirst">if set to <c>true</c> [hexadecimal first].</param>
+        /// <returns></returns>
+        public static string PrintDetailedByte(this byte @byte, bool hexFirst = true)
+        {
+            if (hexFirst)
+                return $"{@byte.ConvertToHex()} (Dec: {@byte})";
+            return $"{@byte} (Hex: {@byte.ConvertToHex()})";
+        }
+
+        /// <summary>
+        ///     Prints the length of the list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <returns></returns>
+        public static string PrintListLength<T>(this List<T> list)
+        {
+            return list.GetLength() + (list == null ? " [Null]" : string.Empty);
+        }
+
+        /// <summary>
+        ///     Splits the into lines.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <returns></returns>
+        public static string[] SplitIntoLines(this string str)
+        {
+            return Regex.Split(str, "\r\n|\r|\n");
+        }
+
+        /// <summary>
+        ///     Gets the longest line.
+        /// </summary>
+        /// <param name="lines">The lines.</param>
+        /// <returns></returns>
+        public static int GetLongestLine(this string[] lines)
+        {
+            return lines.Select(line => line.Length).Max();
+        }
+
+        /// <summary>
+        ///     Gets the longest line.
+        /// </summary>
+        /// <param name="lines">The lines.</param>
+        /// <param name="tuples">The tuples.</param>
+        /// <returns></returns>
+        public static int GetLongestLine(this string[] lines, params Tuple<string, int>[] tuples)
+        {
+            return lines.Select(line => SumOcurrences(line, tuples)).Max();
+        }
+
+        /// <summary>
+        ///     Sums the ocurrences.
+        /// </summary>
+        /// <param name="line">The line.</param>
+        /// <param name="tuples">The tuples.</param>
+        /// <param name="withLength">if set to <c>true</c> [with length].</param>
+        /// <returns></returns>
+        private static int SumOcurrences(string line, Tuple<string, int>[] tuples, bool withLength = true)
+        {
+            var dict = tuples.ToDictionary(t => t.Item1, t => t.Item2);
+
+            var length = 0;
+            var oc = 0;
+            foreach (var c in line)
+            {
+                var strChar = c.ToString();
+
+                if (dict.ContainsKey(strChar))
+                {
+                    length += dict[strChar];
+                    ++oc;
+                }
+            }
+
+            if (!withLength)
+                return length;
+            return length + line.Length - oc;
+        }
+
+        /// <summary>
+        ///     Ases the string.
+        /// </summary>
+        /// <param name="c">The c.</param>
+        /// <returns></returns>
+        public static string AsString(char c)
+        {
+            return new string(c, 1);
+        }
+
+        /// <summary>
+        ///     Puts the string into the Clipboard.
+        /// </summary>
+        /// <param name="str"></param>
+        public static void CopyToClipboard(this string str)
+        {
+            var textEditor = new TextEditor();
+            textEditor.text = str;
+            textEditor.SelectAll();
+            textEditor.Copy();
+        }
+
+        /// <summary>
+        ///     Cuts the specified cut length.
+        /// </summary>
+        /// <param name="str">The string.</param>
+        /// <param name="cutLen">Length of the cut.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">String length must be greater than 5.</exception>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static string Cut(this string str, int cutLen)
+        {
+            if (str.Length < 5) throw new ArgumentException("String length must be greater than 5.");
+
+            if (cutLen >= str.Length - 2) throw new ArgumentOutOfRangeException();
+
+            cutLen += 3;
+            var splitLength = Mathf.CeilToInt(cutLen / 2f);
+            var startingIndex = Mathf.RoundToInt(str.Length / 2);
+
+            return $"{str.Substring(0, splitLength - startingIndex)}...{str.Substring(splitLength + startingIndex)}";
         }
     }
 }
