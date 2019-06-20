@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.UI.Effects
 {
+    using Global.IMGUI;
+
     /// <summary>
     ///     Marquee Effect
     /// </summary>
@@ -230,8 +233,8 @@ namespace UnityEngine.UI.Effects
         private static void MarqueeLabel(Rect rect, Rect enclosingArea, string message, GUIStyle style = null,
             MarqueeType marqueeType = MarqueeType.LeftToRight, Vector2 scrollSpeed = default, params object[] objs)
         {
-            var withArea = objs.GetValue<bool>(0);
-            var hoverRect = objs.GetValue<Rect>(1);
+            bool withArea = objs.GetValue<bool>(0);
+            Rect hoverRect = objs.GetValue<Rect>(1);
 
             // Create a default scroll if specified is null
             if (scrollSpeed == default) scrollSpeed = new Vector2(30f, 30f);

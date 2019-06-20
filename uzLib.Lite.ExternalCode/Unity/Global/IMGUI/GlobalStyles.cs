@@ -336,28 +336,6 @@ namespace UnityEngine.Global.IMGUI
         public static Vector2 knobSize => s_Current.m_KnobSize;
         public static Vector2 miniKnobSize => s_Current.m_MiniKnobSize;
 
-        //public static void UpdateSkinCache()
-        //{
-        //    UpdateSkinCache(EditorGUIUtility.skinIndex);
-        //}
-
-        //public static void UpdateSkinCache(int skinIndex)
-        //{
-        //    // Don't cache the Game GUISkin styles
-        //    if (GUIUtility.s_SkinMode == 0)
-        //        return;
-
-        //    if (s_CachedStyles[skinIndex] == null)
-        //    {
-        //        s_CachedStyles[skinIndex] = new GlobalStyles();
-        //        s_CachedStyles[skinIndex].InitSharedStyles();
-        //    }
-
-        //    s_Current = s_CachedStyles[skinIndex];
-        //    EditorGUIUtility.s_FontIsBold = -1;
-        //    EditorGUIUtility.SetBoldDefaultFont(false);
-        //}
-
         private void InitSharedStyles()
         {
             m_ColorPickerBox = GetStyle("ColorPickerBox");

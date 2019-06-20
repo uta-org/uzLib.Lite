@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityEngine.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     public static class TypeHelper
     {

@@ -190,7 +190,6 @@
     <Compile Include="Core\Interfaces\IStarted.cs" />
     <Compile Include="Core\MonoSingleton.cs" />
     <Compile Include="Core\Persistent.cs" />
-    <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\AssemblyHelper.cs" />
     <Compile Include="Extensions\AsyncHelper.cs" />
     <Compile Include="Extensions\AttributeHelper.cs" />
@@ -204,7 +203,6 @@
     <Compile Include="Extensions\ConsoleHelper.cs" />
     <Compile Include="Extensions\DateHelper.cs" />
     <Compile Include="Extensions\DateTimeHelper.cs" />
-    <Compile Include="Extensions\DictionaryHelper.cs" />
     <Compile Include="Core\Enums.cs" />
     <Compile Include="Extensions\DOMHelper.cs" />
     <Compile Include="Extensions\EncryptationHelper.cs" />
@@ -218,11 +216,9 @@
     <Compile Include="Extensions\HTMLHelper.cs" />
     <Compile Include="Extensions\IDHelper.cs" />
     <Compile Include="Extensions\JsonHelper.cs" />
-    <Compile Include="Extensions\ListHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
     <Compile Include="Extensions\MimeTypeMap.cs" />
     <Compile Include="Extensions\NetHelper.cs" />
-    <Compile Include="Extensions\NullableHelper.cs" />
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\QueueHelper.cs" />
@@ -236,16 +232,11 @@
     <Compile Include="Extensions\UriHelper.cs" />
     <Compile Include="Extensions\VSHelper.cs" />
     <Compile Include="Unity\Extensions\RectHelper.cs" />
-    <Compile Include="Unity\Global\GlobalConstants.cs" />
     <Compile Include="Unity\Global\GlobalIdentifier.cs" />
     <Compile Include="Unity\Global\GlobalInput.cs" />
-    <Compile Include="Unity\Global\IMGUI\Enums.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUI.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUILayout.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalGUISkin.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUIUtility.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalStyles.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalStylesUtility.cs" />
     <Compile Include="Unity\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Shells\GitShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

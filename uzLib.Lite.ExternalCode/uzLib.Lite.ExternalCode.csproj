@@ -46,13 +46,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\ArrayHelper.cs" />
+    <Compile Include="Extensions\DictionaryHelper.cs" />
+    <Compile Include="Extensions\ListHelper.cs" />
+    <Compile Include="Extensions\NullableHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unity\Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\IteratorHelper.cs" />
     <Compile Include="Unity\Extensions\RectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
-    <Compile Include="Unity\Extensions\TypeHelper.cs" />
+    <Compile Include="Extensions\TypeHelper.cs" />
+    <Compile Include="Unity\Global\GlobalConstants.cs" />
+    <Compile Include="Unity\Global\IMGUI\Enums.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUISkin.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUIStyle.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUIStyleState.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalStyles.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalStylesUtility.cs" />
     <Compile Include="Unity\UI\Effects\Enums.cs" />
     <Compile Include="Unity\UI\Effects\MarqueeEffect.cs" />
     <Compile Include="Unity\UI\Effects\MarqueeEffectLayout.cs" />
