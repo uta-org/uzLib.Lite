@@ -2,6 +2,8 @@
 
 > The Lite version of my paid uzLib (Unity3D) API used as dependency of my open-source repos.
 
+* uzLib.Lite.ExternalCode: [![NuGet version (uzLib.Lite.ExternalCode)](https://img.shields.io/nuget/v/uzLib.Lite.ExternalCode.svg?style=flat-square)](https://www.nuget.org/packages/uzLib.Lite.ExternalCode/)
+
 ## Contents
 
 This API has an extensive list of methods to extend functionality of .NET Framework classes, WinForms, System.Console and Unity3D, also it contains own/third party implementation:
