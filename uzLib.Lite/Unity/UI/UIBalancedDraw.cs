@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using uzLib.Lite.Extensions;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.UI
 {

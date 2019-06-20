@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-
+using uzLib.Lite.ExternalCode.Extensions;
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
 
 namespace uzLib.Lite.Extensions

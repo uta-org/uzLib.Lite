@@ -1,4 +1,6 @@
-﻿namespace UnityEngine.Extensions
+﻿using System.Drawing;
+
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// Some Rect extensions
@@ -303,6 +305,11 @@
         public static int GetLength(this Rect rect)
         {
             return Mathf.RoundToInt(rect.width * rect.width);
+        }
+
+        public static Rect ToRect(this Rectangle rectangle)
+        {
+            return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }
     }
 }

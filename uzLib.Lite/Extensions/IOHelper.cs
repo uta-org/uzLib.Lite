@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Extensions;
 using UnityEngine.Networking;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace uzLib.Lite.Extensions
 {
