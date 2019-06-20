@@ -6,7 +6,7 @@ using System.Text;
 
 namespace uzLib.Lite.Plugins.SymLinker
 {
-    using SymLinker.LinkCreators;
+    using LinkCreators;
 
     public class Linker
     {

@@ -105,9 +105,11 @@
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Drawing" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing">
+      <Aliases>SysDrawing</Aliases>
+    </Reference>
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
       <Private>True</Private>
@@ -171,14 +173,14 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="TexturePacker.Lib.Unity">
+      <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\ForUnity\TexturePacker.Lib.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="TidyNetPortable">
       <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
     </Reference>
     <Reference Include="UniGif.VisualStudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\UniGif.1.0.0\lib\net461\UniGif.VisualStudio.dll</HintPath>
-    </Reference>
-    <Reference Include="UniGif.VisualStudio.UnityEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\UniGif.1.0.0\lib\net461\Editor\UniGif.VisualStudio.UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity3D.UnityEngine.2018.3.5.1\lib\UnityEngine.dll</HintPath>

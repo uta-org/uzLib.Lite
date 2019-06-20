@@ -1,4 +1,5 @@
 ﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
 using System;
 using System.Globalization;
 using System.Text;
@@ -8,6 +9,8 @@ using Console = Colorful.Console;
 
 namespace uzLib.Lite.Core.Input
 {
+    extern alias SysDrawing;
+
     /// <summary>
     /// The SmartInput class
     /// </summary>
@@ -20,7 +23,7 @@ namespace uzLib.Lite.Core.Input
         /// <returns></returns>
         public static bool NextConfirm(string title)
         {
-            return NextConfirm(title, Color.LightGray);
+            return NextConfirm(title, SysDrawing::System.Drawing.Color.LightGray);
         }
 
         /// <summary>
@@ -29,7 +32,7 @@ namespace uzLib.Lite.Core.Input
         /// <param name="title">The title.</param>
         /// <param name="color">The color.</param>
         /// <returns></returns>
-        public static bool NextConfirm(string title, Color color)
+        public static bool NextConfirm(string title, SysDrawing::System.Drawing.Color color)
         {
             ConsoleKey response;
             do
@@ -152,4 +155,5 @@ namespace uzLib.Lite.Core.Input
         }
     }
 }
+
 #endif

@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityGif;
 
 #if UNITY_EDITOR
 

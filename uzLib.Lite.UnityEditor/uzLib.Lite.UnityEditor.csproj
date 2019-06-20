@@ -51,6 +51,10 @@
     <Compile Include="Utils\AutoInstantiateSeeker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\uzLib.Lite.ExternalCode\uzLib.Lite.ExternalCode.csproj">
+      <Project>{fce02434-f560-4d30-9d8c-f7bba0edc36f}</Project>
+      <Name>uzLib.Lite.ExternalCode</Name>
+    </ProjectReference>
     <ProjectReference Include="..\uzLib.Lite\uzLib.Lite.csproj">
       <Project>{d4da84f9-521f-438b-9c70-7fe8f4d1f32a}</Project>
       <Name>uzLib.Lite</Name>

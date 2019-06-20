@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.Core;
 using UnityEngine.Extensions;
 using UnityEngine.UI;
+using UnityGif;
 using uzLib.Lite.Core;
 using uzLib.Lite.ExternalCode.Extensions;
 

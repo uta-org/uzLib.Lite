@@ -47,6 +47,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="TexturePacker.Lib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\Release\TexturePacker.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="TexturePacker.Lib.Debug, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\Debug\TexturePacker.Lib.Debug.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TexturePacker.Lib.UnityEditor.Debug, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\ForUnity\Editor\Debug\TexturePacker.Lib.UnityEditor.Debug.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="TexturePacker.Lib.UnityEditor.Release, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\ForUnity\Editor\Release\TexturePacker.Lib.UnityEditor.Release.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="TidyNetPortable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
     </Reference>

@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
 using System.Drawing;
 using Console = Colorful.Console;
+
 #else
 
 using UnityEngine;
@@ -18,6 +20,8 @@ using System.IO;
 
 namespace uzLib.Lite.Extensions
 {
+    extern alias SysDrawing;
+
     /// <summary>
     /// The CompilerHelper class
     /// </summary>
@@ -114,7 +118,7 @@ namespace uzLib.Lite.Extensions
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
             {
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
-                Console.WriteLine($"You must restart this proccess to take of the new env var '{envVar}'!", Color.Yellow);
+                Console.WriteLine($"You must restart this process to take of the new env var '{envVar}'!", SysDrawing::System.Drawing.Color.Yellow);
 #else
                 Debug.LogWarning($"You must restart this proccess to take of the new env var '{envVar}'!");
 #endif

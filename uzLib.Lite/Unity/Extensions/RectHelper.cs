@@ -2,6 +2,8 @@
 
 namespace UnityEngine.Extensions
 {
+    extern alias TexLib;
+
     /// <summary>
     /// Some Rect extensions
     /// </summary>
@@ -307,7 +309,7 @@ namespace UnityEngine.Extensions
             return Mathf.RoundToInt(rect.width * rect.width);
         }
 
-        public static Rect ToRect(this Rectangle rectangle)
+        public static Rect ToRect(this TexLib::System.Drawing.Rectangle rectangle)
         {
             return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }

@@ -18,6 +18,8 @@ using Console = Colorful.Console;
 
 namespace uzLib.Lite.Extensions
 {
+    extern alias SysDrawing;
+
     /// <summary>
     /// The ReflectionHelper class
     /// </summary>
@@ -48,7 +50,7 @@ namespace uzLib.Lite.Extensions
             catch (Exception ex)
             {
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
-                Console.WriteLine(ex, Color.Red);
+                Console.WriteLine(ex, SysDrawing::System.Drawing.Color.Red);
 #else
                 Debug.LogException(ex);
 #endif
@@ -85,7 +87,7 @@ namespace uzLib.Lite.Extensions
             catch (Exception ex)
             {
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
-                Console.WriteLine(ex, Color.Red);
+                Console.WriteLine(ex, SysDrawing::System.Drawing.Color.Red);
 #else
                 Debug.LogException(ex);
 #endif
