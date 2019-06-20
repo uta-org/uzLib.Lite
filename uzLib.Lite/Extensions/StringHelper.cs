@@ -199,17 +199,6 @@ namespace uzLib.Lite.Extensions
         }
 
         /// <summary>
-        ///     Prints the length of the list.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">The list.</param>
-        /// <returns></returns>
-        public static string PrintListLength<T>(this List<T> list)
-        {
-            return list.GetLength() + (list == null ? " [Null]" : string.Empty);
-        }
-
-        /// <summary>
         ///     Splits the into lines.
         /// </summary>
         /// <param name="str">The string.</param>

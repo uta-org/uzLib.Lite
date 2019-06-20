@@ -92,18 +92,6 @@ namespace UnityEngine.Extensions
         }
 
         /// <summary>
-        ///     Determines whether [is executing in edit mode].
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>
-        ///     <c>true</c> if [is executing in edit mode] [the specified type]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsExecutingInEditMode(this Type type)
-        {
-            return Attribute.GetCustomAttribute(type, typeof(ExecuteInEditMode)) != null;
-        }
-
-        /// <summary>
         ///     Gets the inheritance hierarchy.
         /// </summary>
         /// <param name="type">The type.</param>

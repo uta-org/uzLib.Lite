@@ -216,16 +216,5 @@ namespace uzLib.Lite.Extensions
                 ++i;
             }
         }
-
-        /// <summary>
-        ///     Gets the length.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">The list.</param>
-        /// <returns></returns>
-        public static int GetLength<T>(this List<T> list)
-        {
-            return list?.Count ?? 0;
-        }
     }
 }

@@ -261,7 +261,6 @@
     <Compile Include="Unity\UI\UIUtils.cs" />
     <Compile Include="Unity\Extensions\AnimationHelper.cs" />
     <Compile Include="Unity\Extensions\ColorHelper.cs" />
-    <Compile Include="Unity\Extensions\CoroutineHelper.cs" />
     <Compile Include="Unity\Extensions\Enums.cs" />
     <Compile Include="Unity\Extensions\F.cs" />
     <Compile Include="Unity\Extensions\GeometryHelper.cs" />

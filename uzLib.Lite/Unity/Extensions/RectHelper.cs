@@ -258,28 +258,6 @@
         }
 
         /// <summary>
-        ///     Sums the left margin.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="leftMargin">The left margin.</param>
-        /// <returns></returns>
-        public static Rect SumLeft(this Rect rect, float leftMargin)
-        {
-            return new Rect(rect.position.x + leftMargin, rect.position.y, rect.width, rect.height);
-        }
-
-        /// <summary>
-        ///     Rests the left margin.
-        /// </summary>
-        /// <param name="rect">The rect.</param>
-        /// <param name="leftMargin">The left margin.</param>
-        /// <returns></returns>
-        public static Rect RestLeft(this Rect rect, float leftMargin)
-        {
-            return new Rect(rect.position.x - leftMargin, rect.position.y, rect.width, rect.height);
-        }
-
-        /// <summary>
         ///     Sums the height.
         /// </summary>
         /// <param name="rect">The rect.</param>
