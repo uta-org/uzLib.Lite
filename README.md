@@ -2,6 +2,7 @@
 
 > The Lite version of my paid uzLib (Unity3D) API used as dependency of my open-source repos.
 
+* uzLib.Lite: [![NuGet version (uzLib.Lite)](https://img.shields.io/nuget/v/uzLib.Lite.svg?style=flat-square)](https://www.nuget.org/packages/uzLib.Lite/)
 * uzLib.Lite.ExternalCode: [![NuGet version (uzLib.Lite.ExternalCode)](https://img.shields.io/nuget/v/uzLib.Lite.ExternalCode.svg?style=flat-square)](https://www.nuget.org/packages/uzLib.Lite.ExternalCode/)
 
 ## Contents
