@@ -117,6 +117,10 @@ namespace uzLib.Lite.Utils
             /// </summary>
             internal int m_RetryCount;
 
+            public float CurrentTimer => m_CurrentTimer;
+            public float NextRetry => m_NextRetry;
+            public int RetryCount => m_RetryCount;
+
             /// <summary>
             ///     Prevents a default instance of the <see cref="Settings" /> class from being created.
             /// </summary>

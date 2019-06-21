@@ -427,6 +427,7 @@
         <Reference Include="HtmlAgilityPack">
           <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
           <Private>True</Private>
+          <Aliases>HTMLLib</Aliases>
         </Reference>
         <Reference Include="LibGit2Sharp, Version=0.26.0.0, Culture=neutral, PublicKeyToken=7cbde695407f0333, processorArchitecture=MSIL">
           <HintPath>..\packages\LibGit2Sharp.0.26.0\lib\net46\LibGit2Sharp.dll</HintPath>

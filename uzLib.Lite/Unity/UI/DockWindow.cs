@@ -161,7 +161,7 @@ namespace UnityEngine.UI
             Worker?.DrawInterface(string.Empty, null);
         }
 
-        internal DockWindow<T> Start(string title, ICommonUI<T> worker, Action editorGUI = null)
+        public DockWindow<T> Start(string title, ICommonUI<T> worker, Action editorGUI = null)
         {
             if (!IsStarted)
             {
@@ -181,7 +181,7 @@ namespace UnityEngine.UI
             return this;
         }
 
-        internal virtual void Update(bool enabled)
+        public virtual void Update(bool enabled)
         {
             if (Instance != null)
                 Instance.DrawUI = enabled;
