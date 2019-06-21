@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace UnityEngine.Extensions
+namespace UnityEngine.ExternalCode.Extensions
 {
     /// <summary>
     /// The Rect Helper

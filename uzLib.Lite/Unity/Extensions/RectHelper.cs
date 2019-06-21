@@ -1,13 +1,11 @@
-﻿using System.Drawing;
-
-namespace UnityEngine.Extensions
+﻿namespace UnityEngine.Extensions
 {
     extern alias TexLib;
 
     /// <summary>
     /// Some Rect extensions
     /// </summary>
-    public static class RectHelper
+    public static class RectExtensions
     {
         /// <summary>
         /// Paddings the top.

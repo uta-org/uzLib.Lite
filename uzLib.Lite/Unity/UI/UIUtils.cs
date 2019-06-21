@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine.Extensions;
+using RectHelper = UnityEngine.Extensions.RectExtensions;
 using UnityEngine.Global.IMGUI;
 using uzLib.Lite.Extensions;
 
