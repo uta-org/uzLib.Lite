@@ -1,11 +1,12 @@
-﻿using Microsoft.Build.BuildEngine;
-using Microsoft.Build.Evaluation;
-using Microsoft.Build.Execution;
-using Microsoft.Build.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using Microsoft.Build.BuildEngine;
+using Microsoft.Build.Evaluation;
+using Microsoft.Build.Execution;
+using Microsoft.Build.Utilities;
 
 using System.Drawing;
 using Console = Colorful.Console;
@@ -31,6 +32,8 @@ namespace uzLib.Lite.Extensions
         /// The emit solution
         /// </summary>
         private const string EmitSolution = "MSBuildEmitSolution";
+
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         /// Compiles the specified solution path.
@@ -107,6 +110,8 @@ namespace uzLib.Lite.Extensions
                 logger.Shutdown();
             }
         }
+
+#endif
 
         /// <summary>
         /// Sets the environment variable.

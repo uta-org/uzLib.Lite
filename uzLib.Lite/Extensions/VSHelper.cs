@@ -1,9 +1,14 @@
-﻿using Onion.SolutionParser.Parser;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using Onion.SolutionParser.Parser;
 using Onion.SolutionParser.Parser.Model;
+using System.Linq;
+
+#endif
+
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
@@ -16,6 +21,8 @@ namespace uzLib.Lite.Extensions
     /// </summary>
     public static class VSHelper
     {
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Gets the start name of up project.
         /// </summary>
@@ -69,6 +76,8 @@ namespace uzLib.Lite.Extensions
 
             return solution.Projects.FirstOrDefault(p => p.Guid == startupGuid);
         }
+
+#endif
 
         private static string GetProjectNameFromGuid(FileInfo solutionFile, string guid)
         {

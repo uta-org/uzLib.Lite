@@ -1,4 +1,5 @@
-﻿using Microsoft.Build.Evaluation;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using Microsoft.Build.Evaluation;
 using System.Linq;
 
 namespace uzLib.Lite.Extensions
@@ -28,3 +29,5 @@ namespace uzLib.Lite.Extensions
         }
     }
 }
+
+#endif

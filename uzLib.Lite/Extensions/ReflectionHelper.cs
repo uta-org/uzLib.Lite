@@ -4,17 +4,17 @@ using System.Linq;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
+using Console = Colorful.Console;
 using System.Drawing;
 
 #else
 
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 #endif
 
 using System.Reflection;
-
-using Console = Colorful.Console;
 
 namespace uzLib.Lite.Extensions
 {

@@ -1,4 +1,7 @@
-﻿using Ionic.Zip;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using Ionic.Zip;
+#endif
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +9,10 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using uzLib.Lite.ExternalCode.Extensions;
+
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
+#endif
 
 namespace uzLib.Lite.Extensions
 {
@@ -15,6 +21,8 @@ namespace uzLib.Lite.Extensions
     /// </summary>
     public static class CompressionHelper
     {
+#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Zips the specified source.
         /// </summary>
@@ -65,6 +73,8 @@ namespace uzLib.Lite.Extensions
             using (ZipFile zipFile = ZipFile.Read(source))
                 zipFile.ExtractAll(destination, ExtractExistingFileAction.OverwriteSilently);
         }
+
+#endif
 
         /// <summary>
         /// Gets the name of the clean folder.

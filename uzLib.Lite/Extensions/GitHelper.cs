@@ -1,4 +1,6 @@
-﻿using LibGit2Sharp;
+﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using LibGit2Sharp;
 using System.IO;
 
 namespace uzLib.Lite.Extensions
@@ -49,3 +51,5 @@ namespace uzLib.Lite.Extensions
         }
     }
 }
+
+#endif
