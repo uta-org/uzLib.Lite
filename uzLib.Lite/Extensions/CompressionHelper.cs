@@ -2,13 +2,11 @@
 using Ionic.Zip;
 #endif
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
-using uzLib.Lite.ExternalCode.Extensions;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 using CompressionLevel = Ionic.Zlib.CompressionLevel;

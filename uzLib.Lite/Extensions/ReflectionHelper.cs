@@ -9,7 +9,6 @@ using System.Drawing;
 
 #else
 
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 #endif

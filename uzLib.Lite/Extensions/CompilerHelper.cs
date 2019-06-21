@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
@@ -16,8 +15,6 @@ using Console = Colorful.Console;
 using UnityEngine;
 
 #endif
-
-using System.IO;
 
 namespace uzLib.Lite.Extensions
 {
