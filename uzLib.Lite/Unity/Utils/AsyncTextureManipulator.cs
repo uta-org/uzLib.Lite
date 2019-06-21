@@ -8,18 +8,17 @@ namespace UnityEngine.Utils
 {
     using Core;
     using Extensions;
-    using Rendering;
 
     // TODO: Create ASM Definitions for this
-    //#if UNITY_2018_3_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
 
-    //    using Rendering;
+        using Rendering;
 
-    //#else
+#else
 
-    //    using Rendering.Experimental;
+    using Rendering.Experimental;
 
-    //#endif
+#endif
 
     // TODO: Re3search if Sprite.Create can be async
     // If not search for a method that crops textures using Color[] and NativeArray<Color>
