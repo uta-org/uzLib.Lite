@@ -595,6 +595,11 @@
     <Compile Include="Plugins\SymLinker\Linker.cs" />
     <Compile Include="Shells\StaticShell.cs" />
     <Compile Include="Unity\UI\Controls\ComboBox.cs" />
+    <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabel.cs" />
+    <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabelTest.cs" />
+    <Compile Include="Unity\UI\Controls\FormattedLabel\GuiHelperDrawLine.cs" />
+    <Compile Include="Unity\UI\Controls\FormattedLabel\HexUtil.cs" />
+    <Compile Include="Unity\UI\Controls\FormattedLabel\IHyperlinkCallback.cs" />
     <Compile Include="Unity\UI\DockWindow.cs" />
     <Compile Include="Unity\UI\FileBrowser.cs" />
     <Compile Include="Unity\UI\Interfaces\Enums.cs" />
