@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
@@ -7,6 +8,9 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
 
     private const int MOUSE_WINDOW_ID = 1;
 
+    // The text to render in a series of formatted labels
+    private FormattedLabel _formattedLabelText;
+
     // The texture for the mouse cursor
     private Texture2D _mouseCursorTexture;
 
@@ -14,12 +18,9 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
     public Texture2D _mouseCursorTextureLink;
 
     // Used in the GUI to select the mouse cursor
-    private int _selectedText = 0;
+    private int _selectedText;
 
-    private string[] _textLabels = System.Enum.GetNames(typeof(FormattedLabel.TestText));
-
-    // The text to render in a series of formatted labels
-    private FormattedLabel _formattedLabelText = null;
+    private readonly string[] _textLabels = Enum.GetNames(typeof(FormattedLabel.TestText));
 
     // The position and dimension of the window to draw the text
     private Rect _windowPosition = new Rect(100, 60, 300, 200);
@@ -30,13 +31,9 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
         // then load this texture (must exist within Resources\Images\MouseCursor
         // in Unity Editor's Project
         if (_mouseCursorTextureArrow == null)
-        {
             _mouseCursorTextureArrow = (Texture2D)Resources.Load("Images/MouseCursor/Arrow");
-        }
         if (_mouseCursorTextureLink == null)
-        {
             _mouseCursorTextureLink = (Texture2D)Resources.Load("Images/MouseCursor/Link");
-        }
         _mouseCursorTexture = _mouseCursorTextureArrow;
         Cursor.visible = false;
     }
@@ -47,10 +44,10 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
         GUILayout.BeginArea(new Rect(0, 0, Screen.width, 50));
         GUILayout.BeginHorizontal();
         GUILayout.Label("Text:");
-        int selectedText = GUILayout.SelectionGrid(
-                        _selectedText,
-                        _textLabels,
-                        _textLabels.Length);
+        var selectedText = GUILayout.SelectionGrid(
+            _selectedText,
+            _textLabels,
+            _textLabels.Length);
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
         GUILayout.EndArea();
@@ -59,31 +56,31 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
         if (selectedText != _selectedText || _formattedLabelText == null)
         {
             _selectedText = selectedText;
-            FormattedLabel.TestText testText = (FormattedLabel.TestText)
-                    System.Enum.Parse(typeof(FormattedLabel.TestText),
-                                      _textLabels[_selectedText]);
-            string textToFormat = FormattedLabel.GetTestText(testText);
+            var testText = (FormattedLabel.TestText)
+                Enum.Parse(typeof(FormattedLabel.TestText),
+                    _textLabels[_selectedText]);
+            var textToFormat = FormattedLabel.GetTestText(testText);
             _formattedLabelText = new FormattedLabel(_windowPosition.width,
-                                                     textToFormat);
+                textToFormat);
             _formattedLabelText.setHyperlinkCallback(this);
         }
 
         // Draw the formatted text
         _windowPosition = GUILayout.Window(WINDOW_ID,
-                                           _windowPosition,
-                                           CreateFormattedLabelWindow,
-                                           "Formatted Label");
+            _windowPosition,
+            CreateFormattedLabelWindow,
+            "Formatted Label");
 
         // Position and draw the mouse cursor
-        Rect mousePosition = new Rect(Input.mousePosition.x,
-                                      Screen.height - Input.mousePosition.y,
-                                      _mouseCursorTexture.width,
-                                      _mouseCursorTexture.height);
+        var mousePosition = new Rect(Input.mousePosition.x,
+            Screen.height - Input.mousePosition.y,
+            _mouseCursorTexture.width,
+            _mouseCursorTexture.height);
         GUI.Window(MOUSE_WINDOW_ID, mousePosition, CreateMouseCursorWindow, _mouseCursorTexture, "");
     }
 
     /// <summary>
-    /// Create a window to display the formatted label
+    ///     Create a window to display the formatted label
     /// </summary>
     /// <param name="windowID">The ID of the window</param>
     private void CreateFormattedLabelWindow(int windowID)
@@ -92,7 +89,7 @@ public class FormattedLabelTest : MonoBehaviour, IHyperlinkCallback
     }
 
     /// <summary>
-    /// Create a window to draw the mouse cursor
+    ///     Create a window to draw the mouse cursor
     /// </summary>
     /// <param name="windowID">The ID of the window</param>
     private void CreateMouseCursorWindow(int windowID)
