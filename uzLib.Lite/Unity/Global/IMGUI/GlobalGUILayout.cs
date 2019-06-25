@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Core;
 using UnityEngine.Extensions;
+using UnityEngine.ExternalCode.Extensions;
 using UnityEngine.UI;
 using UnityGif;
 using uzLib.Lite.Core;

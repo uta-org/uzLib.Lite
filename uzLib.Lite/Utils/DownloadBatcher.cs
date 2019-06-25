@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Extensions;
+using UnityEngine.ExternalCode.Extensions;
 using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
 using UnityEngine.Utils.DebugTools;

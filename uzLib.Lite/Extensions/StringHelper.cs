@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -214,6 +215,17 @@ namespace uzLib.Lite.Extensions
             var startingIndex = Mathf.RoundToInt(str.Length / 2);
 
             return $"{str.Substring(0, splitLength - startingIndex)}...{str.Substring(splitLength + startingIndex)}";
+        }
+
+        /// <summary>
+        /// Gets the links.
+        /// </summary>
+        /// <param name="rawString">The raw string.</param>
+        /// <returns></returns>
+        public static IEnumerable<Match> GetLinks(this string rawString)
+        {
+            var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return linkParser.Matches(rawString).Cast<Match>();
         }
     }
 }
