@@ -46,7 +46,7 @@ namespace UnityEngine.UI.Controls
     ///                             mailto:skmummaw@gmail.com / mailto:admin@zerokelvingames.com
     ///                             http://www.zerokelvingames.com
     /// </summary>
-    internal class FormattedLabel : IHyperlinkCallback
+    public class FormattedLabel : IHyperlinkCallback
     {
         /// <summary>
         ///     Define the test texts available
@@ -71,8 +71,18 @@ namespace UnityEngine.UI.Controls
         private IHyperlinkCallback _hyperlinkCallback;
         private string _lastTooltip = "";
         private float _lineHeight;
-        private readonly List<string> _lines;
+        private List<string> _lines;
         private VerticalAlignment _verticalAlignment = VerticalAlignment.Default;
+        private float width;
+
+        public string Text
+        {
+            set
+            {
+                var textFormatter = new TextFormatter(width, value);
+                _lines = textFormatter.getLines();
+            }
+        }
 
         /// <summary>
         ///     Format the commands wihtin the specified text such that they
@@ -82,6 +92,8 @@ namespace UnityEngine.UI.Controls
         /// <param name="text">The text to parse</param>
         public FormattedLabel(float width, string text)
         {
+            this.width = width;
+
             var textFormatter = new TextFormatter(width, text);
             _lines = textFormatter.getLines();
         }
