@@ -1,6 +1,11 @@
-public interface IHyperlinkCallback
+namespace UnityEngine.UI.Controls
 {
-    void onHyperlinkEnter(string hyperlink);
-    void onHyperLinkActivated(string hyperlink);
-    void onHyperlinkLeave(string hyperlink);
+    public interface IHyperlinkCallback
+    {
+        void onHyperlinkEnter(string hyperlink);
+
+        void onHyperLinkActivated(string hyperlink);
+
+        void onHyperlinkLeave(string hyperlink);
+    }
 }
