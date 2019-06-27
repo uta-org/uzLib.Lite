@@ -578,6 +578,11 @@
     <Compile Include="Extensions\TypeHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
     <Compile Include="Extensions\VSHelper.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Unity\Extensions\RectHelper.cs" />
     <Compile Include="Unity\Global\GlobalIdentifier.cs" />
     <Compile Include="Unity\Global\GlobalInput.cs" />
@@ -620,6 +625,11 @@
     <Compile Include="Unity\Extensions\ObjectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
+    <Compile Include="Unity\Utils\ColorNames\ColorEntity.cs" />
+    <Compile Include="Unity\Utils\ColorNames\ColorEntityExtensions.cs" />
+    <Compile Include="Unity\Utils\ColorNames\ColorNames.cs" />
+    <Compile Include="Unity\Utils\ColorNames\NamedColor.cs" />
+    <Compile Include="Unity\Utils\ColorNames\NamedColor_Partial.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
@@ -638,6 +648,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Resources\ColorNames.json" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\uzLib.Lite.ExternalCode\uzLib.Lite.ExternalCode.csproj">
@@ -654,6 +665,12 @@
       <HintPath>..\..\..\..\UNITY\Unity Projects\UniGif\UniGif.VisualStudio\UniGif.VisualStudio.UnityEditor\bin\Tests\UniGif.VisualStudio.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

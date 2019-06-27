@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Utils;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.UI.Controls
 {
@@ -67,6 +70,8 @@ namespace UnityEngine.UI.Controls
         private Color _defaultColor;
         private bool _fontStrikethrough;
         private bool _fontUnderline;
+        private Color _fontUnderlineColor;
+        private Color _fontStrikeColor;
         private string _hoveredHyperlinkId = "";
         private IHyperlinkCallback _hyperlinkCallback;
         private string _lastTooltip = "";
@@ -199,7 +204,11 @@ namespace UnityEngine.UI.Controls
                     {
                         commandEnd = line.IndexOf(']', commandStart);
                         textStart = commandEnd + 1;
-                        commandParts = line.Substring(commandStart + 1, commandEnd - commandStart - 1).Split(' ');
+                        commandParts = line
+                            .Substring(commandStart + 1, commandEnd - commandStart - 1)
+                            .ToUpperInvariant()
+                            .Split(' ');
+
                         switch (commandParts[0])
                         {
                             case "BC": // BackColor
@@ -241,12 +250,24 @@ namespace UnityEngine.UI.Controls
                                 break;
 
                             case "FA": // Font Attribute
-                                if (commandParts[1] == "U")
+                                if (commandParts[1][0] == 'U')
+                                {
                                     _fontUnderline = true;
+
+                                    var fontParamSplit = commandParts[1].Split('=');
+                                    if (fontParamSplit.Length == 2)
+                                        _fontUnderlineColor = GetColor(fontParamSplit[1]);
+                                }
                                 else if (commandParts[1] == "-U")
                                     _fontUnderline = false;
-                                else if (commandParts[1] == "S")
+                                else if (commandParts[1][0] == 'S')
+                                {
                                     _fontStrikethrough = true;
+
+                                    var fontParamSplit = commandParts[1].Split('=');
+                                    if (fontParamSplit.Length == 2)
+                                        _fontStrikeColor = GetColor(fontParamSplit[1]);
+                                }
                                 else if (commandParts[1] == "-S")
                                     _fontStrikethrough = false;
                                 break;
@@ -332,6 +353,23 @@ namespace UnityEngine.UI.Controls
             handleHyperlink();
         }
 
+        private static Color GetColor(string hexOrColorName)
+        {
+            if(hexOrColorName[0] == '#' || hexOrColorName.IsHex())
+            {
+                string hex = hexOrColorName[0] == '#' 
+                    ? hexOrColorName.Substring(1) 
+                    : hexOrColorName;
+
+                return hex.ToColor();
+            }
+
+            if (hexOrColorName.IsColorAvailable(out Color color))
+                return color;
+
+            throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
+        }
+
         /// <summary>
         ///     Tooltips can be used to implement an OnMouseOver / OnMouseOut messaging system.
         ///     http://unity3d.com/support/documentation/ScriptReference/GUI-tooltip.html
@@ -406,7 +444,9 @@ namespace UnityEngine.UI.Controls
                 {
                     var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight);
                     var to = new Vector2(from.x + lastRect.width, from.y);
-                    GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
+                    GuiHelper.DrawLine(from, to, _fontUnderlineColor == default 
+                        ? guiStyle.normal.textColor 
+                        : _fontUnderlineColor);
                 }
 
                 if (_fontStrikethrough)
@@ -414,7 +454,9 @@ namespace UnityEngine.UI.Controls
                     var from = new Vector2(lastRect.x,
                         lastRect.yMin - fillerHeight + _lineHeight - _lineHeight / 2f);
                     var to = new Vector2(from.x + lastRect.width, from.y);
-                    GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
+                    GuiHelper.DrawLine(from, to, _fontStrikeColor == default 
+                        ? guiStyle.normal.textColor 
+                        : _fontStrikeColor);
                 }
             }
         }

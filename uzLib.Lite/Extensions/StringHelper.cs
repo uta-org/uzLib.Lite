@@ -227,5 +227,25 @@ namespace uzLib.Lite.Extensions
             var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return linkParser.Matches(rawString).Cast<Match>();
         }
+
+        /// <summary>
+        /// Determines whether this instance is hexadecimal.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified input is hexadecimal; otherwise, <c>false</c>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">input</exception>
+        public static bool IsHex(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                throw new ArgumentNullException(nameof(input));
+
+            IEnumerable<char> hexString = input.ToCharArray();
+            return hexString.Select(currentCharacter =>
+                (currentCharacter >= '0' && currentCharacter <= '9') ||
+                (currentCharacter >= 'a' && currentCharacter <= 'f') ||
+                (currentCharacter >= 'A' && currentCharacter <= 'F')).All(isHexCharacter => isHexCharacter);
+        }
     }
 }
