@@ -73,15 +73,20 @@ namespace UnityEngine.UI.Controls
         private float _lineHeight;
         private List<string> _lines;
         private VerticalAlignment _verticalAlignment = VerticalAlignment.Default;
-        private float width;
+
+        public float Width { get; set; }
 
         public string Text
         {
             set
             {
-                var textFormatter = new TextFormatter(width, value);
+                var textFormatter = new TextFormatter(Width, value);
                 _lines = textFormatter.getLines();
             }
+        }
+
+        public FormattedLabel()
+        {
         }
 
         /// <summary>
@@ -92,7 +97,7 @@ namespace UnityEngine.UI.Controls
         /// <param name="text">The text to parse</param>
         public FormattedLabel(float width, string text)
         {
-            this.width = width;
+            Width = width;
 
             var textFormatter = new TextFormatter(width, text);
             _lines = textFormatter.getLines();
@@ -125,7 +130,7 @@ namespace UnityEngine.UI.Controls
         /// <summary>
         ///     Draw the formatted text onto the screen
         /// </summary>
-        public void draw(GUIStyle guiStyleToCopy, string stringStyleIn)
+        public void draw(GUIStyle guiStyleToCopy, string stringStyleIn, bool cloneStyle = true)
         {
             int textStart, commandStart, commandEnd;
             string[] commandParts;
@@ -134,7 +139,9 @@ namespace UnityEngine.UI.Controls
 
             GUILayout.BeginVertical();
             GUILayout.BeginHorizontal();
-            var guiStyle = new GUIStyle();
+            var guiStyle = cloneStyle
+                ? new GUIStyle(guiStyleToCopy)
+                : new GUIStyle();
             guiStyle.normal.textColor = GUI.skin.GetStyle(searchStyle).normal.textColor;
             guiStyle.font = GUI.skin.font;
 
@@ -373,6 +380,7 @@ namespace UnityEngine.UI.Controls
             Rect lastRect;
             float fillerHeight;
             var content = new GUIContent(text, _createHyperlinkId);
+
             if (_verticalAlignment == VerticalAlignment.Bottom)
             {
                 fillerHeight = _lineHeight
