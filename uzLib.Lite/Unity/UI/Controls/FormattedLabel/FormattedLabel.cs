@@ -443,15 +443,6 @@ namespace UnityEngine.UI.Controls
                     return default;
                 };
 
-                //if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
-                //{
-                //    m_ColorCache.Add(hexOrColorName, color);
-                //    return color;
-                //}
-
-                //if (m_ColorCache.ContainsKey(hexOrColorName))
-                //    return m_ColorCache[hexOrColorName];
-
                 var simpleColor = getColorNameSimple(hexOrColorName);
 
                 if (simpleColor == default)
@@ -460,11 +451,9 @@ namespace UnityEngine.UI.Controls
                     if (complexColor == default)
                         throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
 
-                    //m_ColorCache.Add(hexOrColorName, complexColor);
                     return complexColor;
                 }
 
-                //m_ColorCache.Add(hexOrColorName, simpleColor);
                 return simpleColor;
             };
 
