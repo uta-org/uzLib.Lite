@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.Utils
 {
@@ -34,6 +35,19 @@ namespace UnityEngine.Utils
             return hex.ToUpperInvariant();
         }
 
+        public static uint ToUInt(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                throw new ArgumentNullException(nameof(input));
+
+            string pseudoHex = input.SanitizeHex();
+
+            if (!pseudoHex.IsHex())
+                throw new ArgumentException("Is not hex!", nameof(input));
+
+            return uint.Parse(pseudoHex);
+        }
+
         public static Color ToColor(this string hex)
         {
             if (!uint.TryParse(hex.SanitizeHex(), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out uint value))
@@ -48,6 +62,11 @@ namespace UnityEngine.Utils
             byte B = (byte)((value >> ARGBBlueShift) & 0xFF);
 
             return new Color32(R, G, B, A);
+        }
+
+        public static uint ToUInt(this _Color c)
+        {
+            return (uint)(((c.A << 24) | (c.R << 16) | (c.G << 8) | c.B) & 0xffffffffL);
         }
 
         public static Color ToColor(this uint value)

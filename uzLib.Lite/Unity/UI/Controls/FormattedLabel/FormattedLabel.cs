@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SysDrawing::System.Drawing;
 using UnityEngine;
+using UnityEngine.Extensions;
 using UnityEngine.Utils;
 using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
@@ -392,7 +393,7 @@ namespace UnityEngine.UI.Controls
 
         private static Color GetColor(string hexOrColorName)
         {
-            Func<Color> getColor = () =>
+            Func<uint> getColor = () =>
             {
                 if (hexOrColorName[0] == '#' || hexOrColorName.IsHex())
                 {
@@ -400,10 +401,10 @@ namespace UnityEngine.UI.Controls
                         ? hexOrColorName.Substring(1)
                         : hexOrColorName;
 
-                    return hex.ToColor();
+                    return hex.ToUInt();
                 }
 
-                Func<string, Color> getColorNameSimple = colorName =>
+                Func<string, uint> getColorNameSimple = colorName =>
                 {
                     var knownColors = Enum.GetValues(typeof(KnownColor))
                         .Cast<KnownColor>()
@@ -413,7 +414,7 @@ namespace UnityEngine.UI.Controls
                     if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
                     {
                         var sysColor = SysDrawing::System.Drawing.Color.FromKnownColor(parsedColor);
-                        return sysColor.ToColor();
+                        return sysColor.ToUInt();
                     }
 
                     if (hexOrColorName.FindNearestString(knownColors) == colorName)
@@ -422,34 +423,34 @@ namespace UnityEngine.UI.Controls
                             SysDrawing::System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
                                 hexOrColorName, true));
 
-                        return sysColor.ToColor();
+                        return sysColor.ToUInt();
                     }
 
                     return default;
                 };
 
-                Func<string, Color> getColorNameComplex = colorName =>
+                Func<string, uint> getColorNameComplex = colorName =>
                 {
                     if (Enum.TryParse(colorName, true, out ColorNames parsedColor))
-                        return ColorEntity.m_Entities[parsedColor].Hex.ToColor();
+                        return ColorEntity.m_Entities[parsedColor].Hex.ToUInt();
 
                     if (hexOrColorName.FindNearestString(ColorEntity.ColorNames) == colorName)
                     {
                         ColorNames colorNameValue = (ColorNames)Enum.Parse(typeof(ColorNames), colorName, true);
-                        return ColorEntity.m_Entities[colorNameValue].Hex.ToColor();
+                        return ColorEntity.m_Entities[colorNameValue].Hex.ToUInt();
                     }
 
                     return default;
                 };
 
-                if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
-                {
-                    m_ColorCache.Add(hexOrColorName, color);
-                    return color;
-                }
+                //if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
+                //{
+                //    m_ColorCache.Add(hexOrColorName, color);
+                //    return color;
+                //}
 
-                if (m_ColorCache.ContainsKey(hexOrColorName))
-                    return m_ColorCache[hexOrColorName];
+                //if (m_ColorCache.ContainsKey(hexOrColorName))
+                //    return m_ColorCache[hexOrColorName];
 
                 var simpleColor = getColorNameSimple(hexOrColorName);
 
@@ -459,11 +460,11 @@ namespace UnityEngine.UI.Controls
                     if (complexColor == default)
                         throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
 
-                    m_ColorCache.Add(hexOrColorName, complexColor);
+                    //m_ColorCache.Add(hexOrColorName, complexColor);
                     return complexColor;
                 }
 
-                m_ColorCache.Add(hexOrColorName, simpleColor);
+                //m_ColorCache.Add(hexOrColorName, simpleColor);
                 return simpleColor;
             };
 
@@ -475,12 +476,10 @@ namespace UnityEngine.UI.Controls
 
             m_PendingColors.Add(hexOrColorName);
 
-            Task.Factory.StartNew(() =>
+            getColor.RunAsyncCatchingExceptions(processedColor =>
             {
-                var processedColor = getColor();
-
                 m_ProcessedColors.Add(hexOrColorName);
-                m_ColorCache.AddOnce(hexOrColorName, processedColor);
+                m_ColorCache.AddOnce(hexOrColorName, processedColor.ToColor());
             });
 
             return Color.white;
