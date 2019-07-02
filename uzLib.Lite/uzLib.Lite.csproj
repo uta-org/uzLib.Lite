@@ -625,11 +625,11 @@
     <Compile Include="Unity\Extensions\ObjectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
-    <Compile Include="Unity\Utils\ColorNames\ColorEntity.cs" />
-    <Compile Include="Unity\Utils\ColorNames\ColorEntityExtensions.cs" />
-    <Compile Include="Unity\Utils\ColorNames\ColorNames.cs" />
-    <Compile Include="Unity\Utils\ColorNames\NamedColor.cs" />
-    <Compile Include="Unity\Utils\ColorNames\NamedColor_Partial.cs" />
+    <Compile Include="Unity\Utils\ColorUtils\ColorEntity.cs" />
+    <Compile Include="Unity\Utils\ColorUtils\ColorEntityExtensions.cs" />
+    <Compile Include="Unity\Utils\ColorUtils\ColorNames.cs" />
+    <Compile Include="Unity\Utils\ColorUtils\NamedColor.cs" />
+    <Compile Include="Unity\Utils\ColorUtils\NamedColor_Partial.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />

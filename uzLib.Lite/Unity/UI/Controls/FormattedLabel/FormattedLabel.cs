@@ -1,9 +1,14 @@
+extern alias SysDrawing;
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using SysDrawing::System.Drawing;
 using UnityEngine;
 using UnityEngine.Utils;
 using uzLib.Lite.Extensions;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.UI.Controls
 {
@@ -70,24 +75,34 @@ namespace UnityEngine.UI.Controls
         private Color _defaultColor;
         private bool _fontStrikethrough;
         private bool _fontUnderline;
-        private Color _fontUnderlineColor;
-        private Color _fontStrikeColor;
+
+        //private Color _fontUnderlineColor;
+        //private Color _fontStrikeColor;
         private string _hoveredHyperlinkId = "";
+
         private IHyperlinkCallback _hyperlinkCallback;
         private string _lastTooltip = "";
         private float _lineHeight;
         private List<string> _lines;
         private VerticalAlignment _verticalAlignment = VerticalAlignment.Default;
 
-        public float Width { get; set; }
+        private float _width;
+
+        public float Width
+        {
+            get => _width;
+            set { _width = value; Debug.Log($"Setted width: {_width}"); }
+        }
 
         public string Text
         {
-            set
-            {
-                var textFormatter = new TextFormatter(Width, value);
-                _lines = textFormatter.getLines();
-            }
+            set => SetLines(value);
+        }
+
+        private void SetLines(string text)
+        {
+            var textFormatter = new TextFormatter(Width, text);
+            _lines = textFormatter.getLines();
         }
 
         public FormattedLabel()
@@ -104,8 +119,7 @@ namespace UnityEngine.UI.Controls
         {
             Width = width;
 
-            var textFormatter = new TextFormatter(width, text);
-            _lines = textFormatter.getLines();
+            SetLines(text);
         }
 
         /// <summary>
@@ -250,13 +264,18 @@ namespace UnityEngine.UI.Controls
                                 break;
 
                             case "FA": // Font Attribute
+                                Debug.Log($"Font attribute found: (List: {string.Join(", ", commandParts)})");
+
                                 if (commandParts[1][0] == 'U')
                                 {
                                     _fontUnderline = true;
 
                                     var fontParamSplit = commandParts[1].Split('=');
                                     if (fontParamSplit.Length == 2)
-                                        _fontUnderlineColor = GetColor(fontParamSplit[1]);
+                                    {
+                                        guiStyle.normal.textColor = GetColor(fontParamSplit[1]);
+                                        Debug.Log($"Found color: {guiStyle.normal.textColor}");
+                                    }
                                 }
                                 else if (commandParts[1] == "-U")
                                     _fontUnderline = false;
@@ -266,7 +285,9 @@ namespace UnityEngine.UI.Controls
 
                                     var fontParamSplit = commandParts[1].Split('=');
                                     if (fontParamSplit.Length == 2)
-                                        _fontStrikeColor = GetColor(fontParamSplit[1]);
+                                    {
+                                        guiStyle.normal.textColor = GetColor(fontParamSplit[1]);
+                                    }
                                 }
                                 else if (commandParts[1] == "-S")
                                     _fontStrikethrough = false;
@@ -353,21 +374,82 @@ namespace UnityEngine.UI.Controls
             handleHyperlink();
         }
 
+        private static Dictionary<string, Color> m_ColorCache
+            = new Dictionary<string, Color>();
+
         private static Color GetColor(string hexOrColorName)
         {
-            if(hexOrColorName[0] == '#' || hexOrColorName.IsHex())
+            if (hexOrColorName[0] == '#' || hexOrColorName.IsHex())
             {
-                string hex = hexOrColorName[0] == '#' 
-                    ? hexOrColorName.Substring(1) 
+                string hex = hexOrColorName[0] == '#'
+                    ? hexOrColorName.Substring(1)
                     : hexOrColorName;
 
                 return hex.ToColor();
             }
 
-            if (hexOrColorName.IsColorAvailable(out Color color))
-                return color;
+            Func<string, Color> getColorNameSimple = colorName =>
+            {
+                var knownColors = Enum.GetValues(typeof(KnownColor))
+                    .Cast<KnownColor>()
+                    .Select(kc => kc.ToString())
+                    .ToList();
 
-            throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
+                if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
+                {
+                    var sysColor = SysDrawing::System.Drawing.Color.FromKnownColor(parsedColor);
+                    return sysColor.ToColor();
+                }
+
+                if (hexOrColorName.FindNearestString(knownColors) == colorName)
+                {
+                    var sysColor =
+                        SysDrawing::System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
+                            hexOrColorName, true));
+
+                    return sysColor.ToColor();
+                }
+
+                return default;
+            };
+
+            Func<string, Color> getColorNameComplex = colorName =>
+            {
+                if (Enum.TryParse(colorName, true, out ColorNames parsedColor))
+                    return ColorEntity.m_Entities[parsedColor].Hex.ToColor();
+
+                if (hexOrColorName.FindNearestString(ColorEntity.ColorNames) == colorName)
+                {
+                    ColorNames colorNameValue = (ColorNames)Enum.Parse(typeof(ColorNames), colorName, true);
+                    return ColorEntity.m_Entities[colorNameValue].Hex.ToColor();
+                }
+
+                return default;
+            };
+
+            if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
+            {
+                m_ColorCache.Add(hexOrColorName, color);
+                return color;
+            }
+
+            if (m_ColorCache.ContainsKey(hexOrColorName))
+                return m_ColorCache[hexOrColorName];
+
+            var simpleColor = getColorNameSimple(hexOrColorName);
+
+            if (simpleColor == default)
+            {
+                var complexColor = getColorNameComplex(hexOrColorName);
+                if (complexColor == default)
+                    throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
+
+                m_ColorCache.Add(hexOrColorName, complexColor);
+                return complexColor;
+            }
+
+            m_ColorCache.Add(hexOrColorName, simpleColor);
+            return simpleColor;
         }
 
         /// <summary>
@@ -444,9 +526,7 @@ namespace UnityEngine.UI.Controls
                 {
                     var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight);
                     var to = new Vector2(from.x + lastRect.width, from.y);
-                    GuiHelper.DrawLine(from, to, _fontUnderlineColor == default 
-                        ? guiStyle.normal.textColor 
-                        : _fontUnderlineColor);
+                    GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
 
                 if (_fontStrikethrough)
@@ -454,9 +534,7 @@ namespace UnityEngine.UI.Controls
                     var from = new Vector2(lastRect.x,
                         lastRect.yMin - fillerHeight + _lineHeight - _lineHeight / 2f);
                     var to = new Vector2(from.x + lastRect.width, from.y);
-                    GuiHelper.DrawLine(from, to, _fontStrikeColor == default 
-                        ? guiStyle.normal.textColor 
-                        : _fontStrikeColor);
+                    GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
             }
         }
@@ -794,12 +872,23 @@ namespace UnityEngine.UI.Controls
                                 if (commandList.Length > commandIndex + 1)
                                 {
                                     commandIndex++;
-                                    var attribute = commandList[commandIndex].ToUpper();
+
+                                    string origAttr = commandList[commandIndex].ToUpperInvariant();
+                                    string color = origAttr.Contains("=")
+                                        ? origAttr.Split("=".ToCharArray())[1]
+                                        : string.Empty;
+
+                                    string attribute = origAttr.StartsWith("-")
+                                        ? origAttr.Substring(0, 2)
+                                        : origAttr.Substring(0, 1);
+
                                     switch (attribute)
                                     {
                                         case "U":
                                         case "UNDERLINE":
-                                            attribute = "U";
+                                            attribute = string.IsNullOrEmpty(color)
+                                                ? "U"
+                                                : $"U={color}";
                                             break;
 
                                         case "-U":
@@ -809,7 +898,9 @@ namespace UnityEngine.UI.Controls
 
                                         case "S":
                                         case "STRIKETHROUGH":
-                                            attribute = "S";
+                                            attribute = string.IsNullOrEmpty(color)
+                                                ? "S"
+                                                : $"S={color}";
                                             break;
 
                                         case "-S":
@@ -818,9 +909,10 @@ namespace UnityEngine.UI.Controls
                                             break;
 
                                         default:
-                                            attribute = "";
                                             Debug.LogError(
-                                                "The 'font attribute' command requires a font parameter of U (underline on), -U (underline off), S (strikethrough on) or -S (strikethrough off).");
+                                                "The 'font attribute' command requires a font parameter of U (underline on), -U (underline off), S (strikethrough on) or -S (strikethrough off). " +
+                                                $"(Attribute found = '{attribute}')");
+                                            attribute = "";
                                             break;
                                     }
 
@@ -830,7 +922,8 @@ namespace UnityEngine.UI.Controls
                                 else
                                 {
                                     Debug.LogError(
-                                        "The 'font attribute' command requires a font parameter of U (underline on), -U (underline off), S (strikethrough on) or -S (strikethrough off).");
+                                        "The 'font attribute' command requires a font parameter of U (underline on), -U (underline off), S (strikethrough on) or -S (strikethrough off). " +
+                                        $"(CommandList = [{(commandList.Length > 0 ? string.Join(", ", commandList) : "Null")} ({commandList.Length})] || CommandIndex = {commandIndex})");
                                 }
                             }
                             else if (command == "FS" || command == "FONTSIZE")

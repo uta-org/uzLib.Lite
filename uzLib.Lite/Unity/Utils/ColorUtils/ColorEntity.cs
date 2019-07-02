@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace UnityEngine.Utils
@@ -8,6 +9,8 @@ namespace UnityEngine.Utils
     {
         internal static Dictionary<ColorNames, ColorEntity> m_Entities;
 
+        public static List<string> ColorNames { get; }
+
         static ColorEntity()
         {
             if (m_Entities == null)
@@ -15,6 +18,8 @@ namespace UnityEngine.Utils
                 m_Entities =
                     JsonConvert.DeserializeObject<Dictionary<ColorNames, ColorEntity>>(
                         Encoding.Default.GetString(uzLib.Lite.Properties.Resources.ColorNames));
+
+                ColorNames = m_Entities.Select(entity => entity.Value.Name).ToList();
             }
         }
 
