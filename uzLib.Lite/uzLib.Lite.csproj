@@ -640,6 +640,7 @@
     <Compile Include="Utils\Interfaces\IDownloadItem.cs" />
     <Compile Include="Utils\NetRequester.cs" />
     <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
+    <Compile Include="Utils\SpecializedCollections\ConcurrentHashSet.cs" />
     <Compile Include="Utils\Threading\NamedHandler.cs" />
     <Compile Include="Utils\Threading\ThreadMarker.cs" />
     <Compile Include="Unity\Utils\Timer.cs" />

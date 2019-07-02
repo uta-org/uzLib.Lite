@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using SysDrawing::System.Drawing;
 using UnityEngine;
 using UnityEngine.Utils;
 using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.Utils.SpecializedCollections;
 
 namespace UnityEngine.UI.Controls
 {
@@ -94,17 +96,22 @@ namespace UnityEngine.UI.Controls
             set { _width = value; Debug.Log($"Setted width: {_width}"); }
         }
 
+        public VerticalAlignment VAlignment => _verticalAlignment;
+
         public string Text
         {
-            set => SetLines(value);
+            set => SetLines(value, 0);
         }
 
-        private void SetLines(string text)
+        private void SetLines(string text, float lineHeight)
         {
             var textFormatter = new TextFormatter(Width, text);
             _lines = textFormatter.getLines();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormattedLabel"/> class.
+        /// </summary>
         public FormattedLabel()
         {
         }
@@ -115,11 +122,11 @@ namespace UnityEngine.UI.Controls
         /// </summary>
         /// <param name="width">The width at which to wrap text to new lines</param>
         /// <param name="text">The text to parse</param>
-        public FormattedLabel(float width, string text)
+        public FormattedLabel(float width, string text, float lineHeight = 0)
         {
             Width = width;
 
-            SetLines(text);
+            SetLines(text, lineHeight);
         }
 
         /// <summary>
@@ -264,7 +271,7 @@ namespace UnityEngine.UI.Controls
                                 break;
 
                             case "FA": // Font Attribute
-                                Debug.Log($"Font attribute found: (List: {string.Join(", ", commandParts)})");
+                                // Debug.Log($"Font attribute found: (List: {string.Join(", ", commandParts)})");
 
                                 if (commandParts[1][0] == 'U')
                                 {
@@ -274,7 +281,7 @@ namespace UnityEngine.UI.Controls
                                     if (fontParamSplit.Length == 2)
                                     {
                                         guiStyle.normal.textColor = GetColor(fontParamSplit[1]);
-                                        Debug.Log($"Found color: {guiStyle.normal.textColor}");
+                                        // Debug.Log($"Found color: {guiStyle.normal.textColor}");
                                     }
                                 }
                                 else if (commandParts[1] == "-U")
@@ -377,79 +384,106 @@ namespace UnityEngine.UI.Controls
         private static Dictionary<string, Color> m_ColorCache
             = new Dictionary<string, Color>();
 
+        private static ConcurrentHashSet<string> m_PendingColors
+            = new ConcurrentHashSet<string>();
+
+        private static ConcurrentHashSet<string> m_ProcessedColors
+            = new ConcurrentHashSet<string>();
+
         private static Color GetColor(string hexOrColorName)
         {
-            if (hexOrColorName[0] == '#' || hexOrColorName.IsHex())
+            Func<Color> getColor = () =>
             {
-                string hex = hexOrColorName[0] == '#'
-                    ? hexOrColorName.Substring(1)
-                    : hexOrColorName;
-
-                return hex.ToColor();
-            }
-
-            Func<string, Color> getColorNameSimple = colorName =>
-            {
-                var knownColors = Enum.GetValues(typeof(KnownColor))
-                    .Cast<KnownColor>()
-                    .Select(kc => kc.ToString())
-                    .ToList();
-
-                if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
+                if (hexOrColorName[0] == '#' || hexOrColorName.IsHex())
                 {
-                    var sysColor = SysDrawing::System.Drawing.Color.FromKnownColor(parsedColor);
-                    return sysColor.ToColor();
+                    string hex = hexOrColorName[0] == '#'
+                        ? hexOrColorName.Substring(1)
+                        : hexOrColorName;
+
+                    return hex.ToColor();
                 }
 
-                if (hexOrColorName.FindNearestString(knownColors) == colorName)
+                Func<string, Color> getColorNameSimple = colorName =>
                 {
-                    var sysColor =
-                        SysDrawing::System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
-                            hexOrColorName, true));
+                    var knownColors = Enum.GetValues(typeof(KnownColor))
+                        .Cast<KnownColor>()
+                        .Select(kc => kc.ToString())
+                        .ToList();
 
-                    return sysColor.ToColor();
+                    if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
+                    {
+                        var sysColor = SysDrawing::System.Drawing.Color.FromKnownColor(parsedColor);
+                        return sysColor.ToColor();
+                    }
+
+                    if (hexOrColorName.FindNearestString(knownColors) == colorName)
+                    {
+                        var sysColor =
+                            SysDrawing::System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
+                                hexOrColorName, true));
+
+                        return sysColor.ToColor();
+                    }
+
+                    return default;
+                };
+
+                Func<string, Color> getColorNameComplex = colorName =>
+                {
+                    if (Enum.TryParse(colorName, true, out ColorNames parsedColor))
+                        return ColorEntity.m_Entities[parsedColor].Hex.ToColor();
+
+                    if (hexOrColorName.FindNearestString(ColorEntity.ColorNames) == colorName)
+                    {
+                        ColorNames colorNameValue = (ColorNames)Enum.Parse(typeof(ColorNames), colorName, true);
+                        return ColorEntity.m_Entities[colorNameValue].Hex.ToColor();
+                    }
+
+                    return default;
+                };
+
+                if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
+                {
+                    m_ColorCache.Add(hexOrColorName, color);
+                    return color;
                 }
 
-                return default;
+                if (m_ColorCache.ContainsKey(hexOrColorName))
+                    return m_ColorCache[hexOrColorName];
+
+                var simpleColor = getColorNameSimple(hexOrColorName);
+
+                if (simpleColor == default)
+                {
+                    var complexColor = getColorNameComplex(hexOrColorName);
+                    if (complexColor == default)
+                        throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
+
+                    m_ColorCache.Add(hexOrColorName, complexColor);
+                    return complexColor;
+                }
+
+                m_ColorCache.Add(hexOrColorName, simpleColor);
+                return simpleColor;
             };
 
-            Func<string, Color> getColorNameComplex = colorName =>
-            {
-                if (Enum.TryParse(colorName, true, out ColorNames parsedColor))
-                    return ColorEntity.m_Entities[parsedColor].Hex.ToColor();
-
-                if (hexOrColorName.FindNearestString(ColorEntity.ColorNames) == colorName)
-                {
-                    ColorNames colorNameValue = (ColorNames)Enum.Parse(typeof(ColorNames), colorName, true);
-                    return ColorEntity.m_Entities[colorNameValue].Hex.ToColor();
-                }
-
-                return default;
-            };
-
-            if (!m_ColorCache.ContainsKey(hexOrColorName) && hexOrColorName.IsColorAvailable(out Color color))
-            {
-                m_ColorCache.Add(hexOrColorName, color);
-                return color;
-            }
-
-            if (m_ColorCache.ContainsKey(hexOrColorName))
+            if (m_ProcessedColors.Contains(hexOrColorName))
                 return m_ColorCache[hexOrColorName];
 
-            var simpleColor = getColorNameSimple(hexOrColorName);
+            if (m_PendingColors.Contains(hexOrColorName))
+                return Color.white;
 
-            if (simpleColor == default)
+            m_PendingColors.Add(hexOrColorName);
+
+            Task.Factory.StartNew(() =>
             {
-                var complexColor = getColorNameComplex(hexOrColorName);
-                if (complexColor == default)
-                    throw new Exception($"Couldn't parse specified color: '{hexOrColorName}'!");
+                var processedColor = getColor();
 
-                m_ColorCache.Add(hexOrColorName, complexColor);
-                return complexColor;
-            }
+                m_ProcessedColors.Add(hexOrColorName);
+                m_ColorCache.AddOnce(hexOrColorName, processedColor);
+            });
 
-            m_ColorCache.Add(hexOrColorName, simpleColor);
-            return simpleColor;
+            return Color.white;
         }
 
         /// <summary>
@@ -506,7 +540,9 @@ namespace UnityEngine.UI.Controls
                 fillerHeight = _lineHeight
                                - guiStyle.CalcSize(new GUIContent(text)).y
                                + (guiStyle.fontSize - 16) / 4f;
+
                 GUILayout.BeginVertical();
+                // TODO
                 GUILayout.Label(" ", GUILayout.MinHeight(fillerHeight), GUILayout.MaxHeight(fillerHeight));
                 GUILayout.Label(content, guiStyle);
                 lastRect = GUILayoutUtility.GetLastRect();
@@ -521,11 +557,14 @@ namespace UnityEngine.UI.Controls
 
             if (Event.current.type == EventType.Repaint)
             {
+                const float heightFix = 3;
+
                 // GetLastRect() is only valid during a repaint event
                 if (_fontUnderline)
                 {
-                    var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight);
+                    var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight - heightFix);
                     var to = new Vector2(from.x + lastRect.width, from.y);
+
                     GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
 
@@ -687,7 +726,7 @@ namespace UnityEngine.UI.Controls
             return text;
         }
 
-        private enum VerticalAlignment
+        public enum VerticalAlignment
         {
             Default,
             Bottom
@@ -710,11 +749,11 @@ namespace UnityEngine.UI.Controls
             private readonly float _width;
             private bool invalidCommand;
 
-            public TextFormatter(float width, string text)
+            public TextFormatter(float width, string text, float lineHeight = 0)
             {
                 _width = width;
                 _lines = new List<string>();
-                format(text);
+                format(text, lineHeight);
             }
 
             public List<string> getLines()
@@ -728,7 +767,7 @@ namespace UnityEngine.UI.Controls
             ///     * Break down the text into lines that fit the requested width
             /// </summary>
             /// <param name="text">The raw text to parse</param>
-            private void format(string text)
+            private void format(string text, float lineHeight)
             {
                 //Debug.Log("Formatting: " + text);
                 _guiStyle = new GUIStyle();
@@ -736,7 +775,7 @@ namespace UnityEngine.UI.Controls
                 _line = new StringBuilder();
                 addLineHeight(false);
                 _lineLength = 0;
-                _lineHeight = 0.0f;
+                _lineHeight = lineHeight;
                 var word = new StringBuilder();
 
                 for (var letterIndex = 0; letterIndex < text.Length; letterIndex++)
