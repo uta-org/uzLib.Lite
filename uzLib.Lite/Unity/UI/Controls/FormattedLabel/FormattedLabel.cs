@@ -98,14 +98,6 @@ namespace UnityEngine.UI.Controls
 
         #endregion "Label Fix"
 
-        //private float _width;
-
-        //public float Width
-        //{
-        //    get => _width;
-        //    set { _width = value; Debug.Log($"Setted width: {_width}"); }
-        //}
-
         public float Width { get; set; }
 
         public VerticalAlignment VAlignment { get; private set; } = VerticalAlignment.Default;
@@ -552,19 +544,10 @@ namespace UnityEngine.UI.Controls
                 const int horizontalFix = -10,
                           verticalFix = -3;
 
-                //var offset = guiStyle.margin;
-                //offset.right = -horizontalFix;
-                //offset.left = -200;
-                //offset.top = verticalFix;
-
-                //guiStyle.margin = offset;
-
                 var type = Event.current.type;
 
                 if (_fixRect.HasValue && !_isFixed && type == EventType.Repaint)
                 {
-                    // Debug.Log($"Doing fix at: {type}");
-
                     _fixRect = new Rect(_fixRect.Value.x + horizontalFix, _fixRect.Value.y + verticalFix, _fixRect.Value.width, _fixRect.Value.height);
                     _isFixed = true;
                 }
@@ -580,30 +563,17 @@ namespace UnityEngine.UI.Controls
                 fillerHeight = 0.0f;
                 GUILayout.Label(content, guiStyle);
 
-                //try
-                //{
-                //    GUILayout.Label(content, guiStyle);
-                //}
-                //catch
-                //{
-                //    // Skip one repaint frame
-                //}
-
                 if (_canDisplay)
                     GUILayout.EndArea();
 
                 if (!_fixRect.HasValue && type == EventType.Layout)
                 {
-                    // Debug.Log($"Setting fixRect in: {type}");
-
                     _lastRect_Cache = GUILayoutUtility.GetLastRect();
                     _fixRect = _lastRect_Cache;
                 }
 
                 // Preserve last value
                 lastRect = _lastRect_Cache;
-
-                //lastRect = GUILayoutUtility.GetLastRect();
             }
 
             if (Event.current.type == EventType.Repaint)
