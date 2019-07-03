@@ -87,17 +87,28 @@ namespace UnityEngine.UI.Controls
         private string _lastTooltip = "";
         private float _lineHeight;
         private List<string> _lines;
-        private VerticalAlignment _verticalAlignment = VerticalAlignment.Default;
 
-        private float _width;
+        #region "Label Fix"
 
-        public float Width
-        {
-            get => _width;
-            set { _width = value; Debug.Log($"Setted width: {_width}"); }
-        }
+        private Rect? _fixRect;
+        private Rect _lastRect_Cache;
 
-        public VerticalAlignment VAlignment => _verticalAlignment;
+        private bool _isFixed,
+                     _canDisplay;
+
+        #endregion "Label Fix"
+
+        //private float _width;
+
+        //public float Width
+        //{
+        //    get => _width;
+        //    set { _width = value; Debug.Log($"Setted width: {_width}"); }
+        //}
+
+        public float Width { get; set; }
+
+        public VerticalAlignment VAlignment { get; private set; } = VerticalAlignment.Default;
 
         public string Text
         {
@@ -327,11 +338,11 @@ namespace UnityEngine.UI.Controls
                                 switch (commandParts[1])
                                 {
                                     case "?":
-                                        _verticalAlignment = VerticalAlignment.Default;
+                                        VAlignment = VerticalAlignment.Default;
                                         break;
 
                                     case "B":
-                                        _verticalAlignment = VerticalAlignment.Bottom;
+                                        VAlignment = VerticalAlignment.Bottom;
                                         break;
                                 }
 
@@ -343,7 +354,7 @@ namespace UnityEngine.UI.Controls
 
                                 //This will pass through any invalid commands into the text or if it is a chat allows
                                 //for the use of brackets ex. [CLAN TAG], [2 spaces here]
-                                drawText(guiStyle, string.Format("[{0}]", cmd));
+                                drawText(guiStyle, $"[{cmd}]");
 
                                 //This will inform you in the string that your command is invalid
                                 //drawText(guiStyle, string.Format("Invalid--->[{0}]<---Command", cmd));
@@ -523,7 +534,7 @@ namespace UnityEngine.UI.Controls
             float fillerHeight;
             var content = new GUIContent(text, _createHyperlinkId);
 
-            if (_verticalAlignment == VerticalAlignment.Bottom)
+            if (VAlignment == VerticalAlignment.Bottom)
             {
                 fillerHeight = _lineHeight
                                - guiStyle.CalcSize(new GUIContent(text)).y
@@ -538,9 +549,61 @@ namespace UnityEngine.UI.Controls
             }
             else
             {
+                const int horizontalFix = -10,
+                          verticalFix = -3;
+
+                //var offset = guiStyle.margin;
+                //offset.right = -horizontalFix;
+                //offset.left = -200;
+                //offset.top = verticalFix;
+
+                //guiStyle.margin = offset;
+
+                var type = Event.current.type;
+
+                if (_fixRect.HasValue && !_isFixed && type == EventType.Repaint)
+                {
+                    // Debug.Log($"Doing fix at: {type}");
+
+                    _fixRect = new Rect(_fixRect.Value.x + horizontalFix, _fixRect.Value.y + verticalFix, _fixRect.Value.width, _fixRect.Value.height);
+                    _isFixed = true;
+                }
+
+                bool canDisplay = _fixRect.HasValue && _isFixed && type == EventType.Layout;
+
+                if (canDisplay && !_canDisplay)
+                    _canDisplay = true;
+
+                if (_canDisplay)
+                    GUILayout.BeginArea(_fixRect.Value);
+
                 fillerHeight = 0.0f;
                 GUILayout.Label(content, guiStyle);
-                lastRect = GUILayoutUtility.GetLastRect();
+
+                //try
+                //{
+                //    GUILayout.Label(content, guiStyle);
+                //}
+                //catch
+                //{
+                //    // Skip one repaint frame
+                //}
+
+                if (_canDisplay)
+                    GUILayout.EndArea();
+
+                if (!_fixRect.HasValue && type == EventType.Layout)
+                {
+                    // Debug.Log($"Setting fixRect in: {type}");
+
+                    _lastRect_Cache = GUILayoutUtility.GetLastRect();
+                    _fixRect = _lastRect_Cache;
+                }
+
+                // Preserve last value
+                lastRect = _lastRect_Cache;
+
+                //lastRect = GUILayoutUtility.GetLastRect();
             }
 
             if (Event.current.type == EventType.Repaint)
@@ -1101,8 +1164,8 @@ namespace UnityEngine.UI.Controls
 
                         if (invalidCommand)
                         {
-                            addCommandToLine(string.Format("{0}",
-                                text.Substring(currentLetterIndex + 1, endIndex - currentLetterIndex - 1)));
+                            addCommandToLine(
+                                $"{text.Substring(currentLetterIndex + 1, endIndex - currentLetterIndex - 1)}");
                             //Debug.Log(string.Format("Invalid Command: {0}", commandList[commandIndex]));
                             invalidCommand = false;
                         }
