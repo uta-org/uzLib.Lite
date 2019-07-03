@@ -541,50 +541,100 @@ namespace UnityEngine.UI.Controls
             }
             else
             {
-                const int horizontalFix = -10,
-                          verticalFix = -3;
+                //const int horizontalFix = -10,
+                //          verticalFix = -3;
 
-                var type = Event.current.type;
+                //var type = Event.current.type;
 
-                if (_fixRect.HasValue && !_isFixed && type == EventType.Repaint)
-                {
-                    _fixRect = new Rect(_fixRect.Value.x + horizontalFix, _fixRect.Value.y + verticalFix, _fixRect.Value.width, _fixRect.Value.height);
-                    _isFixed = true;
-                }
+                //// Wait another frame from this condition "!_fixRect.HasValue && type == EventType.Layout"
 
-                bool canDisplay = _fixRect.HasValue && _isFixed && type == EventType.Layout;
+                //if (_fixRect.HasValue && !_isFixed)
+                //{
+                //    Debug.Log($"Fix Rect: {_fixRect}");
+                //    _fixRect = new Rect(_fixRect.Value.x + horizontalFix, _fixRect.Value.y + verticalFix, _fixRect.Value.width, _fixRect.Value.height);
+                //    Debug.Log($"Fix Rect: {_fixRect} (After)");
 
-                if (canDisplay && !_canDisplay)
-                    _canDisplay = true;
+                //    _isFixed = true;
+                //}
 
-                if (_canDisplay)
-                    GUILayout.BeginArea(_fixRect.Value);
+                //// Then, in the next frame toggle groups on
+                //bool canDisplay = _fixRect.HasValue && _isFixed && type == EventType.Layout;
+
+                //if (canDisplay && !_canDisplay)
+                //    _canDisplay = true;
+
+                //if (_canDisplay)
+                //    GUILayout.BeginArea(_fixRect.Value);
+
+                //fillerHeight = 0.0f;
+                //GUILayout.Label(content, guiStyle);
+                //// Debug.Log(content.text);
+
+                //if (_canDisplay)
+                //    GUILayout.EndArea();
+
+                //if (_fontUnderline)
+                //{
+                //    // Set cache in the Repaint event
+                //    if (!_fixRect.HasValue && type == EventType.Repaint)
+                //    {
+                //        _lastRect_Cache = GUILayoutUtility.GetLastRect();
+                //        _fixRect = _lastRect_Cache;
+                //    }
+
+                //    // Preserve last value
+                //    lastRect = _lastRect_Cache;
+                //}
+                //else
+                //{
+                //    try
+                //    {
+                //        lastRect = GUILayoutUtility.GetLastRect();
+                //    }
+                //    catch
+                //    {
+                //        lastRect = _lastRect_Cache;
+                //    }
+                //}
+
+                // lastRect = GUILayoutUtility.GetLastRect();
 
                 fillerHeight = 0.0f;
-                GUILayout.Label(content, guiStyle);
 
-                if (_canDisplay)
-                    GUILayout.EndArea();
-
-                if (!_fixRect.HasValue && type == EventType.Layout)
+                if (!_fontUnderline)
                 {
-                    _lastRect_Cache = GUILayoutUtility.GetLastRect();
-                    _fixRect = _lastRect_Cache;
-                }
+                    GUILayout.Label(content, guiStyle);
 
-                // Preserve last value
-                lastRect = _lastRect_Cache;
+                    lastRect = GUILayoutUtility.GetLastRect();
+                }
+                else
+                {
+                    var rect = GUILayoutUtility.GetRect(content, guiStyle);
+
+                    const int horizontalFix = -6,
+                              verticalFix = 1;
+
+                    rect.xMin += horizontalFix;
+                    rect.yMin += verticalFix;
+
+                    lastRect = rect;
+
+                    GUI.BeginGroup(rect);
+                    GUI.Label(new Rect(Vector2.zero, rect.size + Vector2.up * verticalFix), content, guiStyle);
+                    GUI.EndGroup();
+                }
             }
 
             if (Event.current.type == EventType.Repaint)
             {
-                const float heightFix = 3;
+                const float verticalFix = 3,
+                            horizontalFix = 10;
 
                 // GetLastRect() is only valid during a repaint event
                 if (_fontUnderline)
                 {
-                    var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight - heightFix);
-                    var to = new Vector2(from.x + lastRect.width, from.y);
+                    var from = new Vector2(lastRect.x, lastRect.yMin - fillerHeight + _lineHeight - verticalFix);
+                    var to = new Vector2(from.x + lastRect.width - horizontalFix, from.y);
 
                     GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
