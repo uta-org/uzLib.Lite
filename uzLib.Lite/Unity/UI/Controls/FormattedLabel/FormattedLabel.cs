@@ -78,25 +78,12 @@ namespace UnityEngine.UI.Controls
         private Color _defaultColor;
         private bool _fontStrikethrough;
         private bool _fontUnderline;
-
-        //private Color _fontUnderlineColor;
-        //private Color _fontStrikeColor;
         private string _hoveredHyperlinkId = "";
 
         private IHyperlinkCallback _hyperlinkCallback;
         private string _lastTooltip = "";
         private float _lineHeight;
         private List<string> _lines;
-
-        #region "Label Fix"
-
-        private Rect? _fixRect;
-        private Rect _lastRect_Cache;
-
-        private bool _isFixed,
-                     _canDisplay;
-
-        #endregion "Label Fix"
 
         public float Width { get; set; }
 
@@ -541,64 +528,6 @@ namespace UnityEngine.UI.Controls
             }
             else
             {
-                //const int horizontalFix = -10,
-                //          verticalFix = -3;
-
-                //var type = Event.current.type;
-
-                //// Wait another frame from this condition "!_fixRect.HasValue && type == EventType.Layout"
-
-                //if (_fixRect.HasValue && !_isFixed)
-                //{
-                //    Debug.Log($"Fix Rect: {_fixRect}");
-                //    _fixRect = new Rect(_fixRect.Value.x + horizontalFix, _fixRect.Value.y + verticalFix, _fixRect.Value.width, _fixRect.Value.height);
-                //    Debug.Log($"Fix Rect: {_fixRect} (After)");
-
-                //    _isFixed = true;
-                //}
-
-                //// Then, in the next frame toggle groups on
-                //bool canDisplay = _fixRect.HasValue && _isFixed && type == EventType.Layout;
-
-                //if (canDisplay && !_canDisplay)
-                //    _canDisplay = true;
-
-                //if (_canDisplay)
-                //    GUILayout.BeginArea(_fixRect.Value);
-
-                //fillerHeight = 0.0f;
-                //GUILayout.Label(content, guiStyle);
-                //// Debug.Log(content.text);
-
-                //if (_canDisplay)
-                //    GUILayout.EndArea();
-
-                //if (_fontUnderline)
-                //{
-                //    // Set cache in the Repaint event
-                //    if (!_fixRect.HasValue && type == EventType.Repaint)
-                //    {
-                //        _lastRect_Cache = GUILayoutUtility.GetLastRect();
-                //        _fixRect = _lastRect_Cache;
-                //    }
-
-                //    // Preserve last value
-                //    lastRect = _lastRect_Cache;
-                //}
-                //else
-                //{
-                //    try
-                //    {
-                //        lastRect = GUILayoutUtility.GetLastRect();
-                //    }
-                //    catch
-                //    {
-                //        lastRect = _lastRect_Cache;
-                //    }
-                //}
-
-                // lastRect = GUILayoutUtility.GetLastRect();
-
                 fillerHeight = 0.0f;
 
                 if (!_fontUnderline)
