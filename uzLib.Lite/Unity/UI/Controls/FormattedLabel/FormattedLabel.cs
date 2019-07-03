@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SysDrawing::System.Drawing;
-using UnityEngine;
 using UnityEngine.Extensions;
 using UnityEngine.Utils;
 using uzLib.Lite.Extensions;
@@ -87,17 +85,20 @@ namespace UnityEngine.UI.Controls
 
         public float Width { get; set; }
 
+        public Color VisitedLinkColor { get; set; }
+
         public VerticalAlignment VAlignment { get; private set; } = VerticalAlignment.Default;
+
+        public TextAnchor TextAnchor { get; set; }
+        public Rect Position { get; set; }
+
+        private HashSet<string> m_VisitedLinks { get; }
+
+        public event Action<string> OnClickedHyperlink = delegate { };
 
         public string Text
         {
             set => SetLines(value, 0);
-        }
-
-        private void SetLines(string text, float lineHeight)
-        {
-            var textFormatter = new TextFormatter(Width, text);
-            _lines = textFormatter.getLines();
         }
 
         /// <summary>
@@ -105,6 +106,8 @@ namespace UnityEngine.UI.Controls
         /// </summary>
         public FormattedLabel()
         {
+            //LinkRects = new Dictionary<string, Rect>();
+            m_VisitedLinks = new HashSet<string>();
         }
 
         /// <summary>
@@ -114,10 +117,22 @@ namespace UnityEngine.UI.Controls
         /// <param name="width">The width at which to wrap text to new lines</param>
         /// <param name="text">The text to parse</param>
         public FormattedLabel(float width, string text, float lineHeight = 0)
+            : this()
         {
             Width = width;
 
             SetLines(text, lineHeight);
+        }
+
+        private void SetLines(string text, float lineHeight)
+        {
+            var textFormatter = new TextFormatter(Width, text);
+            _lines = textFormatter.getLines();
+        }
+
+        public void AddVisitedLink(string content)
+        {
+            m_VisitedLinks.Add(content);
         }
 
         /// <summary>
@@ -144,10 +159,32 @@ namespace UnityEngine.UI.Controls
             draw(guiStyle, null);
         }
 
+        public void draw(GUIStyle guiStyleToCopy, string stringStyleIn, bool cloneStyle = true)
+        {
+            bool isMiddleCenter = TextAnchor == TextAnchor.MiddleCenter;
+
+            float vertSpace = 0;
+            if (isMiddleCenter)
+            {
+                vertSpace = (Position.height - _lines.Count * _lineHeight) / 2;
+
+                GUILayout.BeginVertical();
+                GUILayout.Space(vertSpace);
+            }
+
+            InternalDraw(guiStyleToCopy, stringStyleIn, cloneStyle);
+
+            if (isMiddleCenter)
+            {
+                GUILayout.Space(vertSpace);
+                GUILayout.EndVertical();
+            }
+        }
+
         /// <summary>
         ///     Draw the formatted text onto the screen
         /// </summary>
-        public void draw(GUIStyle guiStyleToCopy, string stringStyleIn, bool cloneStyle = true)
+        private void InternalDraw(GUIStyle guiStyleToCopy, string stringStyleIn, bool cloneStyle = true)
         {
             int textStart, commandStart, commandEnd;
             string[] commandParts;
@@ -520,7 +557,6 @@ namespace UnityEngine.UI.Controls
                                + (guiStyle.fontSize - 16) / 4f;
 
                 GUILayout.BeginVertical();
-                // TODO
                 GUILayout.Label(" ", GUILayout.MinHeight(fillerHeight), GUILayout.MaxHeight(fillerHeight));
                 GUILayout.Label(content, guiStyle);
                 lastRect = GUILayoutUtility.GetLastRect();
@@ -540,16 +576,23 @@ namespace UnityEngine.UI.Controls
                 {
                     var rect = GUILayoutUtility.GetRect(content, guiStyle);
 
-                    const int horizontalFix = -6,
-                              verticalFix = 1;
+                    const int horizontalFix = -7,
+                              verticalFix = -1;
+                    // heightFix = 5;
 
                     rect.xMin += horizontalFix;
                     rect.yMin += verticalFix;
 
                     lastRect = rect;
 
+                    if (m_VisitedLinks.Contains(content.text))
+                        guiStyle.normal.textColor = VisitedLinkColor;
+
                     GUI.BeginGroup(rect);
-                    GUI.Label(new Rect(Vector2.zero, rect.size + Vector2.up * verticalFix), content, guiStyle);
+                    if (GUI.Button(new Rect(Vector2.zero, rect.size), content, guiStyle))
+                    { //  + Vector2.up * heightFix
+                        OnClickedHyperlink?.Invoke(content.text);
+                    }
                     GUI.EndGroup();
                 }
             }
@@ -557,7 +600,7 @@ namespace UnityEngine.UI.Controls
             if (Event.current.type == EventType.Repaint)
             {
                 const float verticalFix = 3,
-                            horizontalFix = 10;
+                            horizontalFix = 7;
 
                 // GetLastRect() is only valid during a repaint event
                 if (_fontUnderline)
@@ -576,6 +619,11 @@ namespace UnityEngine.UI.Controls
                     GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
             }
+        }
+
+        private static Rect GetRealPosition(Rect r)
+        {
+            return new Rect(GUIUtility.GUIToScreenPoint(r.position), r.size);
         }
 
         /// <summary>
@@ -751,7 +799,10 @@ namespace UnityEngine.UI.Controls
 
             public TextFormatter(float width, string text, float lineHeight = 0)
             {
-                _width = width;
+                // TODO
+                const float sloppyHorizontalPadding = 100;
+
+                _width = width + sloppyHorizontalPadding;
                 _lines = new List<string>();
                 format(text, lineHeight);
             }
@@ -1132,6 +1183,8 @@ namespace UnityEngine.UI.Controls
 
             private bool addWordToLine(string word)
             {
+                // Debug.Log($"Added word to line: '{word}'");
+
                 var createdNewLine = false;
                 if (word.Length != 0)
                 {
@@ -1242,6 +1295,7 @@ namespace UnityEngine.UI.Controls
                 if (_line.ToString() == _lineHeightCommand)
                     // Empty lines do not properly display; add a space
                     _line.Append(" ");
+
                 addLineHeight(true);
                 _lines.Add(_line.ToString());
                 //Debug.Log("  Parsed line: " + _line.ToString());
