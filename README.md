@@ -1,4 +1,4 @@
-# uzLib.Lite
+# uzLib.Lite [![HitCount](http://hits.dwyl.io/uta-org/uzLibLite.svg)](http://hits.dwyl.io/uta-org/uzLibLite)
 
 > The Lite version of my paid uzLib (Unity3D) API used as dependency of my open-source repos.
 
