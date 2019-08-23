@@ -87,11 +87,11 @@ namespace uzLib.Lite.Extensions
         /// <param name="node">The node.</param>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public static IEnumerable<HtmlNode> GetNodesByName(this HtmlNode node, string name)
+        public static IEnumerable<HtmlNode> GetNodesByName(this HtmlNode node, string name, string rgxPattern = "")
         {
             return node?.Descendants()?
                 .Where(n => n.NodeType == HtmlNodeType.Element)
-                .Where(n => (toLower ? n?.OriginalName.ToLowerInvariant() : n?.OriginalName) == name);
+                .Where(n => string.IsNullOrEmpty(rgxPattern) ? n.OriginalName == name : Regex.IsMatch(n.OriginalName, rgxPattern));
         }
 
         /// <summary>
@@ -326,6 +326,31 @@ namespace uzLib.Lite.Extensions
                 return Encoding.Default.GetString(outStream.ToArray())
                     .Replace(new string(' ', spaces), '\t'.ToString());
             }
+        }
+
+        /// <summary>
+        /// Gets the element child nodes.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        public static IEnumerable<HtmlNode> GetElementChildNodes(this HtmlNode node)
+        {
+            return GetChildNodesByType(node, HtmlNodeType.Element);
+        }
+
+        /// <summary>
+        /// Gets the child nodes by type.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="type">The type.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">node</exception>
+        public static IEnumerable<HtmlNode> GetChildNodesByType(this HtmlNode node, HtmlNodeType type)
+        {
+            if (node == null)
+                throw new ArgumentNullException(nameof(node));
+
+            return node.ChildNodes.Where(n => n.NodeType == type);
         }
 
         /// <summary>

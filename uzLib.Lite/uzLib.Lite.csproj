@@ -570,6 +570,7 @@
     <Compile Include="Extensions\TypeHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
     <Compile Include="Extensions\VSHelper.cs" />
+    <Compile Include="Plugins\SymLinker\Linker.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -589,7 +590,6 @@
     <Compile Include="Plugins\SymLinker\LinkCreators\LinuxSymLinkCreator.cs" />
     <Compile Include="Plugins\SymLinker\LinkCreators\OSXSymLinkCreator.cs" />
     <Compile Include="Plugins\SymLinker\LinkCreators\WindowsSymLinkCreator.cs" />
-    <Compile Include="Plugins\SymLinker\Linker.cs" />
     <Compile Include="Shells\StaticShell.cs" />
     <Compile Include="Unity\UI\Controls\ComboBox.cs" />
     <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabel.cs" />
