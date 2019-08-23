@@ -339,6 +339,92 @@ namespace uzLib.Lite.Extensions
         }
 
         /// <summary>
+        /// Gets the element child node by index.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="index">The index.</param>
+        /// <returns></returns>
+        public static HtmlNode GetElementChildNode(this HtmlNode node, int index)
+        {
+            return InternalGetElementNodes(node)[index];
+        }
+
+        /// <summary>
+        /// Returns the first child.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        public static HtmlNode FirstChild(this HtmlNode node)
+        {
+            return InternalGetElementNodes(node)?.FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the last child.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        public static HtmlNode LastNode(this HtmlNode node)
+        {
+            return InternalGetElementNodes(node)?.LastOrDefault();
+        }
+
+        /// <summary>
+        /// Returns the odd childs.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        public static IEnumerable<HtmlNode> OddChilds(this HtmlNode node)
+        {
+            return InternalGetElementNodes(node)?.Where((n, index) => index % 2 != 0);
+        }
+
+        /// <summary>
+        /// Returns the even childs.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <returns></returns>
+        public static IEnumerable<HtmlNode> EvenChilds(this HtmlNode node)
+        {
+            return InternalGetElementNodes(node)?.Where((n, index) => index % 2 == 0);
+        }
+
+        /// <summary>
+        /// Filters the child by index.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">predicate</exception>
+        public static IEnumerable<HtmlNode> FilterChildByIndex(this HtmlNode node, Predicate<int> predicate)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            return InternalGetElementNodes(node)?.Where((n, index) => predicate(index));
+        }
+
+        /// <summary>
+        /// Filters the child by node.
+        /// </summary>
+        /// <param name="node">The node.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">predicate</exception>
+        public static IEnumerable<HtmlNode> FilterChildByNode(this HtmlNode node, Predicate<HtmlNode> predicate)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException(nameof(predicate));
+
+            return InternalGetElementNodes(node)?.Where(n => predicate(n));
+        }
+
+        private static HtmlNode[] InternalGetElementNodes(HtmlNode node)
+        {
+            return GetChildNodesByType(node, HtmlNodeType.Element).ToArray();
+        }
+
+        /// <summary>
         /// Gets the child nodes by type.
         /// </summary>
         /// <param name="node">The node.</param>
