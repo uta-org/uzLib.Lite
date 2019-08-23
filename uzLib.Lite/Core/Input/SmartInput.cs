@@ -45,7 +45,7 @@ namespace uzLib.Lite.Core.Input
                 }
             } while (response != ConsoleKey.Y && response != ConsoleKey.N);
 
-            return (response == ConsoleKey.Y);
+            return response == ConsoleKey.Y;
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace uzLib.Lite.Core.Input
                         if (!skipWhiteSpaceMode)
                         {
                             tokenFinished = true;
-                            if (ch == '\r' && (Environment.NewLine == "\r\n"))
+                            if (ch == '\r' && Environment.NewLine == "\r\n")
                             {
                                 // Reached '\r' in Windows --> skip the next '\n'
                                 Console.Read();

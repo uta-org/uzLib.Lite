@@ -52,9 +52,9 @@ namespace uzLib.Lite.Extensions
                 for (int row = 0; row < bmpData.Width; row++)
                 {
                     // Little endian
-                    byte b = (byte)(rgbValues[(column * BmpStride) + (row * 4)]);
-                    byte g = (byte)(rgbValues[(column * BmpStride) + (row * 4) + 1]);
-                    byte r = (byte)(rgbValues[(column * BmpStride) + (row * 4) + 2]);
+                    byte b = (byte)rgbValues[column * BmpStride + row * 4];
+                    byte g = (byte)rgbValues[column * BmpStride + row * 4 + 1];
+                    byte r = (byte)rgbValues[column * BmpStride + row * 4 + 2];
 
                     yield return SysDrawing::System.Drawing.Color.FromArgb(255, r, g, b);
                 }
@@ -83,10 +83,10 @@ namespace uzLib.Lite.Extensions
                     int i = Pn(row, column, width);
 
                     // Little endian
-                    rgbValues[(column * BmpStride) + (row * 4)] = bmp[i].B;
-                    rgbValues[(column * BmpStride) + (row * 4) + 1] = bmp[i].G;
-                    rgbValues[(column * BmpStride) + (row * 4) + 2] = bmp[i].R;
-                    rgbValues[(column * BmpStride) + (row * 4) + 3] = bmp[i].A;
+                    rgbValues[column * BmpStride + row * 4] = bmp[i].B;
+                    rgbValues[column * BmpStride + row * 4 + 1] = bmp[i].G;
+                    rgbValues[column * BmpStride + row * 4 + 2] = bmp[i].R;
+                    rgbValues[column * BmpStride + row * 4 + 3] = bmp[i].A;
                 }
             }
 
@@ -113,7 +113,7 @@ namespace uzLib.Lite.Extensions
 
         private static int Pn(int x, int y, int w)
         {
-            return x + (y * w);
+            return x + y * w;
         }
     }
 }

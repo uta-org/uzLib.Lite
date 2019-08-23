@@ -156,7 +156,7 @@ namespace uzLib.Lite.Extensions
             }
 
             // back out of the working directory
-            for (int i = 0; i < (baseDirs.Length - offset); i++)
+            for (int i = 0; i < baseDirs.Length - offset; i++)
             {
                 result += "..\\";
             }
@@ -217,7 +217,7 @@ namespace uzLib.Lite.Extensions
         public static string GetTopLevelDir(string filePath)
         { // This wouldn't work for Linux paths
             string tempFilePath = (string)filePath.Clone();
-            if (tempFilePath.Contains(("..\\")))
+            if (tempFilePath.Contains("..\\"))
                 tempFilePath = tempFilePath.Replace("..\\", "");
 
             string temp = Path.GetDirectoryName(tempFilePath);

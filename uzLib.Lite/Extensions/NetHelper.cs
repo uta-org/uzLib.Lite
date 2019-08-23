@@ -54,17 +54,16 @@ namespace uzLib.Lite.Extensions
         /// <param name="url">The URL.</param>
         /// <param name="AcceptHeader">The accept header.</param>
         /// <returns></returns>
-        public static string MakeRequest(this string url, string AcceptHeader = "")
+        public static string MakeRequest(this string url, string contentType = null, string userAgent = null, string AcceptHeader = null, bool notifyException = false)
         {
             try
             {
-                var webRequest = WebRequest.Create(url) as HttpWebRequest;
-                if (webRequest != null)
+                if (WebRequest.Create(url) is HttpWebRequest webRequest)
                 {
                     webRequest.Method = "GET";
                     webRequest.Timeout = 12000;
-                    webRequest.UserAgent = "request";
-                    webRequest.ContentType = "application/json";
+                    webRequest.UserAgent = userAgent ?? "request";
+                    webRequest.ContentType = contentType ?? "application/json";
 
                     if (!string.IsNullOrEmpty(AcceptHeader))
                         webRequest.Accept = AcceptHeader;
@@ -80,6 +79,9 @@ namespace uzLib.Lite.Extensions
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
+
+                if (notifyException)
+                    throw;
             }
 
             return string.Empty;

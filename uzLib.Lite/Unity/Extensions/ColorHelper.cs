@@ -69,7 +69,7 @@ namespace UnityEngine.Extensions
         /// <returns></returns>
         public static float ColorThreshold(this Color c1, Color c2)
         {
-            return (Mathf.Abs(c1.r - c2.r) + Mathf.Abs(c1.g - c2.g) + Mathf.Abs(c1.b - c2.b));
+            return Mathf.Abs(c1.r - c2.r) + Mathf.Abs(c1.g - c2.g) + Mathf.Abs(c1.b - c2.b);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace UnityEngine.Extensions
         /// <returns></returns>
         public static float ColorSimilaryPerc(this Color a, Color b)
         {
-            return 1f - (a.ColorThreshold(b) / 3);
+            return 1f - a.ColorThreshold(b) / 3;
         }
 
         /// <summary>

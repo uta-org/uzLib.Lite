@@ -137,7 +137,7 @@ namespace uzLib.Lite.Core.Input.Internal
         /// <returns></returns>
         private string BuildKeyInput()
         {
-            return (_keyInfo.Modifiers != ConsoleModifiers.Control && _keyInfo.Modifiers != ConsoleModifiers.Shift) ?
+            return _keyInfo.Modifiers != ConsoleModifiers.Control && _keyInfo.Modifiers != ConsoleModifiers.Shift ?
                 _keyInfo.Key.ToString() : _keyInfo.Modifiers.ToString() + _keyInfo.Key.ToString();
         }
 
@@ -271,7 +271,7 @@ namespace uzLib.Lite.Core.Input.Internal
         private void TransposeChars()
         {
             // local helper functions
-            bool almostEndOfLine() => (_cursorLimit - _cursorPos) == 1;
+            bool almostEndOfLine() => _cursorLimit - _cursorPos == 1;
             int incrementIf(Func<bool> expression, int index) => expression() ? index + 1 : index;
             int decrementIf(Func<bool> expression, int index) => expression() ? index - 1 : index;
 

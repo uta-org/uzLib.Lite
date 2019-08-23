@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
@@ -6,8 +8,6 @@ using Microsoft.Build.BuildEngine;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using Microsoft.Build.Utilities;
-
-using System.Drawing;
 using Console = Colorful.Console;
 
 #else

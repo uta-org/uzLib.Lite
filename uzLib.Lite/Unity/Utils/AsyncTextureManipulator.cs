@@ -10,6 +10,7 @@ namespace UnityEngine.Utils
     using Extensions;
 
     // TODO: Create ASM Definitions for this
+#if UNITY_2018
 #if UNITY_2018_3_OR_NEWER
 
         using Rendering;
@@ -261,11 +262,11 @@ namespace UnityEngine.Utils
         using System.IO;
         using System.Collections.Generic;
 
-        #if UNITY_2018_3_OR_NEWER
+#if UNITY_2018_3_OR_NEWER
         using UnityEngine.Rendering;
-        #else
+#else
         using UnityEngine.Experimental.Rendering;
-        #endif
+#endif
 
         public class AsyncCapture : MonoBehaviour
         {
@@ -322,4 +323,5 @@ namespace UnityEngine.Utils
         }
      *
      */
+#endif
 }

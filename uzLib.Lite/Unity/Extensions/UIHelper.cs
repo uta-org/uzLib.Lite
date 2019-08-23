@@ -396,7 +396,7 @@ namespace UnityEngine.Extensions
 
             for (int i = 0; i < numPages; i++)
             {
-                var style = currentPage == (i + 1) ? GUI.skin.box : GUI.skin.button;
+                var style = currentPage == i + 1 ? GUI.skin.box : GUI.skin.button;
                 if (GUI.Button(rect, (i + 1).ToString(), style))
                     resultingPage = i + 1;
                 rect.position += new Vector2(rect.width + spacing, 0f);

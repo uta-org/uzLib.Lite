@@ -121,7 +121,7 @@ namespace uzLib.Lite.Core
             if (!IsKey())
                 return false;
 
-            var info = ((ConsoleKeyInfo)MyObject);
+            var info = (ConsoleKeyInfo)MyObject;
             return (info.Modifiers & ConsoleModifiers.Control) != 0 && info.Key == ConsoleKey.B;
         }
 

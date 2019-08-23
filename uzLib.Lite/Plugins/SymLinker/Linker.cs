@@ -251,7 +251,7 @@ namespace uzLib.Lite.Plugins.SymLinker
                 errors.Add(Error.Exception);
             }
 
-            return (errors.Count == 0);
+            return errors.Count == 0;
         }
 
         /// <summary>

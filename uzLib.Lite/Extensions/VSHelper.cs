@@ -91,7 +91,7 @@ namespace uzLib.Lite.Extensions
 
                 while ((line = reader.ReadLine()) != null && !found)
                 {
-                    if ((line.IndexOf(guid.ToUpper()) > -1) && line.Contains(",") && line.Contains("="))
+                    if (line.IndexOf(guid.ToUpper()) > -1 && line.Contains(",") && line.Contains("="))
                     {
                         projectName = line.Split(',')[1].Split(',')[0];
 

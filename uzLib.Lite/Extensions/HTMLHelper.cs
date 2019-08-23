@@ -1,15 +1,19 @@
-using HtmlAgilityPack;
+extern alias HTMLLib;
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using HTMLLib::HtmlAgilityPack;
 using Tidy.Core;
-using HtmlDocument = HtmlAgilityPack.HtmlDocument;
+using HtmlDocument = HTMLLib::HtmlAgilityPack.HtmlDocument;
 
 namespace uzLib.Lite.Extensions
 {
+    extern alias HTMLLib;
+
     /// <summary>
     /// The HTMLHelper class
     /// </summary>
@@ -23,9 +27,9 @@ namespace uzLib.Lite.Extensions
         /// <returns></returns>
         public static string CleanElement(this string html, string element)
         {
-            string orEl = string.Format(@"\[{0}\]", element);
+            string orEl = $@"\[{element}\]";
 
-            return Regex.Replace(html, orEl, (m) => { return Callback(m, element, html); });
+            return Regex.Replace(html, orEl, m => Callback(m, element, html));
         }
 
         /// <summary>
@@ -82,12 +86,12 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="name">The name.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static IEnumerable<HtmlNode> GetNodesByName(this HtmlNode node, string name, bool toLower = false)
+        public static IEnumerable<HtmlNode> GetNodesByName(this HtmlNode node, string name)
         {
-            return node?.Descendants()
-                ?.Where(n => (toLower ? n?.OriginalName.ToLowerInvariant() : n?.OriginalName) == name);
+            return node?.Descendants()?
+                .Where(n => n.NodeType == HtmlNodeType.Element)
+                .Where(n => (toLower ? n?.OriginalName.ToLowerInvariant() : n?.OriginalName) == name);
         }
 
         /// <summary>
@@ -95,11 +99,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="name">The name.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static HtmlNode GetNodeByName(this HtmlNode node, string name, bool toLower = false)
+        public static HtmlNode GetNodeByName(this HtmlNode node, string name)
         {
-            return node?.GetNodesByName(name, toLower).FirstOrDefault();
+            return node?.GetNodesByName(name).FirstOrDefault();
         }
 
         /// <summary>
@@ -107,13 +110,16 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static IEnumerable<HtmlNode> GetNodesByClass(this HtmlNode node, string className, bool toLower = false)
+        public static IEnumerable<HtmlNode> GetNodesByClass(this HtmlNode node, string className)
         {
-            return node?.Descendants()?.Where(n =>
-                (toLower ? n?.Attributes?["class"]?.Value?.ToLowerInvariant() : n?.Attributes?["class"]?.Value) ==
-                className);
+            Regex regex = new Regex("\\b" + Regex.Escape(className) + "\\b", RegexOptions.Compiled);
+
+            return node?.Descendants()?
+                .Where(n => n.NodeType == HtmlNodeType.Element)
+                .Where(n => n.Attributes?["class"] != null && regex.IsMatch(n.GetAttributeValue("class", string.Empty)));
+
+            // (toLower ? n?.Attributes?["class"]?.Value?.ToLowerInvariant() : n?.Attributes?["class"]?.Value) == className
         }
 
         /// <summary>
@@ -121,11 +127,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static HtmlNode GetNodeByClass(this HtmlNode node, string className, bool toLower = false)
+        public static HtmlNode GetNodeByClass(this HtmlNode node, string className)
         {
-            return node?.GetNodesByClass(className, toLower).FirstOrDefault();
+            return node?.GetNodesByClass(className).FirstOrDefault();
         }
 
         /// <summary>
@@ -133,13 +138,13 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
         public static IEnumerable<HtmlNode> GetNodesByContainingClass(this HtmlNode node, string className,
             bool toLower = false)
         {
-            return node?.Descendants()?.Where(n =>
-                (toLower ? n?.Attributes?["class"]?.Value?.ToLowerInvariant() : n?.Attributes?["class"]?.Value)
+            return node?.Descendants()?
+                .Where(n => n.NodeType == HtmlNodeType.Element)
+                .Where(n => (toLower ? n?.Attributes?["class"]?.Value?.ToLowerInvariant() : n?.Attributes?["class"]?.Value)
                 ?.Contains(className) == true);
         }
 
@@ -148,11 +153,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static HtmlNode GetNodeByContainingClass(this HtmlNode node, string className, bool toLower = false)
+        public static HtmlNode GetNodeByContainingClass(this HtmlNode node, string className)
         {
-            return node?.GetNodesByContainingClass(className, toLower).FirstOrDefault();
+            return node?.GetNodesByContainingClass(className).FirstOrDefault();
         }
 
         /// <summary>
@@ -160,13 +164,12 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="attrName">Name of the attribute.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static IEnumerable<HtmlNode> GetNodesByAttr(this HtmlNode node, string attrName, bool toLower = false)
+        public static IEnumerable<HtmlNode> GetNodesByAttr(this HtmlNode node, string attrName)
         {
-            return node?.Descendants()?.Where(n =>
-                (toLower ? n?.Attributes?[attrName.ToLowerInvariant()] : n?.Attributes?[attrName.ToLowerInvariant()]) !=
-                null);
+            return node?.Descendants()?
+                .Where(n => n.NodeType == HtmlNodeType.Element)
+                .Where(n => n.Attributes?[attrName.ToLowerInvariant()] != null);
         }
 
         /// <summary>
@@ -174,11 +177,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="attrName">Name of the attribute.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static HtmlNode GetNodeByAttr(this HtmlNode node, string attrName, bool toLower = false)
+        public static HtmlNode GetNodeByAttr(this HtmlNode node, string attrName)
         {
-            return node?.GetNodesByAttr(attrName, toLower).FirstOrDefault();
+            return node?.GetNodesByAttr(attrName).FirstOrDefault();
         }
 
         /// <summary>
@@ -186,13 +188,12 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="name">The name.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node name] [the specified name]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool HasNodeName(this HtmlNode node, string name, bool toLower = false)
+        public static bool HasNodeName(this HtmlNode node, string name)
         {
-            return node?.GetNodeByName(name, toLower) != null;
+            return node?.GetNodeByName(name) != null;
         }
 
         /// <summary>
@@ -200,13 +201,12 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node class] [the specified class name]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool HasNodeClass(this HtmlNode node, string className, bool toLower = false)
+        public static bool HasNodeClass(this HtmlNode node, string className)
         {
-            return node?.GetNodeByClass(className, toLower) != null;
+            return node?.GetNodeByClass(className) != null;
         }
 
         /// <summary>
@@ -214,13 +214,12 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node containing class] [the specified class name]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool HasNodeContainingClass(this HtmlNode node, string className, bool toLower = false)
+        public static bool HasNodeContainingClass(this HtmlNode node, string className)
         {
-            return node?.GetNodeByContainingClass(className, toLower) != null;
+            return node?.GetNodeByContainingClass(className) != null;
         }
 
         /// <summary>
@@ -228,11 +227,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="attrName">Name of the attribute.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
-        public static bool NodeHasAttr(this HtmlNode node, string attrName, bool toLower = false)
+        public static bool NodeHasAttr(this HtmlNode node, string attrName)
         {
-            return node?.GetNodeByAttr(attrName, toLower) != null;
+            return node?.GetNodeByAttr(attrName) != null;
         }
 
         /// <summary>
@@ -241,14 +239,13 @@ namespace uzLib.Lite.Extensions
         /// <param name="node">The node.</param>
         /// <param name="name">The name.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node name] [the specified name]; otherwise, <c>false</c>.
         /// </returns>
         public static bool HasNodeName(this HtmlNode node, string name, Func<HtmlNode, bool> predicate,
             bool toLower = false)
         {
-            return predicate(node?.GetNodeByName(name, toLower));
+            return predicate(node?.GetNodeByName(name));
         }
 
         /// <summary>
@@ -257,14 +254,13 @@ namespace uzLib.Lite.Extensions
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node class] [the specified class name]; otherwise, <c>false</c>.
         /// </returns>
         public static bool HasNodeClass(this HtmlNode node, string className, Func<HtmlNode, bool> predicate,
             bool toLower = false)
         {
-            return predicate(node?.GetNodeByClass(className, toLower));
+            return predicate(node?.GetNodeByClass(className));
         }
 
         /// <summary>
@@ -273,14 +269,13 @@ namespace uzLib.Lite.Extensions
         /// <param name="node">The node.</param>
         /// <param name="className">Name of the class.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns>
         ///     <c>true</c> if [has node containing class] [the specified class name]; otherwise, <c>false</c>.
         /// </returns>
         public static bool HasNodeContainingClass(this HtmlNode node, string className, Func<HtmlNode, bool> predicate,
             bool toLower = false)
         {
-            return predicate(node?.GetNodeByContainingClass(className, toLower));
+            return predicate(node?.GetNodeByContainingClass(className));
         }
 
         /// <summary>
@@ -289,12 +284,11 @@ namespace uzLib.Lite.Extensions
         /// <param name="node">The node.</param>
         /// <param name="attrName">Name of the attribute.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="toLower">if set to <c>true</c> [to lower].</param>
         /// <returns></returns>
         public static bool NodeHasAttr(this HtmlNode node, string attrName, Func<HtmlNode, bool> predicate,
             bool toLower = false)
         {
-            return predicate(node?.GetNodeByAttr(attrName, toLower));
+            return predicate(node?.GetNodeByAttr(attrName));
         }
 
         /// <summary>

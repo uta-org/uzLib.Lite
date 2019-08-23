@@ -5,8 +5,6 @@ using System.Linq;
 #if !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using Console = Colorful.Console;
-using System.Drawing;
-
 #else
 
 using Debug = UnityEngine.Debug;

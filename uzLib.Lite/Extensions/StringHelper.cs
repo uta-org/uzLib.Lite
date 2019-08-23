@@ -244,9 +244,9 @@ namespace uzLib.Lite.Extensions
 
             IEnumerable<char> hexString = input.ToCharArray();
             return hexString.Select(currentCharacter =>
-                (currentCharacter >= '0' && currentCharacter <= '9') ||
-                (currentCharacter >= 'a' && currentCharacter <= 'f') ||
-                (currentCharacter >= 'A' && currentCharacter <= 'F')).All(isHexCharacter => isHexCharacter);
+                currentCharacter >= '0' && currentCharacter <= '9' ||
+                currentCharacter >= 'a' && currentCharacter <= 'f' ||
+                currentCharacter >= 'A' && currentCharacter <= 'F').All(isHexCharacter => isHexCharacter);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace uzLib.Lite.Extensions
                 for (int j = 1; j <= m; j++)
                 {
                     // Step 5
-                    int cost = (t[j - 1] == s[i - 1]) ? 0 : 1;
+                    int cost = t[j - 1] == s[i - 1] ? 0 : 1;
 
                     // Step 6
                     d[i, j] = Math.Min(
