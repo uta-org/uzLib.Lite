@@ -19,6 +19,8 @@ namespace uzLib.Lite.AfterBuild
                 Console.WriteLine($"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($"{nameof(OutputPath)}: {OutputPath}");
 
+                string ConfigurationName = OutputPath.Split('\\')[1];
+
                 string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath, OutputPath));
 
                 var files = Directory.GetFiles(FullPath, "*.*", SearchOption.TopDirectoryOnly);
@@ -39,7 +41,7 @@ namespace uzLib.Lite.AfterBuild
 
                 foreach (var folder in folders)
                 {
-                    if (!folder.Contains(@"\.Code"))
+                    if (!folder.Contains(@"\.Code") || !folder.Contains("Editor"))
                     {
                         Directory.Delete(folder, true);
 

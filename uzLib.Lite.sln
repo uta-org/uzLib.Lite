@@ -16,6 +16,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		ForUnity|Any CPU = ForUnity|Any CPU
+		ForUnityAsPackage|Any CPU = ForUnityAsPackage|Any CPU
 		ForUnityEditor|Any CPU = ForUnityEditor|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
@@ -24,6 +25,8 @@ Global
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|Any CPU.ActiveCfg = ForUnity|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|Any CPU.Build.0 = ForUnity|Any CPU
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnityAsPackage|Any CPU.ActiveCfg = ForUnityAsPackage|Any CPU
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnityAsPackage|Any CPU.Build.0 = ForUnityAsPackage|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnityEditor|Any CPU.ActiveCfg = ForUnityEditor|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnityEditor|Any CPU.Build.0 = ForUnityEditor|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -32,6 +35,8 @@ Global
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnity|Any CPU.ActiveCfg = ForUnity|Any CPU
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnity|Any CPU.Build.0 = ForUnity|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnityAsPackage|Any CPU.ActiveCfg = ForUnityAsPackage|Any CPU
+		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnityAsPackage|Any CPU.Build.0 = ForUnityAsPackage|Any CPU
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnityEditor|Any CPU.ActiveCfg = ForUnityEditor|Any CPU
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.ForUnityEditor|Any CPU.Build.0 = ForUnityEditor|Any CPU
 		{E1B1E24E-984C-4ADB-8703-27FD6CA4223E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,6 +45,8 @@ Global
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnity|Any CPU.ActiveCfg = ForUnity|Any CPU
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnity|Any CPU.Build.0 = ForUnity|Any CPU
+		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnityAsPackage|Any CPU.ActiveCfg = ForUnityAsPackage|Any CPU
+		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnityAsPackage|Any CPU.Build.0 = ForUnityAsPackage|Any CPU
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnityEditor|Any CPU.ActiveCfg = ForUnityEditor|Any CPU
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.ForUnityEditor|Any CPU.Build.0 = ForUnityEditor|Any CPU
 		{45D1C456-50EF-412E-B533-792862A1FFEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,6 +55,8 @@ Global
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnity|Any CPU.ActiveCfg = ForUnity|Any CPU
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnity|Any CPU.Build.0 = ForUnity|Any CPU
+		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnityAsPackage|Any CPU.ActiveCfg = ForUnityAsPackage|Any CPU
+		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnityAsPackage|Any CPU.Build.0 = ForUnityAsPackage|Any CPU
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnityEditor|Any CPU.ActiveCfg = ForUnityEditor|Any CPU
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.ForUnityEditor|Any CPU.Build.0 = ForUnityEditor|Any CPU
 		{FCE02434-F560-4D30-9D8C-F7BBA0EDC36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +65,8 @@ Global
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnity|Any CPU.ActiveCfg = Release|Any CPU
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnity|Any CPU.Build.0 = Release|Any CPU
+		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnityAsPackage|Any CPU.ActiveCfg = ForUnityAsPackage|Any CPU
+		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnityAsPackage|Any CPU.Build.0 = ForUnityAsPackage|Any CPU
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnityEditor|Any CPU.ActiveCfg = ForUnityEditor|Any CPU
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.ForUnityEditor|Any CPU.Build.0 = ForUnityEditor|Any CPU
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.Release|Any CPU.ActiveCfg = Release|Any CPU

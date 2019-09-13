@@ -130,6 +130,7 @@ namespace UnityEngine.ExternalCode.Extensions
         /// <returns></returns>
         private Rect GetNextHeight(float height, bool forceHeight, out float y)
         {
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             y = height != default ? height : GUILayoutUtility.GetLastRect().height;
 
             var r = new Rect(m_rect.x, m_rect.y + y, m_rect.width, m_rect.height);

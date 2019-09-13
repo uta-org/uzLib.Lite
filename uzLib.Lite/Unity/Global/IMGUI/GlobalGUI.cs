@@ -67,7 +67,8 @@ namespace UnityEngine.Global.IMGUI
         /// <param name="gif">The GIF.</param>
         public static bool DrawGIF(Rect rect, UniGif.GifFile gif)
         {
-            if (gif == null) throw new ArgumentNullException(nameof(gif), "Null gif!");
+            if (gif == null)
+                throw new ArgumentNullException(nameof(gif), "Null gif!");
 
             return gif.Draw(rect);
         }

@@ -364,7 +364,7 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="node">The node.</param>
         /// <returns></returns>
-        public static HtmlNode LastNode(this HtmlNode node)
+        public static HtmlNode LastChild(this HtmlNode node)
         {
             return InternalGetElementNodes(node)?.LastOrDefault();
         }
