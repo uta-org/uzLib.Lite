@@ -51,6 +51,26 @@ namespace UnityEngine.Global.IMGUI
         /// </value>
         public FileBrowser MyFileBrowser { get; private set; }
 
+        private GUISkin _mySkin;
+
+        /// <summary>
+        /// Gets or sets my GUI skin.
+        /// </summary>
+        /// <value>
+        /// My GUI skin.
+        /// </value>
+        public GUISkin MyGuiSkin
+        {
+            get
+            {
+                if (_mySkin == null)
+                    _mySkin = GUI.skin;
+
+                return _mySkin;
+            }
+            set => _mySkin = value;
+        }
+
         /// <summary>
         ///     Creates the specified map.
         /// </summary>
@@ -185,20 +205,40 @@ namespace UnityEngine.Global.IMGUI
         }
 
         /// <summary>
-        ///     Display a inputs to select file.
+        /// Display a input to select IO resource (folder or file).
         /// </summary>
+        /// <param name="label">The label.</param>
         /// <param name="path">The path.</param>
+        /// <param name="browserType">Type of the browser.</param>
+        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
         /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <returns></returns>
-        public string InputFile(string path, bool fEditor = false, int verticalSpacing = 7)
+        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
         {
-            if (verticalSpacing > 0) GUILayout.Space(verticalSpacing);
+            if (verticalSpacing > 0)
+                GUILayout.Space(verticalSpacing);
 
-            GUILayout.BeginHorizontal(GUI.skin.box);
+            bool hasLabel = !string.IsNullOrEmpty(label);
+
+            if (hasLabel)
+            {
+                GUILayout.BeginVertical(MyGuiSkin.box);
+
+                //GUILayout.BeginHorizontal();
+                //{
+                GUILayout.Label(label);
+                //}
+                //GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+            }
+            else
+                GUILayout.BeginHorizontal(MyGuiSkin.box);
 
             GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle);
 
+            GUI.enabled = isEnabled;
             if (GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
             {
                 if (fEditor)
@@ -211,13 +251,17 @@ namespace UnityEngine.Global.IMGUI
                 }
                 else
                 {
-                    if (MyFileBrowser == null) MyFileBrowser = FileBrowser.Create();
+                    if (MyFileBrowser == null) MyFileBrowser = FileBrowser.Create(browserType);
 
                     path = MyFileBrowser.Open();
                 }
             }
+            GUI.enabled = true;
 
             GUILayout.EndHorizontal();
+
+            if (hasLabel)
+                GUILayout.EndVertical();
 
             if (!fEditor && MyFileBrowser != null && MyFileBrowser.IsReady()) path = MyFileBrowser.CurrentPath;
 

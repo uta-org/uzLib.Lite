@@ -557,7 +557,7 @@
   <Target Name="AfterBuild" Condition="'$(Configuration)' == 'ForUnity' Or '$(Configuration)' == 'ForUnityEditor' Or '$(Configuration)' == 'ForUnityAsPackage'">
     <!--- TODO: This is not working yet -->
     <PropertyGroup>
-      <VSLibCompilationCommand>&quot;$(DevEnvDir)devenv&quot; &quot;$(SolutionDir)uzLib.Lite.sln&quot; /Rebuild &quot;$(Configuration)|$(Platform)&quot; /Project &quot;$(SolutionDir)uzLib.Lite.UnityEditor\uzLib.Lite.UnityEditor.csproj&quot; /Out &quot;$(SolutionDir)Logs\uzLib.Lite.UnityEditor.BuildLog.log&quot;</VSLibCompilationCommand>
+      <VSLibCompilationCommand>"$(DevEnvDir)devenv" "$(SolutionDir)uzLib.Lite.sln" /Rebuild "$(Configuration)|$(Platform)" /Project "$(SolutionDir)uzLib.Lite.UnityEditor\uzLib.Lite.UnityEditor.csproj" /Out "$(SolutionDir)Logs\uzLib.Lite.UnityEditor.BuildLog.log"</VSLibCompilationCommand>
     </PropertyGroup>
     <Message Condition="'$(Configuration)' == 'ForUnityAsPackage'" Text="Building 'uzLib.Lite.UnityEditor' Library: &quot;$(VSLibCompilationCommand)&quot;" Importance="High" />
     <Exec Condition="'$(Configuration)' == 'ForUnityAsPackage'" Command="$(VSLibCompilationCommand)" />
