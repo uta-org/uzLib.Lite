@@ -35,7 +35,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -45,7 +45,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|AnyCPU'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>DEBUG;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -548,8 +548,6 @@
     <Error Condition="!Exists('..\packages\LibGit2Sharp.NativeBinaries.2.0.267\build\net46\LibGit2Sharp.NativeBinaries.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibGit2Sharp.NativeBinaries.2.0.267\build\net46\LibGit2Sharp.NativeBinaries.props'))" />
   </Target>
   <!--- <Target Name="AfterBuildAsPackage" Condition=" '$(Configuration)' == 'ForUnityAsPackage' ">
-
-
   </Target> -->
   <!--- /Out &quot;$(SolutionDir)Logs\uzLib.Lite.UnityEditor.BuildLog.log&quot; -->
   <!---  ConsoleToMsBuild="true" -->
