@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU'">
-    <OutputPath>bin\ForUnity\</OutputPath>
+    <OutputPath>$(CustomOutputPath)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -40,7 +40,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|AnyCPU'">
-    <OutputPath>bin\ForUnityEditor\</OutputPath>
+    <OutputPath>$(CustomOutputPath)</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -90,6 +90,30 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <Target Name="BeforeBuild">
+    <PropertyGroup>
+      <!--
+    <Choose>
+      <When Condition="'$(Platform)' == 'uzSourceToolkit'">
+        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
+      </When>
+      <When Condition="'$(Platform)' == 'uzCraft'">
+        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
+      </When>
+      <When Condition="'$(Platform)' == 'uzSurfaceMapper'">
+        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+      </When>
+      <Otherwise>
+        <OutputPath>bin\ForUnity\Release\</OutputPath>
+      </Otherwise>
+    </Choose>
+    -->
+      <CustomOutputPath Condition="'$(Platform)' == 'uzSourceToolkit'">..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(Platform)' == 'uzCraft'">..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(Platform)' == 'uzSurfaceMapper'">..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(CustomOutputPath)' == ''">bin\ForUnityEditor\Release\</CustomOutputPath>
+    </PropertyGroup>
+  </Target>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Message Text="Query: $(Configuration)|$(Platform)" Importance="High" />
