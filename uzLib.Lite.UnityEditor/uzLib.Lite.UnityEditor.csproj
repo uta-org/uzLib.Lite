@@ -1,29 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Target Name="BeforeBuild">
-    <PropertyGroup>
-      <!--
-    <Choose>
-      <When Condition="'$(Platform)' == 'uzSourceToolkit'">
-        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
-      </When>
-      <When Condition="'$(Platform)' == 'uzCraft'">
-        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
-      </When>
-      <When Condition="'$(Platform)' == 'uzSurfaceMapper'">
-        <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
-      </When>
-      <Otherwise>
-        <OutputPath>bin\ForUnity\Release\</OutputPath>
-      </Otherwise>
-    </Choose>
-    -->
-      <CustomOutputPath Condition="'$(Platform)' == 'uzSourceToolkit'">..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
-      <CustomOutputPath Condition="'$(Platform)' == 'uzCraft'">..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
-      <CustomOutputPath Condition="'$(Platform)' == 'uzSurfaceMapper'">..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\Editor\</CustomOutputPath>
-      <CustomOutputPath Condition="'$(CustomOutputPath)' == ''">bin\ForUnityEditor\Release\</CustomOutputPath>
-    </PropertyGroup>
-  </Target>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -54,21 +30,73 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU'">
-    <OutputPath>$(CustomOutputPath)</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzSourceToolkit'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|AnyCPU'">
-    <OutputPath>$(CustomOutputPath)</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzCraft'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzSurfaceMapper'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzBuildingSystem'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzProceduralCityGen'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzLib'">
+    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzLib\Assets\UnitedTeamworkAssociation\uzLib\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|AnyCPU' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|x64' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|x86' ">
+    <OutputPath>bin\ForUnityEditor\Release\</OutputPath>
+    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -114,7 +142,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Message Text="Query: $(Configuration)|$(Platform)" Importance="High" />
