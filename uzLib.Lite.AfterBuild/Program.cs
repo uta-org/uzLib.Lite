@@ -54,6 +54,16 @@ namespace uzLib.Lite.AfterBuild
                     }
                 }
 
+                // Copy ExternalCode folder
+
+                if (!isEditor)
+                {
+                    string sourceExternalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.AfterBuild", "ExternalCode");
+
+                    Console.WriteLine($"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
+                    IOHelper.DirectoryCopy(sourceExternalCodeFolder, FullPath);
+                }
+
                 Console.WriteLine($"Removed all files! ({count} of {files.Length})");
             }
             catch (Exception ex)
