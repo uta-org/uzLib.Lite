@@ -19,23 +19,27 @@ namespace uzLib.Lite.AfterBuild
                 Console.WriteLine($"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($"{nameof(OutputPath)}: {OutputPath}");
 
-                string ConfigurationName = OutputPath.Split('\\')[1];
-
                 string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath, OutputPath));
+
+                Console.WriteLine($"{nameof(FullPath)}: {FullPath}");
 
                 var files = Directory.GetFiles(FullPath, "*.*", SearchOption.TopDirectoryOnly);
                 var folders = Directory.GetDirectories(FullPath);
 
                 int count = 0;
 
+                bool isEditor = FullPath.Contains("Editor");
+
                 foreach (var file in files)
                 {
-                    if (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode"))
+                    var fileName = Path.GetFileNameWithoutExtension(file);
+                    if (!isEditor && (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode")))
                     {
-                        File.Delete(file);
-
-                        Console.WriteLine($"Deleted file '{file}'!");
-                        ++count;
+                        count = RemoveFile(file, count);
+                    }
+                    else if (isEditor && (!file.Contains("UnityEditor") || fileName == "UnityEditor"))
+                    {
+                        count = RemoveFile(file, count);
                     }
                 }
 
@@ -56,6 +60,15 @@ namespace uzLib.Lite.AfterBuild
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        private static int RemoveFile(string file, int count)
+        {
+            File.Delete(file);
+
+            Console.WriteLine($"Deleted file '{file}'!");
+            ++count;
+            return count;
         }
     }
 }

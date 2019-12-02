@@ -225,5 +225,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Message Text="Query: $(Configuration)|$(Platform)" Importance="High" />
+    <Message Text="Executing cleanup..." Importance="High" />
+    <Exec Command="&quot;E:\VISUAL STUDIO\Visual Studio Projects\uzLib.Lite\uzLib.Lite.AfterBuild\bin\Release\uzLib.Lite.AfterBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
   </Target>
 </Project>
