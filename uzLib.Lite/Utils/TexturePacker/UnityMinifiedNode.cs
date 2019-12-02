@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine.Extensions;
 
-namespace UnityEngine.Utils.TexturePacker
+namespace UnityEngine.Utils.TexturePackerTool
 {
     extern alias TexLib;
 
