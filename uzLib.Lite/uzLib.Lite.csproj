@@ -110,16 +110,6 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzLib'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzLib\Assets\UnitedTeamworkAssociation\uzLib\Scripts\Utilities\uzLib.Lite\</OutputPath>
-    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
   <!--
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU' OR '$(Configuration)|$(Platform)' == 'ForUnity|x64' OR '$(Configuration)|$(Platform)' == 'ForUnity|x86' ">
     <OutputPath>bin\ForUnity\Release\</OutputPath>
@@ -202,16 +192,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzProceduralCityGen'">
     <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\</OutputPath>
-    <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzLib'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzLib\Assets\UnitedTeamworkAssociation\uzLib\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -756,8 +736,6 @@
     <Compile Include="Unity\UI\Interfaces\Enums.cs" />
     <Compile Include="Unity\UI\Interfaces\ICommonUI.cs" />
     <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
-    <Compile Include="Unity\UI\Menus\RadioMenuAttribute.cs" />
-    <Compile Include="Unity\UI\Menus\RadioMenuComponent.cs" />
     <Compile Include="Unity\UI\UIBalancedDraw.cs" />
     <Compile Include="Unity\UI\UIEffect.cs" />
     <Compile Include="Unity\UI\UILayout.cs" />
