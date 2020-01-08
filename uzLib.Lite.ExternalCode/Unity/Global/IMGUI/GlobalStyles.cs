@@ -496,16 +496,9 @@ namespace UnityEngine.Global.IMGUI
 
         private static GUIStyle s_centeredLabelStyle;
 
-        public static GUIStyle CenteredLabelStyle
-        {
-            get
-            {
-                if (s_centeredLabelStyle == null)
-                    s_centeredLabelStyle = new GUIStyle(GUI.skin.label) { alignment = TextAnchor.MiddleCenter };
-
-                return s_centeredLabelStyle;
-            }
-        }
+        public static GUIStyle CenteredLabelStyle =>
+            s_centeredLabelStyle ?? (s_centeredLabelStyle = new GUIStyle("label")
+            { alignment = TextAnchor.MiddleCenter });
 
         public static GUIStyle CenteredStyle(string name, int fontSize = 12)
         {

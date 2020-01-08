@@ -26,7 +26,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Directories the copy.
+        /// Copies the entire folder.
         /// </summary>
         /// <param name="sourceDirName">Name of the source dir.</param>
         /// <param name="destDirName">Name of the dest dir.</param>

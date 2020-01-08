@@ -221,20 +221,25 @@ namespace UnityEngine.Global.IMGUI
 
             bool hasLabel = !string.IsNullOrEmpty(label);
 
+            var boxStyle = MyGuiSkin?.box;
             if (hasLabel)
             {
-                GUILayout.BeginVertical(MyGuiSkin.box);
+                if (boxStyle != null)
+                    GUILayout.BeginVertical(boxStyle);
+                else
+                    GUILayout.BeginVertical();
 
-                //GUILayout.BeginHorizontal();
-                //{
                 GUILayout.Label(label);
-                //}
-                //GUILayout.EndHorizontal();
 
                 GUILayout.BeginHorizontal();
             }
             else
-                GUILayout.BeginHorizontal(MyGuiSkin.box);
+            {
+                if (boxStyle != null)
+                    GUILayout.BeginHorizontal(boxStyle);
+                else
+                    GUILayout.BeginHorizontal();
+            }
 
             GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle);
 
@@ -251,7 +256,8 @@ namespace UnityEngine.Global.IMGUI
                 }
                 else
                 {
-                    if (MyFileBrowser == null) MyFileBrowser = FileBrowser.Create(browserType);
+                    if (MyFileBrowser == null)
+                        MyFileBrowser = FileBrowser.Create(browserType);
 
                     path = MyFileBrowser.Open();
                 }

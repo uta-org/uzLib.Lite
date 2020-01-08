@@ -30,11 +30,14 @@ namespace uzLib.Lite.AfterBuild
 
                 bool isEditor = FullPath.Contains("Editor");
 
+                Console.WriteLine($"Instance is editor?: {isEditor}");
+
                 foreach (var file in files)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file);
-                    if (!isEditor && (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode")))
+                    if (!isEditor && !file.Contains("uzLib.Lite."))
                     {
+                        //  || !file.Contains("ExternalCode") // bugfix: ExternalCode is needed on the same folder
                         count = RemoveFile(file, count);
                     }
                     else if (isEditor && (!file.Contains("UnityEditor") || fileName == "UnityEditor"))
@@ -54,6 +57,10 @@ namespace uzLib.Lite.AfterBuild
                     }
                 }
 
+                // Debug information
+
+                Console.WriteLine($"Removed all files! ({count} of {files.Length})");
+
                 // Copy ExternalCode folder
 
                 if (!isEditor)
@@ -63,8 +70,6 @@ namespace uzLib.Lite.AfterBuild
                     Console.WriteLine($"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
                     IOHelper.DirectoryCopy(sourceExternalCodeFolder, FullPath);
                 }
-
-                Console.WriteLine($"Removed all files! ({count} of {files.Length})");
             }
             catch (Exception ex)
             {
