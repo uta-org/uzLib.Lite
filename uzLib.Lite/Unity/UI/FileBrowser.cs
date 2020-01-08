@@ -202,7 +202,8 @@ namespace UnityEngine.UI
                     : screenRect;
             m_browserType = FileBrowserType.File;
 
-            if (callback != null) m_callback = callback;
+            if (callback != null)
+                m_callback = callback;
 
             SetNewDirectory(Directory.GetCurrentDirectory());
 
@@ -512,7 +513,8 @@ namespace UnityEngine.UI
 
         protected void FileDoubleClickCallback(int i)
         {
-            if (BrowserType == FileBrowserType.File) m_callback(Path.Combine(m_currentDirectory, m_files[i]));
+            if (BrowserType == FileBrowserType.File)
+                m_callback(Path.Combine(m_currentDirectory, m_files[i]));
         }
 
         protected void DirectoryDoubleClickCallback(int i)
@@ -536,7 +538,10 @@ namespace UnityEngine.UI
             }
 
             if (m_callback == null)
+            {
                 CurrentPath = path;
+                ShowFileBrowser = false; // Then, close the browser
+            }
             else
                 m_callback?.Invoke(path);
         }
@@ -563,9 +568,11 @@ namespace UnityEngine.UI
         {
             var ready = !ShowFileBrowser && !string.IsNullOrEmpty(CurrentPath);
 
-            if (IsCancelled()) return true;
+            if (IsCancelled())
+                return true;
 
-            if (ready) ShowFileBrowser = false;
+            if (ready)
+                ShowFileBrowser = false;
 
             return ready;
         }

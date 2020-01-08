@@ -479,6 +479,12 @@ namespace UnityEngine.Global.IMGUI
 
         #region "Custom GlobalStyles"
 
+        private static GUIStyle s_defaultLabelStyle;
+
+        public static GUIStyle DefaultLabelStyle =>
+            s_defaultLabelStyle ?? (s_defaultLabelStyle = new GUIStyle
+            { onActive = new GUIStyleState { textColor = Color.white } });
+
         private static GUIStyle s_styleWithBackground;
 
         public static GUIStyle styleWithBackground =>
@@ -488,8 +494,20 @@ namespace UnityEngine.Global.IMGUI
         private static GUIStyle s_centeredLabelStyle;
 
         public static GUIStyle CenteredLabelStyle =>
-            s_centeredLabelStyle ?? (s_centeredLabelStyle = new GUIStyle("label")
+            s_centeredLabelStyle ?? (s_centeredLabelStyle = new GUIStyle(DefaultLabelStyle)
             { alignment = TextAnchor.MiddleCenter });
+
+        private static GUIStyle s_boldLabelStyle;
+
+        public static GUIStyle BoldLabelStyle =>
+            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(DefaultLabelStyle)
+            { fontStyle = FontStyle.Bold });
+
+        private static GUIStyle s_boldCenteredLabelStyle;
+
+        public static GUIStyle BoldCenteredLabelStyle =>
+            s_boldCenteredLabelStyle ?? (s_boldCenteredLabelStyle = new GUIStyle(DefaultLabelStyle)
+            { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleCenter });
 
         public static GUIStyle CenteredStyle(string name, int fontSize = 12)
         {

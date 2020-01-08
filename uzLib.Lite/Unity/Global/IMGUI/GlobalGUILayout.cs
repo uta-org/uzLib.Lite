@@ -230,6 +230,7 @@ namespace UnityEngine.Global.IMGUI
                     GUILayout.BeginVertical();
 
                 GUILayout.Label(label);
+                //GUILayout.Label(label, GlobalStyles.BoldCenteredLabelStyle);
 
                 GUILayout.BeginHorizontal();
             }
@@ -241,7 +242,8 @@ namespace UnityEngine.Global.IMGUI
                     GUILayout.BeginHorizontal();
             }
 
-            GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle);
+            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path);
+            //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             GUI.enabled = isEnabled;
             if (GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
@@ -249,9 +251,9 @@ namespace UnityEngine.Global.IMGUI
                 if (fEditor)
                 {
 #if UNITY_EDITOR
-                    var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
-                        new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
-                    path = string.IsNullOrEmpty(p) ? null : p;
+                                var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
+                                    new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
+                                path = string.IsNullOrEmpty(p) ? null : p;
 #endif
                 }
                 else
@@ -269,9 +271,15 @@ namespace UnityEngine.Global.IMGUI
             if (hasLabel)
                 GUILayout.EndVertical();
 
-            if (!fEditor && MyFileBrowser != null && MyFileBrowser.IsReady()) path = MyFileBrowser.CurrentPath;
+            if (!fEditor && MyFileBrowser != null && MyFileBrowser.IsReady())
+            {
+                path = MyFileBrowser.CurrentPath;
+                //Debug.Log($"Setting path to '{path}'...");
+            }
 
             return path;
+
+            //return string.Empty;
         }
 
         /// <summary>
