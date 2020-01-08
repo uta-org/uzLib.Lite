@@ -3,12 +3,12 @@ using System.Linq;
 namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
-    /// The ArrayHelper class
+    ///     The ArrayHelper class
     /// </summary>
     public static class ArrayHelper
     {
         /// <summary>
-        /// Pushes the specified value.
+        ///     Pushes the specified value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
@@ -16,11 +16,11 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <returns></returns>
         public static T[] Push<T>(this T[] source, T value)
         {
-            return source.Concat(new[] { value }).ToArray();
+            return source.Concat(new[] {value}).ToArray();
         }
 
         /// <summary>
-        /// Pushes the specified values.
+        ///     Pushes the specified values.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="source">The source.</param>
@@ -61,7 +61,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             try
             {
-                return (T)array[index];
+                return (T) array[index];
             }
             catch
             {

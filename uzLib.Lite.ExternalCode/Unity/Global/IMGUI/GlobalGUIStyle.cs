@@ -28,8 +28,7 @@ namespace UnityEngine.Global.IMGUI
         //[NonSerialized]
         //internal IntPtr m_Ptr;
 
-        [NonSerialized]
-        private GlobalGUIStyleState m_Normal,
+        [NonSerialized] private GlobalGUIStyleState m_Normal,
             m_Hover,
             m_Active,
             m_Focused,

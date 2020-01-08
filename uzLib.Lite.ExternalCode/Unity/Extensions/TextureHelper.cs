@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// To the texture.
+        ///     To the texture.
         /// </summary>
         /// <param name="color">The color.</param>
         /// <returns></returns>
@@ -34,13 +34,13 @@
         }
 
         /// <summary>
-        /// To the texture.
+        ///     To the texture.
         /// </summary>
         /// <param name="color">The color.</param>
         /// <returns></returns>
         public static Texture2D ToTexture(this Color32 color)
         {
-            return ((Color)color).ToTexture();
+            return ((Color) color).ToTexture();
         }
     }
 }

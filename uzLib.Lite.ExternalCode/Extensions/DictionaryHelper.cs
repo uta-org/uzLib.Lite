@@ -5,12 +5,12 @@ using System.Linq;
 namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
-    /// The DictionaryHelper class
+    ///     The DictionaryHelper class
     /// </summary>
     public static class DictionaryHelper
     {
         /// <summary>
-        /// Adds or set the specified value.
+        ///     Adds or set the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -26,7 +26,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds or append the specified value.
+        ///     Adds or append the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -34,22 +34,21 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue[] values)
+        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key,
+            TValue[] values)
         {
             if (!dictionary.ContainsKey(key))
             {
                 dictionary.Add(key, values.ToList());
                 return true;
             }
-            else
-            {
-                dictionary[key] = dictionary[key].AddRangeAndGet(values);
-                return false;
-            }
+
+            dictionary[key] = dictionary[key].AddRangeAndGet(values);
+            return false;
         }
 
         /// <summary>
-        /// Adds or append the specified value.
+        ///     Adds or append the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -57,22 +56,21 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue value)
+        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key,
+            TValue value)
         {
             if (!dictionary.ContainsKey(key))
             {
-                dictionary.Add(key, (new[] { value }).ToList());
+                dictionary.Add(key, new[] {value}.ToList());
                 return true;
             }
-            else
-            {
-                dictionary[key] = dictionary[key].AddAndGet(value);
-                return false;
-            }
+
+            dictionary[key] = dictionary[key].AddAndGet(value);
+            return false;
         }
 
         /// <summary>
-        /// Adds or append the specified value.
+        ///     Adds or append the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -80,22 +78,21 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <param name="key">The key.</param>
         /// <param name="values">The values.</param>
         /// <returns></returns>
-        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, TValue[]> dictionary, TKey key, params TValue[] values)
+        public static bool AddOrAppend<TKey, TValue>(this Dictionary<TKey, TValue[]> dictionary, TKey key,
+            params TValue[] values)
         {
             if (!dictionary.ContainsKey(key))
             {
                 dictionary.Add(key, values);
                 return true;
             }
-            else
-            {
-                dictionary[key] = dictionary[key].Push(values);
-                return false;
-            }
+
+            dictionary[key] = dictionary[key].Push(values);
+            return false;
         }
 
         /// <summary>
-        /// Adds or append the specified value.
+        ///     Adds or append the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -107,18 +104,16 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             if (!dictionary.ContainsKey(key))
             {
-                dictionary.Add(key, new[] { value });
+                dictionary.Add(key, new[] {value});
                 return true;
             }
-            else
-            {
-                dictionary[key] = dictionary[key].Push(value);
-                return false;
-            }
+
+            dictionary[key] = dictionary[key].Push(value);
+            return false;
         }
 
         /// <summary>
-        /// Adds and get the specified value.
+        ///     Adds and get the specified value.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -135,7 +130,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Gets the specified key.
+        ///     Gets the specified key.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -152,14 +147,14 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Determines whether [is null or empty] [the specified key].
+        ///     Determines whether [is null or empty] [the specified key].
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="key">The key.</param>
         /// <returns>
-        ///   <c>true</c> if [is null or empty] [the specified key]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is null or empty] [the specified key]; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key)
         {
@@ -167,7 +162,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Safes the get.
+        ///     Safes the get.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -179,11 +174,11 @@ namespace uzLib.Lite.ExternalCode.Extensions
             if (dictionary.ContainsKey(key))
                 return dictionary[key];
 
-            return default(TValue);
+            return default;
         }
 
         /// <summary>
-        /// Indexes the of.
+        ///     Indexes the of.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -192,20 +187,19 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <returns></returns>
         public static int IndexOf<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         {
-            int i = 0;
+            var i = 0;
             foreach (var pair in dictionary)
             {
                 if (pair.Key.Equals(key))
-                {
                     return i;
-                }
                 i++;
             }
+
             return -1;
         }
 
         /// <summary>
-        /// Indexes the of.
+        ///     Indexes the of.
         /// </summary>
         /// <typeparam name="TKey">The type of the key.</typeparam>
         /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -214,15 +208,14 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <returns></returns>
         public static int IndexOf<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TValue value)
         {
-            int i = 0;
+            var i = 0;
             foreach (var pair in dictionary)
             {
                 if (pair.Value.Equals(value))
-                {
                     return i;
-                }
                 i++;
             }
+
             return -1;
         }
 

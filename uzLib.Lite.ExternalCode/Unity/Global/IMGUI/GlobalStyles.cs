@@ -11,6 +11,9 @@ namespace UnityEngine.Global.IMGUI
         // the list of editor styles to use
         private static GlobalStyles[] s_CachedStyles = { null, null };
 
+        private readonly Vector2 m_KnobSize = new Vector2(40, 40);
+        private readonly Vector2 m_MiniKnobSize = new Vector2(29, 29);
+
         private GUIStyle m_AssetLabel;
         private GUIStyle m_AssetLabelIcon;
         private GUIStyle m_AssetLabelPartial;
@@ -36,7 +39,6 @@ namespace UnityEngine.Global.IMGUI
         private GUIStyle m_InspectorFullWidthMargins;
         private GUIStyle m_InspectorTitlebar;
         private GUIStyle m_InspectorTitlebarText;
-        private readonly Vector2 m_KnobSize = new Vector2(40, 40);
 
         public GUIStyle m_Label;
 
@@ -59,7 +61,6 @@ namespace UnityEngine.Global.IMGUI
         private GUIStyle m_MiniButtonRight;
 
         public Font m_MiniFont;
-        private readonly Vector2 m_MiniKnobSize = new Vector2(29, 29);
 
         private GUIStyle m_MiniLabel;
         private GUIStyle m_MiniPullDown;
@@ -480,19 +481,9 @@ namespace UnityEngine.Global.IMGUI
 
         private static GUIStyle s_styleWithBackground;
 
-        public static GUIStyle styleWithBackground
-        {
-            get
-            {
-                if (s_styleWithBackground == null)
-                {
-                    s_styleWithBackground = new GUIStyle();
-                    s_styleWithBackground.normal.background = Texture2D.whiteTexture;
-                }
-
-                return s_styleWithBackground;
-            }
-        }
+        public static GUIStyle styleWithBackground =>
+            s_styleWithBackground ??
+            (s_styleWithBackground = new GUIStyle { normal = { background = Texture2D.whiteTexture } });
 
         private static GUIStyle s_centeredLabelStyle;
 

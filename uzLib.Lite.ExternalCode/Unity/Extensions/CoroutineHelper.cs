@@ -2,7 +2,6 @@
 using System.Collections;
 
 #if UNITY_EDITOR
-
 using static marijnz.EditorCoroutines;
 
 #endif
@@ -22,7 +21,8 @@ namespace UnityEngine.Extensions
             MonoBehaviour mono)
         {
             if (thisReference == null)
-            { // !isEditor
+            {
+                // !isEditor
                 if (mono == null)
                     throw new ArgumentNullException(nameof(mono));
 
@@ -32,7 +32,7 @@ namespace UnityEngine.Extensions
 #if UNITY_EDITOR
             return new YieldCoroutine(enumerator, thisReference);
 #else
-                throw new Exception("Editor coroutines must be called within the Editor!");
+            throw new Exception("Editor coroutines must be called within the Editor!");
 #endif
         }
 

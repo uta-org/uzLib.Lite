@@ -11,7 +11,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         /// <returns></returns>
         public static string ConvertToHex(this byte @byte)
         {
-            return "0x" + BitConverter.ToString(new[] { @byte });
+            return "0x" + BitConverter.ToString(new[] {@byte});
         }
 
         /// <summary>

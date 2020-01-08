@@ -4,7 +4,7 @@ using System.Linq;
 namespace UnityEngine.ExternalCode.Extensions
 {
     /// <summary>
-    /// The Rect Helper
+    ///     The Rect Helper
     /// </summary>
     public class RectHelper
     {
@@ -78,7 +78,7 @@ namespace UnityEngine.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Sums the next the height.
+        ///     Sums the next the height.
         /// </summary>
         /// <param name="style">The style.</param>
         /// <param name="forceHeight">if set to <c>true</c> [force height].</param>
@@ -111,7 +111,7 @@ namespace UnityEngine.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Gets the height of the next.
+        ///     Gets the height of the next.
         /// </summary>
         /// <param name="height">The height.</param>
         /// <param name="forceHeight">if set to <c>true</c> [force height].</param>
@@ -122,7 +122,7 @@ namespace UnityEngine.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Gets the height of the next.
+        ///     Gets the height of the next.
         /// </summary>
         /// <param name="height">The height.</param>
         /// <param name="forceHeight">if set to <c>true</c> [force height].</param>

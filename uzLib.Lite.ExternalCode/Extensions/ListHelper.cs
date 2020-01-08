@@ -5,12 +5,12 @@ using System.Linq;
 namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
-    /// The ListHelper class
+    ///     The ListHelper class
     /// </summary>
     public static class ListHelper
     {
         /// <summary>
-        /// Inserts the specified new item.
+        ///     Inserts the specified new item.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -23,7 +23,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Inserts the specified new item.
+        ///     Inserts the specified new item.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -38,7 +38,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
 
             firstTime = false;
 
-            foreach (T item in list)
+            foreach (var item in list)
                 if (predicate(item))
                     return;
 
@@ -49,7 +49,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Inserts or get the specified value if predicate is met.
+        ///     Inserts or get the specified value if predicate is met.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -63,7 +63,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Inserts or get the specified value if predicate is met.
+        ///     Inserts or get the specified value if predicate is met.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -79,7 +79,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
 
             firstTime = false;
 
-            foreach (T item in list)
+            foreach (var item in list)
                 if (predicate(item))
                     return item;
 
@@ -90,7 +90,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds the value.
+        ///     Adds the value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -103,7 +103,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds the and get.
+        ///     Adds the and get.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -119,7 +119,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds the range and get.
+        ///     Adds the range and get.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -135,7 +135,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds the nullable range.
+        ///     Adds the nullable range.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
@@ -149,12 +149,12 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Determines whether [is null or empty].
+        ///     Determines whether [is null or empty].
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="data">The data.</param>
         /// <returns>
-        ///   <c>true</c> if [is null or empty] [the specified data]; otherwise, <c>false</c>.
+        ///     <c>true</c> if [is null or empty] [the specified data]; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsNullOrEmpty<T>(this List<T> data)
         {
@@ -162,7 +162,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
         /// <summary>
-        /// Adds the safe.
+        ///     Adds the safe.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="list">The list.</param>
