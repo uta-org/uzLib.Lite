@@ -483,7 +483,7 @@ namespace UnityEngine.Global.IMGUI
 
         public static GUIStyle DefaultLabelStyle =>
             s_defaultLabelStyle ?? (s_defaultLabelStyle = new GUIStyle
-            { onActive = new GUIStyleState { textColor = Color.white } });
+            { normal = new GUIStyleState { textColor = Color.white } });
 
         private static GUIStyle s_styleWithBackground;
 

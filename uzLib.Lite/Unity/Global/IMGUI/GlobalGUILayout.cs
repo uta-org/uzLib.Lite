@@ -229,8 +229,8 @@ namespace UnityEngine.Global.IMGUI
                 else
                     GUILayout.BeginVertical();
 
-                GUILayout.Label(label);
-                //GUILayout.Label(label, GlobalStyles.BoldCenteredLabelStyle);
+                //GUILayout.Label(label);
+                GUILayout.Label(label, GlobalStyles.BoldCenteredLabelStyle);
 
                 GUILayout.BeginHorizontal();
             }
@@ -242,7 +242,8 @@ namespace UnityEngine.Global.IMGUI
                     GUILayout.BeginHorizontal();
             }
 
-            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path);
+            // TODO: Fix the aligment of the two labels
+            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, GlobalStyles.CenteredLabelStyle);
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             GUI.enabled = isEnabled;
