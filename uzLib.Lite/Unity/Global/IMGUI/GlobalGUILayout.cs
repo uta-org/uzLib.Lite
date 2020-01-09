@@ -244,7 +244,7 @@ namespace UnityEngine.Global.IMGUI
             }
 
             // TODO: Fix the alignment of the two labels
-            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path);
+            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, LeftAlignedLabelStyle);
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             GUI.enabled = isEnabled;
@@ -1067,7 +1067,13 @@ namespace UnityEngine.Global.IMGUI
 
         public static GUIStyle BoldLabelStyle =>
             s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(GUI.skin.label)
-            { fontStyle = FontStyle.Bold });
+            { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleLeft });
+
+        private static GUIStyle s_leftAlignedLabelStyle;
+
+        public static GUIStyle LeftAlignedLabelStyle =>
+            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(GUI.skin.label)
+            { alignment = TextAnchor.MiddleLeft });
 
         #endregion "Custom Styles"
     }
