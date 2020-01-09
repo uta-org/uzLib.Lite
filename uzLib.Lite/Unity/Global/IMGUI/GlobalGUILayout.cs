@@ -230,7 +230,8 @@ namespace UnityEngine.Global.IMGUI
                     GUILayout.BeginVertical();
 
                 //GUILayout.Label(label);
-                GUILayout.Label(label, GlobalStyles.BoldCenteredLabelStyle);
+                GUILayout.Label(label, BoldLabelStyle);
+                //GUILayout.Label(label, GlobalStyles.BoldLabelStyle);
 
                 GUILayout.BeginHorizontal();
             }
@@ -242,8 +243,8 @@ namespace UnityEngine.Global.IMGUI
                     GUILayout.BeginHorizontal();
             }
 
-            // TODO: Fix the aligment of the two labels
-            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, GlobalStyles.CenteredLabelStyle);
+            // TODO: Fix the alignment of the two labels
+            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path);
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             GUI.enabled = isEnabled;
@@ -266,6 +267,8 @@ namespace UnityEngine.Global.IMGUI
                 }
             }
             GUI.enabled = true;
+
+            GUILayout.Space(3);
 
             GUILayout.EndHorizontal();
 
@@ -1057,5 +1060,15 @@ namespace UnityEngine.Global.IMGUI
 
             return str;
         }
+
+        #region "Custom Styles"
+
+        private static GUIStyle s_boldLabelStyle;
+
+        public static GUIStyle BoldLabelStyle =>
+            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(GUI.skin.label)
+            { fontStyle = FontStyle.Bold });
+
+        #endregion "Custom Styles"
     }
 }
