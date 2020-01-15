@@ -13,11 +13,11 @@ namespace UnityEngine.UI.Controls
         // The text to render in a series of formatted labels
         private FormattedLabel _formattedLabelText;
 
-        // The texture for the mouse cursor
-        private Texture2D _mouseCursorTexture;
+        //// The texture for the mouse cursor
+        //private Texture2D _mouseCursorTexture;
 
-        public Texture2D _mouseCursorTextureArrow;
-        public Texture2D _mouseCursorTextureLink;
+        //public Texture2D _mouseCursorTextureArrow;
+        //public Texture2D _mouseCursorTextureLink;
 
         // Used in the GUI to select the mouse cursor
         private int _selectedText;
@@ -32,12 +32,12 @@ namespace UnityEngine.UI.Controls
             // If the mouse cursor texture is not set within the Unity Editor
             // then load this texture (must exist within Resources\Images\MouseCursor
             // in Unity Editor's Project
-            if (_mouseCursorTextureArrow == null)
-                _mouseCursorTextureArrow = (Texture2D)Resources.Load("Images/MouseCursor/Arrow");
-            if (_mouseCursorTextureLink == null)
-                _mouseCursorTextureLink = (Texture2D)Resources.Load("Images/MouseCursor/Link");
-            _mouseCursorTexture = _mouseCursorTextureArrow;
-            Cursor.visible = false;
+            //if (_mouseCursorTextureArrow == null)
+            //    _mouseCursorTextureArrow = (Texture2D)Resources.Load("Images/MouseCursor/Arrow");
+            //if (_mouseCursorTextureLink == null)
+            //    _mouseCursorTextureLink = (Texture2D)Resources.Load("Images/MouseCursor/Link");
+            //_mouseCursorTexture = _mouseCursorTextureArrow;
+            //Cursor.visible = false;
         }
 
         private void OnGUI()
@@ -76,9 +76,10 @@ namespace UnityEngine.UI.Controls
             // Position and draw the mouse cursor
             var mousePosition = new Rect(Input.mousePosition.x,
                 Screen.height - Input.mousePosition.y,
-                _mouseCursorTexture.width,
-                _mouseCursorTexture.height);
-            GUI.Window(MOUSE_WINDOW_ID, mousePosition, CreateMouseCursorWindow, _mouseCursorTexture, "");
+                16, 16);
+            // _mouseCursorTexture.width,
+            // _mouseCursorTexture.height);
+            GUI.Window(MOUSE_WINDOW_ID, mousePosition, CreateMouseCursorWindow, "");
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace UnityEngine.UI.Controls
         {
             // The mouse is over a hyperlink
             Debug.Log("onHyperlinkEnter: " + hyperlinkId);
-            _mouseCursorTexture = _mouseCursorTextureLink;
+            //_mouseCursorTexture = _mouseCursorTextureLink;
         }
 
         void IHyperlinkCallback.onHyperLinkActivated(string hyperlinkId)
@@ -118,7 +119,7 @@ namespace UnityEngine.UI.Controls
         {
             // The mouse is no longer over a hyperlink
             Debug.Log("onHyperlinkLeave: " + hyperlinkId);
-            _mouseCursorTexture = _mouseCursorTextureArrow;
+            //_mouseCursorTexture = _mouseCursorTextureArrow;
         }
 
         #endregion IHyperlinkCallback Members
