@@ -77,7 +77,7 @@ namespace UnityEngine.UI
         }
 
         public UIUtils.ButtonDelegate ButtonDelegate { get; set; }
-        public UIUtils.CustomWindowDelegate CustomWindow { get; set; }
+        public UIUtils.CustomWindowDelegate CustomWindow { get; set; } = UIUtils.CustomWindow;
 
         private FileBrowser()
         {
@@ -454,7 +454,7 @@ namespace UnityEngine.UI
             m_scrollPosition = GUILayout.BeginScrollView(
                 m_scrollPosition,
                 false,
-                true,
+                false, // fix
                 GUI.skin.horizontalScrollbar,
                 GUI.skin.verticalScrollbar,
                 GUI.skin.box
