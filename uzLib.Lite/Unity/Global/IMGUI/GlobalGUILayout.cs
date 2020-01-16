@@ -24,6 +24,16 @@ namespace UnityEngine.Global.IMGUI
     public sealed class GlobalGUILayout : Singleton<GlobalGUILayout>
     {
         /// <summary>
+        /// Gets or sets the skin.
+        /// </summary>
+        /// <value>
+        /// The skin.
+        /// </value>
+        public static GUISkin Skin { get; set; } = GUI.skin;
+
+        public delegate bool ButtonCallback(string text, params GUILayoutOption[] options);
+
+        /// <summary>
         ///     The instances
         /// </summary>
         private static readonly Dictionary<int, GlobalGUILayout> Instances = new Dictionary<int, GlobalGUILayout>();
@@ -50,26 +60,6 @@ namespace UnityEngine.Global.IMGUI
         ///     My file browser.
         /// </value>
         public FileBrowser MyFileBrowser { get; private set; }
-
-        private GUISkin _mySkin;
-
-        /// <summary>
-        /// Gets or sets my GUI skin.
-        /// </summary>
-        /// <value>
-        /// My GUI skin.
-        /// </value>
-        public GUISkin MyGuiSkin
-        {
-            get
-            {
-                if (_mySkin == null)
-                    _mySkin = GUI.skin;
-
-                return _mySkin;
-            }
-            set => _mySkin = value;
-        }
 
         /// <summary>
         ///     Creates the specified map.
@@ -205,7 +195,22 @@ namespace UnityEngine.Global.IMGUI
         }
 
         /// <summary>
-        /// Display a input to select IO resource (folder or file).
+        /// Inputs the io.
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="buttonCallback">The button callback.</param>
+        /// <param name="browserType">Type of the browser.</param>
+        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
+        /// <param name="verticalSpacing">The vertical spacing.</param>
+        /// <returns></returns>
+        public string InputIO(string label, string path, ButtonCallback buttonCallback, FileBrowserType browserType = FileBrowserType.File,
+            bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
+            => InternalInputIO(label, path, browserType, isEnabled, fEditor, verticalSpacing, buttonCallback);
+
+        /// <summary>
+        /// Inputs the io.
         /// </summary>
         /// <param name="label">The label.</param>
         /// <param name="path">The path.</param>
@@ -214,14 +219,29 @@ namespace UnityEngine.Global.IMGUI
         /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <returns></returns>
-        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
+        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File,
+            bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
+            => InternalInputIO(label, path, browserType, isEnabled, fEditor, verticalSpacing);
+
+        /// <summary>
+        /// Display a input to select IO resource (folder or file).
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="browserType">Type of the browser.</param>
+        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
+        /// <param name="verticalSpacing">The vertical spacing.</param>
+        /// <param name="buttonCallback">The button callback.</param>
+        /// <returns>The path.</returns>
+        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7, ButtonCallback buttonCallback = null)
         {
             if (verticalSpacing > 0)
                 GUILayout.Space(verticalSpacing);
 
             bool hasLabel = !string.IsNullOrEmpty(label);
 
-            var boxStyle = MyGuiSkin?.box;
+            var boxStyle = Skin.box;
             if (hasLabel)
             {
                 if (boxStyle != null)
@@ -248,7 +268,7 @@ namespace UnityEngine.Global.IMGUI
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             GUI.enabled = isEnabled;
-            if (GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
+            if (buttonCallback?.Invoke("Browse...", GUILayout.MaxWidth(100)) ?? GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
             {
                 if (fEditor)
                 {
@@ -1035,10 +1055,9 @@ namespace UnityEngine.Global.IMGUI
 
             if (!isHovering)
             {
-                if (style != null)
-                    str = GUI.TextField(searchRect, str, style);
-                else
-                    str = GUI.TextField(searchRect, str);
+                str = style != null
+                    ? GUI.TextField(searchRect, str, style)
+                    : GUI.TextField(searchRect, str);
             }
             else
             {
@@ -1066,13 +1085,13 @@ namespace UnityEngine.Global.IMGUI
         private static GUIStyle s_boldLabelStyle;
 
         public static GUIStyle BoldLabelStyle =>
-            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(GUI.skin.label)
+            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(Skin.label)
             { fontStyle = FontStyle.Bold, alignment = TextAnchor.MiddleLeft });
 
         private static GUIStyle s_leftAlignedLabelStyle;
 
         public static GUIStyle LeftAlignedLabelStyle =>
-            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(GUI.skin.label)
+            s_boldLabelStyle ?? (s_boldLabelStyle = new GUIStyle(Skin.label)
             { alignment = TextAnchor.MiddleLeft });
 
         #endregion "Custom Styles"
