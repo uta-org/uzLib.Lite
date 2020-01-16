@@ -52,7 +52,7 @@ namespace UnityEngine.UI
         {
             void LocalWindow(int _)
             {
-                if (GUI.Button(new Rect(clientRect.width - 48, 3, 32, 24), "X", CloseStyle))
+                if (GUI.Button(new Rect(clientRect.width - 48, 0, 32, 24), "x", CloseStyle))
                     closeAction();
 
                 func(_);
