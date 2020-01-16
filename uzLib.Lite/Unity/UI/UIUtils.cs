@@ -61,6 +61,25 @@ namespace UnityEngine.UI
             return GUI.Window(id, clientRect, LocalWindow, text);
         }
 
+        public static void DrawTextureWithTooltip(Rect rect, Texture2D texture, string tooltip)
+        {
+            GUI.DrawTexture(rect, texture);
+
+            Event e = Event.current;
+            if (rect.Contains(e.mousePosition))
+            {
+                GUIContent content = new GUIContent(tooltip);
+
+                GUIStyle style = GUI.skin.box;
+                style.alignment = TextAnchor.MiddleCenter;
+
+                // Compute how large the button needs to be.
+                Vector2 size = style.CalcSize(content);
+
+                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+            }
+        }
+
         /// <summary>
         ///     Gets the screen rect.
         /// </summary>
