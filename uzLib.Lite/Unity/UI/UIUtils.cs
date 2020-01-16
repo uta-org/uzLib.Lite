@@ -36,11 +36,32 @@ namespace UnityEngine.UI
     /// </summary>
     public static class UIUtils
     {
+        /// <summary>
+        /// THe Button delegate.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public delegate bool ButtonDelegate(string text, params GUILayoutOption[] options);
 
+        /// <summary>
+        /// The Custom Window delegate.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="clientRect">The client rect.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="closeAction">The close action.</param>
+        /// <returns></returns>
         public delegate Rect CustomWindowDelegate(int id, Rect clientRect, GUI.WindowFunction func, string text,
             Action closeAction);
 
+        /// <summary>
+        /// Gets the close style.
+        /// </summary>
+        /// <value>
+        /// The close style.
+        /// </value>
         private static GUIStyle CloseStyle => new GUIStyle("label")
         {
             normal = new GUIStyleState { textColor = Color.black },
@@ -48,6 +69,15 @@ namespace UnityEngine.UI
             fontStyle = FontStyle.Bold
         };
 
+        /// <summary>
+        /// Display a custom window.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="clientRect">The client rect.</param>
+        /// <param name="func">The function.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="closeAction">The close action.</param>
+        /// <returns></returns>
         public static Rect CustomWindow(int id, Rect clientRect, GUI.WindowFunction func, string text, Action closeAction)
         {
             void LocalWindow(int _)
@@ -61,6 +91,41 @@ namespace UnityEngine.UI
             return GUI.Window(id, clientRect, LocalWindow, text);
         }
 
+        /// <summary>
+        /// Draws the texture with tooltip as button.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="texture">The texture.</param>
+        /// <param name="tooltip">The tooltip.</param>
+        /// <returns></returns>
+        public static bool DrawTextureWithTooltipAsButton(Rect rect, Texture2D texture, string tooltip)
+        {
+            GUI.DrawTexture(rect, texture);
+
+            Event e = Event.current;
+            bool hover = rect.Contains(e.mousePosition);
+            if (hover)
+            {
+                GUIContent content = new GUIContent(tooltip);
+
+                GUIStyle style = GUI.skin.box;
+                style.alignment = TextAnchor.MiddleCenter;
+
+                // Compute how large the button needs to be.
+                Vector2 size = style.CalcSize(content);
+
+                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+            }
+
+            return hover && e.type == EventType.MouseDown && e.clickCount == 1;
+        }
+
+        /// <summary>
+        /// Draws the texture with tooltip.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="texture">The texture.</param>
+        /// <param name="tooltip">The tooltip.</param>
         public static void DrawTextureWithTooltip(Rect rect, Texture2D texture, string tooltip)
         {
             GUI.DrawTexture(rect, texture);
