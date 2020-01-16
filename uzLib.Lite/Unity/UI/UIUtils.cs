@@ -94,6 +94,36 @@ namespace UnityEngine.UI
         /// <summary>
         /// Draws the texture with tooltip as button.
         /// </summary>
+        /// <param name="texture">The texture.</param>
+        /// <param name="tooltip">The tooltip.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        public static bool DrawTextureWithTooltipAsButton(Texture2D texture, string tooltip, params GUILayoutOption[] options)
+        {
+            GUILayout.Box(texture, GUI.skin.label, options);
+            var rect = GUILayoutUtility.GetLastRect();
+
+            Event e = Event.current;
+            bool hover = rect.Contains(e.mousePosition);
+            if (hover)
+            {
+                GUIContent content = new GUIContent(tooltip);
+
+                GUIStyle style = GUI.skin.box;
+                style.alignment = TextAnchor.MiddleCenter;
+
+                // Compute how large the button needs to be.
+                Vector2 size = style.CalcSize(content);
+
+                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+            }
+
+            return hover && e.type == EventType.MouseDown && e.clickCount == 1;
+        }
+
+        /// <summary>
+        /// Draws the texture with tooltip as button.
+        /// </summary>
         /// <param name="rect">The rect.</param>
         /// <param name="texture">The texture.</param>
         /// <param name="tooltip">The tooltip.</param>
