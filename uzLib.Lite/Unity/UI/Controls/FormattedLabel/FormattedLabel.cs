@@ -306,7 +306,10 @@ namespace UnityEngine.UI.Controls
                                 Font font = Font.CreateDynamicFontFromOSFont(fontName, fontSize);
                                 if (font == null)
                                 {
-                                    Debug.LogError($"Can't create font '{fontName}' from OS!");
+                                    //Debug.LogError($"Can't create font '{fontName}' from OS!");
+
+                                    // Try to load it!
+                                    guiStyle.font = (Font)Resources.Load("Fonts/" + commandParts[1]);
                                 }
                                 else
                                 {
@@ -939,6 +942,7 @@ namespace UnityEngine.UI.Controls
                                 if (commandList.Length > commandIndex + 1)
                                 {
                                     commandIndex++;
+                                    int fontNameIndex = commandIndex;
 
                                     string fontName = commandList[commandIndex];
                                     int fontSize = 11;
@@ -958,6 +962,7 @@ namespace UnityEngine.UI.Controls
                                     {
                                         commandIndex++;
                                         int.TryParse(commandList[commandIndex], out fontSize);
+                                        _guiStyle.fontSize = fontSize;
 
                                         //int fontSize;
                                         //if (int.TryParse(commandList[commandIndex], out fontSize))
@@ -972,15 +977,25 @@ namespace UnityEngine.UI.Controls
                                         //}
                                     }
 
+                                    Font fontResources = null;
                                     Font font = Font.CreateDynamicFontFromOSFont(fontName, fontSize);
                                     if (font == null)
                                     {
-                                        Debug.LogError($"Can't create font '{fontName}' from OS!");
+                                        fontResources = (Font)Resources.Load("Fonts/" + commandList[fontNameIndex]);
+                                        if (fontResources == null)
+                                        {
+                                            Debug.LogError("The font '" + fontName +
+                                                               "' does not exist within Assets/Resources/Fonts/");
+                                        }
+                                        else
+                                        {
+                                            _guiStyle.font = fontResources;
+                                        }
+                                        Debug.LogWarning($"Can't create font '{fontName}' from OS!");
                                     }
                                     else
                                     {
                                         _guiStyle.font = font;
-                                        _guiStyle.fontSize = fontSize;
                                     }
                                 }
                                 else
