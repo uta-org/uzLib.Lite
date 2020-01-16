@@ -96,9 +96,10 @@ namespace UnityEngine.UI
         /// </summary>
         /// <param name="texture">The texture.</param>
         /// <param name="tooltip">The tooltip.</param>
+        /// <param name="style">The style.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        public static bool DrawTextureWithTooltipAsButton(Texture2D texture, string tooltip, params GUILayoutOption[] options)
+        public static bool DrawTextureWithTooltipAsButton(Texture2D texture, string tooltip, GUIStyle style = null, params GUILayoutOption[] options)
         {
             GUILayout.Box(texture, GUI.skin.label, options);
             var rect = GUILayoutUtility.GetLastRect();
@@ -109,13 +110,13 @@ namespace UnityEngine.UI
             {
                 GUIContent content = new GUIContent(tooltip);
 
-                GUIStyle style = GUI.skin.box;
-                style.alignment = TextAnchor.MiddleCenter;
+                (style ?? GUI.skin.box).alignment = TextAnchor.MiddleCenter;
 
                 // Compute how large the button needs to be.
-                Vector2 size = style.CalcSize(content);
+                Vector2? size = style?.CalcSize(content);
 
-                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+                if (size.HasValue)
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip);
             }
 
             return hover && e.type == EventType.MouseDown && e.clickCount == 1;
@@ -144,6 +145,7 @@ namespace UnityEngine.UI
                 // Compute how large the button needs to be.
                 Vector2 size = style.CalcSize(content);
 
+                // TODO: Style param
                 GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
             }
 
@@ -171,6 +173,7 @@ namespace UnityEngine.UI
                 // Compute how large the button needs to be.
                 Vector2 size = style.CalcSize(content);
 
+                // TODO: Style param
                 GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
             }
         }
