@@ -188,7 +188,7 @@ namespace UnityEngine.UI.Controls
         {
             int textStart, commandStart, commandEnd;
             string[] commandParts;
-            var searchStyle = stringStyleIn != null && stringStyleIn.Length > 0 ? stringStyleIn : "Label";
+            var searchStyle = !string.IsNullOrEmpty(stringStyleIn) ? stringStyleIn : "Label";
             var textAlignment = TextAlignment.Left;
 
             GUILayout.BeginVertical();
@@ -208,6 +208,7 @@ namespace UnityEngine.UI.Controls
             _defaultColor = guiStyle.normal.textColor;
             _defaultBackgroundColor = GUI.skin.GetStyle(searchStyle).normal.background;
 
+            // Debug.Log(_lines.Count);
             foreach (var line in _lines)
             {
                 //Debug.Log("Formatted line: " + line);
@@ -306,10 +307,15 @@ namespace UnityEngine.UI.Controls
                                 Font font = Font.CreateDynamicFontFromOSFont(fontName, fontSize);
                                 if (font == null)
                                 {
-                                    //Debug.LogError($"Can't create font '{fontName}' from OS!");
+                                    Debug.LogWarning($"Can't create font '{fontName}' from OS!");
 
                                     // Try to load it!
-                                    guiStyle.font = (Font)Resources.Load("Fonts/" + commandParts[1]);
+                                    var _font = (Font)Resources.Load("Fonts/" + commandParts[1]);
+
+                                    if (_font == null)
+                                        Debug.LogError($"Can't load font from Resources '{fontName}'!");
+                                    else
+                                        guiStyle.font = _font;
                                 }
                                 else
                                 {
@@ -639,6 +645,8 @@ namespace UnityEngine.UI.Controls
                     GuiHelper.DrawLine(from, to, guiStyle.normal.textColor);
                 }
             }
+
+            // Debug.Log($"{lastRect} --- {text}");
         }
 
         private static Rect GetRealPosition(Rect r)
