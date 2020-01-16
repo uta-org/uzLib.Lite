@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine.Core;
 
+// ReSharper disable CompareOfFloatsByEqualityOperator
+
 namespace UnityEngine.UI
 {
     /*
@@ -61,6 +63,21 @@ namespace UnityEngine.UI
         protected int m_selectedDirectory;
         protected int m_selectedFile;
         protected int m_selectedNonMatchingDirectory;
+
+        private GUISkin s_Skin;
+
+        public GUISkin Skin
+        {
+            get => s_Skin;
+            set
+            {
+                s_Skin = value;
+                UILayout.Skin = value;
+            }
+        }
+
+        public UIUtils.ButtonDelegate ButtonDelegate { get; set; }
+        public UIUtils.CustomWindowDelegate CustomWindow { get; set; }
 
         private FileBrowser()
         {
@@ -195,10 +212,8 @@ namespace UnityEngine.UI
             m_name = name;
             m_screenRect = screenRect == Rect.zero
                 ? UIUtils.GetCenteredRect(500, 400)
-                :
-                screenRect.xMin == 0 && screenRect.yMin == 0
-                    ?
-                    UIUtils.GetCenteredRect(screenRect.width, screenRect.height)
+                : screenRect.xMin == 0 && screenRect.yMin == 0
+                    ? UIUtils.GetCenteredRect(screenRect.width, screenRect.height)
                     : screenRect;
             m_browserType = FileBrowserType.File;
 
@@ -381,11 +396,17 @@ namespace UnityEngine.UI
 
         private void OnGUI()
         {
-            if (!ShowFileBrowser) return;
+            if (!ShowFileBrowser)
+                return;
+
+            if (Skin != null)
+                GUI.skin = Skin;
 
             var e = Event.current;
 
-            m_screenRect = GUI.Window(9999, m_screenRect, DrawWindow, m_name);
+            m_screenRect =
+                CustomWindow?.Invoke(9999, m_screenRect, DrawWindow, m_name, () => SetCurrentPath(null))
+                ?? GUI.Window(9999, m_screenRect, DrawWindow, m_name);
 
             if (e.type == EventType.Repaint) SwitchDirectoryNow();
         }
@@ -404,7 +425,7 @@ namespace UnityEngine.UI
                 GUILayout.BeginHorizontal();
 
                 foreach (var drive in m_drives)
-                    if (GUILayout.Button(drive))
+                    if (ButtonDelegate?.Invoke(drive) ?? GUILayout.Button(drive))
                         SetNewDirectory(drive);
 
                 GUILayout.FlexibleSpace();
@@ -419,7 +440,7 @@ namespace UnityEngine.UI
                 {
                     GUILayout.Label(m_currentDirectoryParts[parentIndex], CentredText);
                 }
-                else if (GUILayout.Button(m_currentDirectoryParts[parentIndex]))
+                else if (ButtonDelegate?.Invoke(m_currentDirectoryParts[parentIndex]) ?? GUILayout.Button(m_currentDirectoryParts[parentIndex]))
                 {
                     var parentDirectoryName = m_currentDirectory;
                     for (var i = m_currentDirectoryParts.Length - 1; i > parentIndex; --i)
@@ -469,7 +490,8 @@ namespace UnityEngine.UI
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (UIUtils.ButtonWithCalculatedSize("Cancel")) SetCurrentPath(null);
+            if (UIUtils.ButtonWithCalculatedSize("Cancel", ButtonDelegate))
+                SetCurrentPath(null);
 
             if (BrowserType == FileBrowserType.File)
             {
@@ -488,7 +510,7 @@ namespace UnityEngine.UI
 
             var selectButtonText = BrowserType == FileBrowserType.File ? "Select" : "Select current folder";
 
-            if (UIUtils.ButtonWithCalculatedSize(selectButtonText))
+            if (UIUtils.ButtonWithCalculatedSize(selectButtonText, ButtonDelegate))
             {
                 if (BrowserType == FileBrowserType.File)
                 {

@@ -36,6 +36,31 @@ namespace UnityEngine.UI
     /// </summary>
     public static class UIUtils
     {
+        public delegate bool ButtonDelegate(string text, params GUILayoutOption[] options);
+
+        public delegate Rect CustomWindowDelegate(int id, Rect clientRect, GUI.WindowFunction func, string text,
+            Action closeAction);
+
+        private static GUIStyle CloseStyle => new GUIStyle("label")
+        {
+            normal = new GUIStyleState { textColor = Color.black },
+            fontSize = 16,
+            fontStyle = FontStyle.Bold
+        };
+
+        public static Rect CustomWindow(int id, Rect clientRect, GUI.WindowFunction func, string text, Action closeAction)
+        {
+            void LocalWindow(int _)
+            {
+                if (GUI.Button(new Rect(clientRect.width - 48, 3, 32, 24), "X", CloseStyle))
+                    closeAction();
+
+                func(_);
+            }
+
+            return GUI.Window(id, clientRect, LocalWindow, text);
+        }
+
         /// <summary>
         ///     Gets the screen rect.
         /// </summary>
@@ -155,11 +180,11 @@ namespace UnityEngine.UI
         /// </summary>
         /// <param name="text">The text.</param>
         /// <returns></returns>
-        public static bool ButtonWithCalculatedSize(string text)
+        public static bool ButtonWithCalculatedSize(string text, ButtonDelegate buttonDelegate = null)
         {
             var size = CalcScreenSizeForText(text, GUI.skin.button);
 
-            return GUILayout.Button(text, GUILayout.Width(size.x), GUILayout.Height(size.y));
+            return buttonDelegate?.Invoke(text, GUILayout.Width(size.x), GUILayout.Height(size.y)) ?? GUILayout.Button(text, GUILayout.Width(size.x), GUILayout.Height(size.y));
         }
 
         /// <summary>

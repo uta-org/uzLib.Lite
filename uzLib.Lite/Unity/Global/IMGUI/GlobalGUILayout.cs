@@ -31,8 +31,6 @@ namespace UnityEngine.Global.IMGUI
         /// </value>
         public static GUISkin Skin { get; set; } = GUI.skin;
 
-        public delegate bool ButtonCallback(string text, params GUILayoutOption[] options);
-
         /// <summary>
         ///     The instances
         /// </summary>
@@ -205,7 +203,7 @@ namespace UnityEngine.Global.IMGUI
         /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <returns></returns>
-        public string InputIO(string label, string path, ButtonCallback buttonCallback, FileBrowserType browserType = FileBrowserType.File,
+        public string InputIO(string label, string path, UIUtils.ButtonDelegate buttonCallback, FileBrowserType browserType = FileBrowserType.File,
             bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
             => InternalInputIO(label, path, browserType, isEnabled, fEditor, verticalSpacing, buttonCallback);
 
@@ -234,7 +232,7 @@ namespace UnityEngine.Global.IMGUI
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <param name="buttonCallback">The button callback.</param>
         /// <returns>The path.</returns>
-        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7, ButtonCallback buttonCallback = null)
+        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7, UIUtils.ButtonDelegate buttonCallback = null)
         {
             if (verticalSpacing > 0)
                 GUILayout.Space(verticalSpacing);
@@ -281,7 +279,11 @@ namespace UnityEngine.Global.IMGUI
                 else
                 {
                     if (MyFileBrowser == null)
+                    {
                         MyFileBrowser = FileBrowser.Create(browserType);
+                        MyFileBrowser.Skin = Skin;
+                        MyFileBrowser.ButtonDelegate = buttonCallback;
+                    }
 
                     path = MyFileBrowser.Open();
                 }

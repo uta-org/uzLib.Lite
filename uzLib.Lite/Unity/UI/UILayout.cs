@@ -2,11 +2,14 @@
 {
     public class UILayout
     {
+        public static GUISkin Skin { get; set; } = GUI.skin;
+        public static GUIStyle[] Styles { get; set; }
+
         public delegate void DoubleClickCallback(int index);
 
         public static int SelectionList(int selected, GUIContent[] list)
         {
-            return SelectionList(selected, list, "button", null);
+            return SelectionList(selected, list, Skin.button, null);
         }
 
         public static int SelectionList(int selected, GUIContent[] list, GUIStyle elementStyle)
@@ -16,7 +19,7 @@
 
         public static int SelectionList(int selected, GUIContent[] list, DoubleClickCallback callback)
         {
-            return SelectionList(selected, list, "button", callback);
+            return SelectionList(selected, list, Skin.button, callback);
         }
 
         public static int SelectionList(int selected, GUIContent[] list, GUIStyle elementStyle,
@@ -40,7 +43,10 @@
                 }
                 else if (Event.current.type == EventType.Repaint)
                 {
-                    elementStyle.Draw(elementRect, list[i], hover, false, i == selected, false);
+                    (Styles != null
+                        ? selected == i ? Styles[1] : Styles[0]
+                        : elementStyle)
+                        .Draw(elementRect, list[i], hover, false, i == selected, false);
                 }
             }
 
