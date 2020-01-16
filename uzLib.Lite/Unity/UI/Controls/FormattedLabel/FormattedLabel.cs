@@ -295,7 +295,24 @@ namespace UnityEngine.UI.Controls
                                 break;
 
                             case "F": // Font
-                                guiStyle.font = (Font)Resources.Load("Fonts/" + commandParts[1]);
+                                //guiStyle.font = (Font)Resources.Load("Fonts/" + commandParts[1]);
+
+                                string fontName = commandParts[1];
+                                int fontSize = 11;
+
+                                if (2 < commandParts.Length)
+                                    int.TryParse(commandParts[1], out fontSize);
+
+                                Font font = Font.CreateDynamicFontFromOSFont(fontName, fontSize);
+                                if (font == null)
+                                {
+                                    Debug.LogError($"Can't create font '{fontName}' from OS!");
+                                }
+                                else
+                                {
+                                    guiStyle.font = font;
+                                    guiStyle.fontSize = fontSize;
+                                }
                                 break;
 
                             case "FA": // Font Attribute
@@ -922,32 +939,48 @@ namespace UnityEngine.UI.Controls
                                 if (commandList.Length > commandIndex + 1)
                                 {
                                     commandIndex++;
-                                    var font = (Font)Resources.Load("Fonts/" + commandList[commandIndex]);
-                                    if (font == null)
-                                    {
-                                        Debug.LogError("The font '" + commandList[commandIndex] +
-                                                       "' does not exist within Assets/Resources/Fonts/");
-                                    }
-                                    else
-                                    {
-                                        _guiStyle.font = font; // Update the font to properly measure text
-                                        addCommandToLine("F " + commandList[commandIndex]);
-                                    }
+
+                                    string fontName = commandList[commandIndex];
+                                    int fontSize = 11;
+                                    //var font = (Font)Resources.Load("Fonts/" + commandList[commandIndex]);
+                                    //if (font == null)
+                                    //{
+                                    //    Debug.LogError("The font '" + commandList[commandIndex] +
+                                    //                   "' does not exist within Assets/Resources/Fonts/");
+                                    //}
+                                    //else
+                                    //{
+                                    //    _guiStyle.font = font; // Update the font to properly measure text
+                                    //    addCommandToLine("F " + commandList[commandIndex]);
+                                    //}
 
                                     if (commandList.Length > commandIndex + 1)
                                     {
                                         commandIndex++;
-                                        int fontSize;
-                                        if (int.TryParse(commandList[commandIndex], out fontSize))
-                                        {
-                                            addCommandToLine("FS " + commandList[commandIndex]);
-                                            _guiStyle.fontSize = fontSize; // Update the size to properly measure text
-                                        }
-                                        else
-                                        {
-                                            Debug.LogError("The font size '" + commandList[commandIndex] +
-                                                           "' is not a valid integer");
-                                        }
+                                        int.TryParse(commandList[commandIndex], out fontSize);
+
+                                        //int fontSize;
+                                        //if (int.TryParse(commandList[commandIndex], out fontSize))
+                                        //{
+                                        //    addCommandToLine("FS " + commandList[commandIndex]); // TODO
+                                        //    _guiStyle.fontSize = fontSize; // Update the size to properly measure text
+                                        //}
+                                        //else
+                                        //{
+                                        //    Debug.LogError("The font size '" + commandList[commandIndex] +
+                                        //                   "' is not a valid integer");
+                                        //}
+                                    }
+
+                                    Font font = Font.CreateDynamicFontFromOSFont(fontName, fontSize);
+                                    if (font == null)
+                                    {
+                                        Debug.LogError($"Can't create font '{fontName}' from OS!");
+                                    }
+                                    else
+                                    {
+                                        _guiStyle.font = font;
+                                        _guiStyle.fontSize = fontSize;
                                     }
                                 }
                                 else
