@@ -70,6 +70,14 @@ namespace UnityEngine.UI
         };
 
         /// <summary>
+        ///     Gets the screen rect.
+        /// </summary>
+        /// <value>
+        ///     The screen rect.
+        /// </value>
+        public static Rect ScreenRect => new Rect(0, 0, Screen.width, Screen.height);
+
+        /// <summary>
         /// Display a custom window.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -116,7 +124,7 @@ namespace UnityEngine.UI
                 Vector2? size = style?.CalcSize(content);
 
                 if (size.HasValue)
-                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip);
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
             }
 
             return hover && e.type == EventType.MouseDown && e.clickCount == 1;
@@ -128,8 +136,9 @@ namespace UnityEngine.UI
         /// <param name="rect">The rect.</param>
         /// <param name="texture">The texture.</param>
         /// <param name="tooltip">The tooltip.</param>
+        /// <param name="style">The style.</param>
         /// <returns></returns>
-        public static bool DrawTextureWithTooltipAsButton(Rect rect, Texture2D texture, string tooltip)
+        public static bool DrawTextureWithTooltipAsButton(Rect rect, Texture2D texture, string tooltip, GUIStyle style = null)
         {
             GUI.DrawTexture(rect, texture);
 
@@ -139,14 +148,13 @@ namespace UnityEngine.UI
             {
                 GUIContent content = new GUIContent(tooltip);
 
-                GUIStyle style = GUI.skin.box;
-                style.alignment = TextAnchor.MiddleCenter;
+                (style ?? GUI.skin.box).alignment = TextAnchor.MiddleCenter;
 
                 // Compute how large the button needs to be.
-                Vector2 size = style.CalcSize(content);
+                Vector2? size = style?.CalcSize(content);
 
-                // TODO: Style param
-                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+                if (size.HasValue)
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
             }
 
             return hover && e.type == EventType.MouseDown && e.clickCount == 1;
@@ -158,7 +166,8 @@ namespace UnityEngine.UI
         /// <param name="rect">The rect.</param>
         /// <param name="texture">The texture.</param>
         /// <param name="tooltip">The tooltip.</param>
-        public static void DrawTextureWithTooltip(Rect rect, Texture2D texture, string tooltip)
+        /// <param name="style">The style.</param>
+        public static void DrawTextureWithTooltip(Rect rect, Texture2D texture, string tooltip, GUIStyle style = null)
         {
             GUI.DrawTexture(rect, texture);
 
@@ -167,24 +176,15 @@ namespace UnityEngine.UI
             {
                 GUIContent content = new GUIContent(tooltip);
 
-                GUIStyle style = GUI.skin.box;
-                style.alignment = TextAnchor.MiddleCenter;
+                (style ?? GUI.skin.box).alignment = TextAnchor.MiddleCenter;
 
                 // Compute how large the button needs to be.
-                Vector2 size = style.CalcSize(content);
+                Vector2? size = style?.CalcSize(content);
 
-                // TODO: Style param
-                GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size), tooltip);
+                if(size.HasValue)
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
             }
         }
-
-        /// <summary>
-        ///     Gets the screen rect.
-        /// </summary>
-        /// <value>
-        ///     The screen rect.
-        /// </value>
-        public static Rect ScreenRect => new Rect(0, 0, Screen.width, Screen.height);
 
         /// <summary>
         ///     Gets the corner rect.
