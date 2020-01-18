@@ -124,7 +124,7 @@ namespace UnityEngine.UI
                 Vector2? size = style?.CalcSize(content);
 
                 if (size.HasValue)
-                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style);
             }
 
             return hover && e.type == EventType.MouseDown && e.clickCount == 1;
@@ -154,7 +154,7 @@ namespace UnityEngine.UI
                 Vector2? size = style?.CalcSize(content);
 
                 if (size.HasValue)
-                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style);
             }
 
             return hover && e.type == EventType.MouseDown && e.clickCount == 1;
@@ -181,8 +181,8 @@ namespace UnityEngine.UI
                 // Compute how large the button needs to be.
                 Vector2? size = style?.CalcSize(content);
 
-                if(size.HasValue)
-                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style ?? GUI.skin.box);
+                if (size.HasValue)
+                    GUI.Box(new Rect(e.mousePosition + Vector2.right * 20, size.Value), tooltip, style);
             }
         }
 

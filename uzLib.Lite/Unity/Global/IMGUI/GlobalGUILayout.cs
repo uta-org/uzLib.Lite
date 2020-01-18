@@ -193,33 +193,20 @@ namespace UnityEngine.Global.IMGUI
         }
 
         /// <summary>
-        /// Inputs the io.
+        /// Display a input to select IO resource (folder or file).
         /// </summary>
         /// <param name="label">The label.</param>
         /// <param name="path">The path.</param>
         /// <param name="buttonCallback">The button callback.</param>
         /// <param name="browserType">Type of the browser.</param>
         /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        /// <param name="customStyle">The custom style.</param>
         /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <returns></returns>
         public string InputIO(string label, string path, UIUtils.ButtonDelegate buttonCallback, FileBrowserType browserType = FileBrowserType.File,
-            bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
-            => InternalInputIO(label, path, browserType, isEnabled, fEditor, verticalSpacing, buttonCallback);
-
-        /// <summary>
-        /// Inputs the io.
-        /// </summary>
-        /// <param name="label">The label.</param>
-        /// <param name="path">The path.</param>
-        /// <param name="browserType">Type of the browser.</param>
-        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
-        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
-        /// <param name="verticalSpacing">The vertical spacing.</param>
-        /// <returns></returns>
-        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File,
-            bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7)
-            => InternalInputIO(label, path, browserType, isEnabled, fEditor, verticalSpacing);
+            bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
+            => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing, buttonCallback);
 
         /// <summary>
         /// Display a input to select IO resource (folder or file).
@@ -228,18 +215,36 @@ namespace UnityEngine.Global.IMGUI
         /// <param name="path">The path.</param>
         /// <param name="browserType">Type of the browser.</param>
         /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        /// <param name="customStyle">The custom style.</param>
+        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
+        /// <param name="verticalSpacing">The vertical spacing.</param>
+        /// <returns></returns>
+        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File,
+            bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
+            => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing);
+
+        /// <summary>
+        /// Display a input to select IO resource (folder or file).
+        /// </summary>
+        /// <param name="label">The label.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="browserType">Type of the browser.</param>
+        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        /// <param name="customStyle">The custom style.</param>
         /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
         /// <param name="verticalSpacing">The vertical spacing.</param>
         /// <param name="buttonCallback">The button callback.</param>
-        /// <returns>The path.</returns>
-        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, bool fEditor = false, int verticalSpacing = 7, UIUtils.ButtonDelegate buttonCallback = null)
+        /// <returns>
+        /// The path.
+        /// </returns>
+        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7, UIUtils.ButtonDelegate buttonCallback = null)
         {
             if (verticalSpacing > 0)
                 GUILayout.Space(verticalSpacing);
 
             bool hasLabel = !string.IsNullOrEmpty(label);
 
-            var boxStyle = Skin.box;
+            var boxStyle = customStyle ?? Skin.box;
             if (hasLabel)
             {
                 if (boxStyle != null)
