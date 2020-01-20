@@ -66,6 +66,12 @@ namespace UnityEngine.UI
 
         private GUISkin s_Skin;
 
+        /// <summary>
+        /// Gets or sets the skin.
+        /// </summary>
+        /// <value>
+        /// The skin.
+        /// </value>
         public GUISkin Skin
         {
             get => s_Skin;
@@ -76,14 +82,36 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Gets or sets the button delegate.
+        /// </summary>
+        /// <value>
+        /// The button delegate.
+        /// </value>
         public UIUtils.ButtonDelegate ButtonDelegate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the custom window.
+        /// </summary>
+        /// <value>
+        /// The custom window.
+        /// </value>
         public UIUtils.CustomWindowDelegate CustomWindow { get; set; } = UIUtils.CustomWindow;
 
+        /// <summary>
+        /// Prevents a default instance of the <see cref="FileBrowser"/> class from being created.
+        /// </summary>
         private FileBrowser()
         {
         }
 
         // Defaults to working directory
+        /// <summary>
+        /// Gets or sets the current directory.
+        /// </summary>
+        /// <value>
+        /// The current directory.
+        /// </value>
         public string CurrentDirectory
         {
             get => m_currentDirectory;
@@ -98,6 +126,12 @@ namespace UnityEngine.UI
         // http://msdn.microsoft.com/en-us/library/wz42302f(v=VS.90).aspx
         // and
         // http://msdn.microsoft.com/en-us/library/6ff71z1w(v=VS.90).aspx
+        /// <summary>
+        /// Gets or sets the selection pattern.
+        /// </summary>
+        /// <value>
+        /// The selection pattern.
+        /// </value>
         public string SelectionPattern
         {
             get => m_filePattern;
@@ -108,11 +142,29 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether [show file browser].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [show file browser]; otherwise, <c>false</c>.
+        /// </value>
         public bool ShowFileBrowser { get; private set; }
 
+        /// <summary>
+        /// Gets the current path.
+        /// </summary>
+        /// <value>
+        /// The current path.
+        /// </value>
         public string CurrentPath { get; private set; }
 
         // Optional image for directories
+        /// <summary>
+        /// Gets or sets the directory image.
+        /// </summary>
+        /// <value>
+        /// The directory image.
+        /// </value>
         public Texture2D DirectoryImage
         {
             get => m_directoryImage;
@@ -124,6 +176,12 @@ namespace UnityEngine.UI
         }
 
         // Optional image for files
+        /// <summary>
+        /// Gets or sets the file image.
+        /// </summary>
+        /// <value>
+        /// The file image.
+        /// </value>
         public Texture2D FileImage
         {
             get => m_fileImage;
@@ -135,6 +193,12 @@ namespace UnityEngine.UI
         }
 
         // Browser type. Defaults to File, but can be set to Folder
+        /// <summary>
+        /// Gets or sets the type of the browser.
+        /// </summary>
+        /// <value>
+        /// The type of the browser.
+        /// </value>
         public FileBrowserType BrowserType
         {
             get => m_browserType;
@@ -145,7 +209,13 @@ namespace UnityEngine.UI
             }
         }
 
-        protected GUIStyle CentredText
+        /// <summary>
+        /// Gets the centered text.
+        /// </summary>
+        /// <value>
+        /// The centered text.
+        /// </value>
+        protected GUIStyle CenteredText
         {
             get
             {
@@ -160,22 +230,47 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Creates the specified file browser type.
+        /// </summary>
+        /// <param name="fileBrowserType">Type of the file browser.</param>
+        /// <returns></returns>
         public static FileBrowser Create(FileBrowserType fileBrowserType = FileBrowserType.File)
         {
             return Create(Vector2.zero, Application.streamingAssetsPath, fileBrowserType);
         }
 
+        /// <summary>
+        /// Creates the specified path.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="fileBrowserType">Type of the file browser.</param>
+        /// <returns></returns>
         public static FileBrowser Create(string path, FileBrowserType fileBrowserType = FileBrowserType.File)
         {
             return Create(Vector2.zero, path, fileBrowserType);
         }
 
+        /// <summary>
+        /// Creates the specified size.
+        /// </summary>
+        /// <param name="size">The size.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="fileBrowserType">Type of the file browser.</param>
+        /// <returns></returns>
         public static FileBrowser Create(Vector2 size, string path,
             FileBrowserType fileBrowserType = FileBrowserType.File)
         {
             return Create(new Rect(Vector2.zero, size), path, fileBrowserType);
         }
 
+        /// <summary>
+        /// Creates this instance.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="fileBrowserType">Type of the file browser.</param>
+        /// <returns></returns>
         public static FileBrowser Create(Rect rect, string path, FileBrowserType fileBrowserType = FileBrowserType.File)
         {
             //Debug.Log($"Is Instance Null?: {Instance.GetType().FullName}");
@@ -191,22 +286,68 @@ namespace UnityEngine.UI
             //m_fileBrowser.OnGUI();
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <param name="delegate">The delegate.</param>
+        /// <param name="skin">The skin.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="browserType">Type of the browser.</param>
+        /// <returns></returns>
+        public static FileBrowser Create(UIUtils.ButtonDelegate @delegate, GUISkin skin, out string path, FileBrowserType browserType = FileBrowserType.Directory)
+        {
+            var myFileBrowser = Create(browserType);
+            myFileBrowser.Skin = skin;
+            myFileBrowser.ButtonDelegate = @delegate;
+
+            path = myFileBrowser.Open();
+            return myFileBrowser;
+        }
+
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="callback">The callback.</param>
+        /// <returns></returns>
         public FileBrowser Init(string name, FinishedCallback callback = null)
         {
             return Init(Rect.zero, name, Application.streamingAssetsPath, callback);
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="callback">The callback.</param>
+        /// <returns></returns>
         public FileBrowser Init(string name, string path, FinishedCallback callback = null)
         {
             return Init(Rect.zero, name, path, callback);
         }
 
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <param name="screenRect">The screen rect.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="callback">The callback.</param>
+        /// <returns></returns>
         public FileBrowser Init(Rect screenRect, string name, FinishedCallback callback = null)
         {
             return Init(screenRect, name, Application.streamingAssetsPath, callback);
         }
 
         // Browsers need at least a rect, name and callback
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        /// <param name="screenRect">The screen rect.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="path">The path.</param>
+        /// <param name="callback">The callback.</param>
+        /// <returns></returns>
         public FileBrowser Init(Rect screenRect, string name, string path, FinishedCallback callback = null)
         {
             m_name = name;
@@ -228,11 +369,18 @@ namespace UnityEngine.UI
             return this;
         }
 
+        /// <summary>
+        /// Sets the new directory.
+        /// </summary>
+        /// <param name="directory">The directory.</param>
         protected void SetNewDirectory(string directory)
         {
             m_newDirectory = directory;
         }
 
+        /// <summary>
+        /// Switches the directory now.
+        /// </summary>
         protected void SwitchDirectoryNow()
         {
             if (m_newDirectory == null || m_currentDirectory == m_newDirectory) return;
@@ -243,6 +391,9 @@ namespace UnityEngine.UI
             ReadDirectoryContents();
         }
 
+        /// <summary>
+        /// Reads the directory contents.
+        /// </summary>
         protected void ReadDirectoryContents()
         {
             // refresh list of drives
@@ -330,6 +481,12 @@ namespace UnityEngine.UI
             m_newDirectory = null;
         }
 
+        /// <summary>
+        /// Gets the files.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <returns></returns>
         private static string[] GetFiles(string path, string searchPattern)
         {
             try
@@ -342,6 +499,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Gets the files.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
         private static string[] GetFiles(string path)
         {
             try
@@ -354,6 +516,12 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Gets the directories.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="searchPattern">The search pattern.</param>
+        /// <returns></returns>
         private static string[] GetDirectories(string path, string searchPattern)
         {
             try
@@ -366,6 +534,11 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Gets the directories.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
         private static string[] GetDirectories(string path)
         {
             try
@@ -378,6 +551,9 @@ namespace UnityEngine.UI
             }
         }
 
+        /// <summary>
+        /// Builds the content.
+        /// </summary>
         protected void BuildContent()
         {
             m_directoriesWithImages = new GUIContent[m_directories.Length];
@@ -394,6 +570,9 @@ namespace UnityEngine.UI
                 m_nonMatchingFilesWithImages[i] = new GUIContent(m_nonMatchingFiles[i], FileImage);
         }
 
+        /// <summary>
+        /// Called when [GUI].
+        /// </summary>
         private void OnGUI()
         {
             if (!ShowFileBrowser)
@@ -411,6 +590,10 @@ namespace UnityEngine.UI
             if (e.type == EventType.Repaint) SwitchDirectoryNow();
         }
 
+        /// <summary>
+        /// Draws the window.
+        /// </summary>
+        /// <param name="windowID">The window identifier.</param>
         private void DrawWindow(int windowID)
         {
             var dragRect = new Rect(Vector2.zero, new Vector2(m_screenRect.width, 20));
@@ -438,7 +621,7 @@ namespace UnityEngine.UI
             for (var parentIndex = 0; parentIndex < m_currentDirectoryParts.Length; ++parentIndex)
                 if (parentIndex == m_currentDirectoryParts.Length - 1)
                 {
-                    GUILayout.Label(m_currentDirectoryParts[parentIndex], CentredText);
+                    GUILayout.Label(m_currentDirectoryParts[parentIndex], CenteredText);
                 }
                 else if (ButtonDelegate?.Invoke(m_currentDirectoryParts[parentIndex]) ?? GUILayout.Button(m_currentDirectoryParts[parentIndex]))
                 {
@@ -533,22 +716,38 @@ namespace UnityEngine.UI
             GUILayout.EndHorizontal();
         }
 
+        /// <summary>
+        /// Files the double click callback.
+        /// </summary>
+        /// <param name="i">The i.</param>
         protected void FileDoubleClickCallback(int i)
         {
             if (BrowserType == FileBrowserType.File)
                 m_callback(Path.Combine(m_currentDirectory, m_files[i]));
         }
 
+        /// <summary>
+        /// Directories the double click callback.
+        /// </summary>
+        /// <param name="i">The i.</param>
         protected void DirectoryDoubleClickCallback(int i)
         {
             SetNewDirectory(Path.Combine(m_currentDirectory, m_directories[i]));
         }
 
+        /// <summary>
+        /// Nons the matching directory double click callback.
+        /// </summary>
+        /// <param name="i">The i.</param>
         protected void NonMatchingDirectoryDoubleClickCallback(int i)
         {
             SetNewDirectory(Path.Combine(m_currentDirectory, m_nonMatchingDirectories[i]));
         }
 
+        /// <summary>
+        /// Sets the current path.
+        /// </summary>
+        /// <param name="path">The path.</param>
         private void SetCurrentPath(string path = "")
         {
             if (path == null)
@@ -568,12 +767,22 @@ namespace UnityEngine.UI
                 m_callback?.Invoke(path);
         }
 
+        /// <summary>
+        /// Opens this instance.
+        /// </summary>
+        /// <returns></returns>
         public string Open()
         {
             ShowFileBrowser = true;
             return null;
         }
 
+        /// <summary>
+        /// Determines whether this instance is cancelled.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is cancelled; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsCancelled()
         {
             if (m_cancelled)
@@ -586,6 +795,12 @@ namespace UnityEngine.UI
             return false;
         }
 
+        /// <summary>
+        /// Determines whether this instance is ready.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance is ready; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsReady()
         {
             var ready = !ShowFileBrowser && !string.IsNullOrEmpty(CurrentPath);

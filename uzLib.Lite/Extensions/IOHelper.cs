@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Extensions;
@@ -519,6 +520,29 @@ namespace uzLib.Lite.Extensions
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
             }
+        }
+
+        /// <summary>
+        /// Reads all text shared.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        public static string ReadAllTextShared(string path)
+        {
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var sr = new StreamReader(fs, Encoding.Default))
+                return sr.ReadToEnd();
+        }
+
+        /// <summary>
+        /// Reads all lines shared.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        public static string[] ReadAllLinesShared(string path)
+        {
+            string contents = ReadAllTextShared(path);
+            return Regex.Split(contents, "\r\n|\r|\n");
         }
     }
 }

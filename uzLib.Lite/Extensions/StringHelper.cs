@@ -297,6 +297,17 @@ namespace uzLib.Lite.Extensions
             return d[n, m];
         }
 
+        /// <summary>
+        /// Finds the nearest string.
+        /// </summary>
+        /// <param name="input">The input.</param>
+        /// <param name="values">The values.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">
+        /// input
+        /// or
+        /// values
+        /// </exception>
         public static string FindNearestString(this string input, IEnumerable<string> values)
         {
             if (string.IsNullOrWhiteSpace(input))
@@ -310,6 +321,18 @@ namespace uzLib.Lite.Extensions
                 .OrderBy(x => x.Distance)
                 .FirstOrDefault()
                 .Value;
+        }
+
+        /// <summary>
+        /// Determines whether this instance has placeholder.
+        /// </summary>
+        /// <param name="s">The s.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified s has placeholder; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool HasPlaceholder(this string s)
+        {
+            return Regex.IsMatch(s, "{\\d+}");
         }
     }
 }
