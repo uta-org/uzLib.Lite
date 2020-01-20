@@ -332,6 +332,7 @@ namespace uzLib.Lite.Extensions
         /// </returns>
         public static bool HasPlaceholder(this string s)
         {
+            if (string.IsNullOrEmpty(s)) return false;
             return Regex.IsMatch(s, "{\\d+}");
         }
     }
