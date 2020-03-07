@@ -334,6 +334,35 @@ namespace UnityEngine.Global.IMGUI
             return rect;
         }
 
+        public static Rect DrawTexture(Texture2D texture, int maxWidth)
+            => DrawTexture(texture, GetAspectRatioVector(texture, maxWidth));
+
+        public static Rect DrawTexture(Texture2D texture, Vector2 size)
+        {
+            if (texture == null)
+            {
+                Debug.LogWarning("Null texture passed!");
+                return Rect.zero;
+            }
+
+            var rect = GetTextureRect(size.x, size.y);
+
+            GUI.DrawTexture(rect, texture);
+            // GUI.DrawTexture(rect.RoundValues(), texture);
+            return rect;
+        }
+
+        private static Rect GetTextureRect(Vector2 size)
+            => GetTextureRect(size.x, size.y);
+
+        private static Rect GetTextureRect(float width, float height)
+        {
+            var rect = GetRectForTexture(width, height);
+            rect = rect.ForceBoth(width, height);
+
+            return rect;
+        }
+
         private static Rect GetTextureRect(Texture2D texture)
         {
             var rect = GetRectForTexture(texture);
@@ -346,13 +375,19 @@ namespace UnityEngine.Global.IMGUI
             if (texture.width >= maxWidth)
                 return null;
 
-            var maxHeight = texture.height * maxWidth / texture.width;
+            var vector = GetAspectRatioVector(texture, maxWidth);
 
             return new[]
             {
-                GUILayout.MaxWidth(maxWidth),
-                GUILayout.MaxHeight(maxHeight)
+                GUILayout.MaxWidth(vector.x),
+                GUILayout.MaxHeight(vector.y)
             };
+        }
+
+        public static Vector2 GetAspectRatioVector(Texture2D texture, int maxWidth)
+        {
+            var maxHeight = texture.height * maxWidth / texture.width;
+            return new Vector2(maxWidth, maxHeight);
         }
 
         /*
@@ -393,54 +428,56 @@ namespace UnityEngine.Global.IMGUI
             private static Rect CalculateRect(Texture2D texture, GUILayoutOption[] options)
             {
                 Rect rect = GetRectForTexture(texture);
-                rect = rect.ForceBoth(Mathf.Max(texture.width, GetWidth(options)), Mathf.Max(texture.height, GetHeight(options)));
+                rect = rect.ForceBoth(Mathf.Min(texture.width, GetWidth(options)), Mathf.Min(texture.height, GetHeight(options)));
 
                 Textures.Add(texture, rect);
                 return rect;
             }
 
-            private static int GetWidth(GUILayoutOption[] options)
+            private static float GetWidth(GUILayoutOption[] options)
             {
                 var width = GetField(options, "fixedWidth");
                 var minWidth = GetField(options, "minWidth");
                 var maxWidth = GetField(options, "maxWidth");
 
-                if (maxWidth.HasValue)
-                    return maxWidth.Value;
+                if (maxWidth > 0)
+                    return maxWidth;
 
-                if (width.HasValue)
-                    return width.Value;
+                if (width > 0)
+                    return width;
 
-                if (minWidth.HasValue)
-                    return minWidth.Value;
+                if (minWidth > 0)
+                    return minWidth;
 
                 return -1;
             }
 
-            private static int GetHeight(GUILayoutOption[] options)
+            private static float GetHeight(GUILayoutOption[] options)
             {
                 var height = GetField(options, "fixedHeight");
                 var minHeight = GetField(options, "minHeight");
                 var maxHeight = GetField(options, "maxHeight");
 
-                if (maxHeight.HasValue)
-                    return maxHeight.Value;
+                if (maxHeight > 0)
+                    return maxHeight;
 
-                if (height.HasValue)
-                    return height.Value;
+                if (height > 0)
+                    return height;
 
-                if (minHeight.HasValue)
-                    return minHeight.Value;
+                if (minHeight > 0)
+                    return minHeight;
 
                 return -1;
             }
 
-            private static int? GetField(GUILayoutOption[] options, string identifier)
+            private static float GetField(GUILayoutOption[] options, string identifier)
             {
-                return (int?)options.FirstOrDefault(opt => opt.GetFieldValue("type").ToString() == identifier)?.GetFieldValue("value");
+                var @object = options.FirstOrDefault(opt => opt.GetFieldValue("type").ToString() == identifier)?.GetFieldValue("value");
+                return (float?)@object ?? 0;
             }
         }
 
+        // TODO: This doesn't work
         public static Rect DrawDimensionalTexture(Texture2D texture, int maxWidth)
             => DrawTexture(texture, GetAspectRatio(texture, maxWidth));
 
@@ -508,8 +545,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             GUI.DrawTexture(rect, texture, scaleMode);
             // GUI.DrawTexture(rect.RoundValues(), texture, scaleMode);
@@ -544,8 +580,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(width, height);
-            rect = rect.ForceBoth(width, height);
+            var rect = GetTextureRect(width, height);
 
             // ScaleMode.ScaleToFit, true, 0
             GUI.DrawTexture(rect, texture, scaleMode);
@@ -568,8 +603,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend);
             // GUI.DrawTexture(rect.RoundValues(), texture, scaleMode, alphaBlend);
@@ -606,8 +640,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(width, height);
-            rect = rect.ForceBoth(width, height);
+            var rect = GetTextureRect(width, height);
 
             // ScaleMode.ScaleToFit, true, 0
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend);
@@ -631,8 +664,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend, imageAspect);
             // GUI.DrawTexture(rect.RoundValues(), texture, scaleMode, alphaBlend, imageAspect);
@@ -671,8 +703,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(width, height);
-            rect = rect.ForceBoth(width, height);
+            var rect = GetTextureRect(width, height);
 
             // ScaleMode.ScaleToFit, true, 0
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend, imageAspect);
@@ -699,8 +730,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend, imageAspect, color, borderWidths, borderRadiuses);
             // GUI.DrawTexture(rect.RoundValues(), texture, scaleMode, alphaBlend, imageAspect, color, borderWidths, borderRadiuses);
@@ -745,8 +775,7 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(width, height);
-            rect = rect.ForceBoth(width, height);
+            var rect = GetTextureRect(width, height);
 
             GUI.DrawTexture(rect, texture, scaleMode, alphaBlend, imageAspect, color, borderWidths, borderRadiuses);
             // GUI.DrawTexture(rect.RoundValues(), texture, scaleMode, alphaBlend, imageAspect, color, borderWidths, borderRadiuses);
@@ -767,8 +796,7 @@ namespace UnityEngine.Global.IMGUI
                 // Debug.LogWarning("Null texture passed!");
                 return;
 
-            var rect = GetRectForTexture(width, height);
-            rect = rect.ForceBoth(width, height);
+            var rect = GetTextureRect(width, height);
 
             gif.Draw(rect);
         }
@@ -787,11 +815,18 @@ namespace UnityEngine.Global.IMGUI
                 return;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             gif.Draw(rect);
         }
+
+        /// <summary>
+        /// Gets the rect for texture.
+        /// </summary>
+        /// <param name="size">The size.</param>
+        /// <returns></returns>
+        public static Rect GetRectForTexture(Vector2 size)
+            => GetRectForTexture(size.x, size.y);
 
         /// <summary>
         ///     Gets the rect for texture.
