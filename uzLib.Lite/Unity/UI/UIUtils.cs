@@ -866,7 +866,7 @@ namespace UnityEngine.UI
             var noContentWidth = style.CalcSize(GUIContent.none).x;
 
             if (noContentWidth > width)
-                throw new ArgumentOutOfRangeException("width", "Expected width is smaller than no content width!");
+                throw new ArgumentOutOfRangeException("width", @"Expected width is smaller than no content width!");
 
             var curWidth = style.CalcSize(new GUIContent(str)).x;
             var substring = str.Length - 1;

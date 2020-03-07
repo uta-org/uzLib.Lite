@@ -105,6 +105,11 @@ namespace uzLib.Lite.Extensions
             return asm.GetType(className).GetMethod(methodName) != null;
         }
 
+        /// <summary>
+        /// Gets the attribute from calling method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static T GetAttributeFromCallingMethod<T>()
             where T : Attribute
         {
@@ -113,6 +118,65 @@ namespace uzLib.Lite.Extensions
                 .GetMethod()
                 .GetCustomAttributes(false)
                 .FirstOrDefault(attr => attr.GetType() == typeof(T));
+        }
+
+        /// <summary>
+        /// Gets the field information.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns></returns>
+        private static FieldInfo GetFieldInfo(Type type, string fieldName)
+        {
+            FieldInfo fieldInfo;
+            do
+            {
+                fieldInfo = type.GetField(fieldName,
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                type = type.BaseType;
+            }
+            while (fieldInfo == null && type != null);
+            return fieldInfo;
+        }
+
+        /// <summary>
+        /// Gets the field value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">fieldName - @"Couldn't find field {fieldName} in type {objType.FullName}");</exception>
+        public static object GetFieldValue(this object obj, string fieldName)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            FieldInfo fieldInfo = GetFieldInfo(objType, fieldName);
+            if (fieldInfo == null)
+                throw new ArgumentOutOfRangeException(nameof(fieldName),
+                    $@"Couldn't find field {fieldName} in type {objType.FullName}");
+            return fieldInfo.GetValue(obj);
+        }
+
+        /// <summary>
+        /// Sets the field value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="val">The value.</param>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">fieldName - @"Couldn't find field {fieldName} in type {objType.FullName}");</exception>
+        public static void SetFieldValue(this object obj, string fieldName, object val)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            FieldInfo fieldInfo = GetFieldInfo(objType, fieldName);
+            if (fieldInfo == null)
+                throw new ArgumentOutOfRangeException(nameof(fieldName),
+                    $@"Couldn't find field {fieldName} in type {objType.FullName}");
+            fieldInfo.SetValue(obj, val);
         }
     }
 }

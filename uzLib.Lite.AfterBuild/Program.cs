@@ -11,6 +11,8 @@ namespace uzLib.Lite.AfterBuild
             // First param must be $(MSBuildProjectFullPath)
             // Second param must be $(OutputPath)
 
+            // TODO: Compiling from Solutuon top-root has an unexpected behaviour, but Editor is compiled
+
             try
             {
                 string MSBuildProjectFullPath = Path.GetDirectoryName(args[0]);
@@ -19,7 +21,7 @@ namespace uzLib.Lite.AfterBuild
                 Console.WriteLine($"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($"{nameof(OutputPath)}: {OutputPath}");
 
-                string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath, OutputPath));
+                string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath ?? throw new InvalidOperationException(), OutputPath));
 
                 Console.WriteLine($"{nameof(FullPath)}: {FullPath}");
 

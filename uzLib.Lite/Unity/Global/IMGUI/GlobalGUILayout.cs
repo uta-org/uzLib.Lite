@@ -7,6 +7,7 @@ using UnityEngine.ExternalCode.Extensions;
 using UnityEngine.UI;
 using UnityGif;
 using uzLib.Lite.Core;
+using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
 
 #if UNITY_EDITOR
@@ -326,11 +327,135 @@ namespace UnityEngine.Global.IMGUI
                 return Rect.zero;
             }
 
-            var rect = GetRectForTexture(texture);
-            rect = rect.ForceBoth(texture.width, texture.height);
+            var rect = GetTextureRect(texture);
 
             GUI.DrawTexture(rect, texture);
             // GUI.DrawTexture(rect.RoundValues(), texture);
+            return rect;
+        }
+
+        private static Rect GetTextureRect(Texture2D texture)
+        {
+            var rect = GetRectForTexture(texture);
+            rect = rect.ForceBoth(texture.width, texture.height);
+            return rect;
+        }
+
+        public static GUILayoutOption[] GetAspectRatio(Texture2D texture, int maxWidth)
+        {
+            if (texture.width >= maxWidth)
+                return null;
+
+            var maxHeight = texture.height * maxWidth / texture.width;
+
+            return new[]
+            {
+                GUILayout.MaxWidth(maxWidth),
+                GUILayout.MaxHeight(maxHeight)
+            };
+        }
+
+        /*
+
+            internal enum Type
+            {
+              fixedWidth,
+              fixedHeight,
+              minWidth,
+              maxWidth,
+              minHeight,
+              maxHeight,
+              stretchWidth,
+              stretchHeight,
+              alignStart,
+              alignMiddle,
+              alignEnd,
+              alignJustify,
+              equalSize,
+              spacing,
+            }
+
+         */
+
+        // TODO: Docs
+        internal static class TextureWrapper
+        {
+            private static Dictionary<Texture2D, Rect> Textures = new Dictionary<Texture2D, Rect>();
+
+            public static Rect GetRect(Texture2D texture, params GUILayoutOption[] options)
+            {
+                if (Textures.ContainsKey(texture))
+                    return Textures[texture];
+
+                return CalculateRect(texture, options);
+            }
+
+            private static Rect CalculateRect(Texture2D texture, GUILayoutOption[] options)
+            {
+                Rect rect = GetRectForTexture(texture);
+                rect = rect.ForceBoth(Mathf.Max(texture.width, GetWidth(options)), Mathf.Max(texture.height, GetHeight(options)));
+
+                Textures.Add(texture, rect);
+                return rect;
+            }
+
+            private static int GetWidth(GUILayoutOption[] options)
+            {
+                var width = GetField(options, "fixedWidth");
+                var minWidth = GetField(options, "minWidth");
+                var maxWidth = GetField(options, "maxWidth");
+
+                if (maxWidth.HasValue)
+                    return maxWidth.Value;
+
+                if (width.HasValue)
+                    return width.Value;
+
+                if (minWidth.HasValue)
+                    return minWidth.Value;
+
+                return -1;
+            }
+
+            private static int GetHeight(GUILayoutOption[] options)
+            {
+                var height = GetField(options, "fixedHeight");
+                var minHeight = GetField(options, "minHeight");
+                var maxHeight = GetField(options, "maxHeight");
+
+                if (maxHeight.HasValue)
+                    return maxHeight.Value;
+
+                if (height.HasValue)
+                    return height.Value;
+
+                if (minHeight.HasValue)
+                    return minHeight.Value;
+
+                return -1;
+            }
+
+            private static int? GetField(GUILayoutOption[] options, string identifier)
+            {
+                return (int?)options.FirstOrDefault(opt => opt.GetFieldValue("type").ToString() == identifier)?.GetFieldValue("value");
+            }
+        }
+
+        public static Rect DrawDimensionalTexture(Texture2D texture, int maxWidth)
+            => DrawTexture(texture, GetAspectRatio(texture, maxWidth));
+
+        public static Rect DrawTexture(Texture2D texture, params GUILayoutOption[] options)
+        {
+            if (texture == null)
+            {
+                Debug.LogWarning("Null texture passed!");
+                return Rect.zero;
+            }
+            // GUILayout.Width()
+
+            var rect = options == null ? GetTextureRect(texture) : TextureWrapper.GetRect(texture, options);
+            GUI.DrawTexture(rect, texture);
+
             return rect;
         }
 
