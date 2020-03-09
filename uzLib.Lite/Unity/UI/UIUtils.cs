@@ -334,9 +334,19 @@ namespace UnityEngine.UI
             var backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = color;
 
-            GUI.Box(position, content ?? GUIContent.none, GlobalStyles.styleWithBackground);
+            GUI.Box(position, content ?? GUIContent.none, styleWithBackground);
             GUI.backgroundColor = backgroundColor;
         }
+
+        #region "Missing GUIStyles copy"
+
+        private static GUIStyle s_styleWithBackground;
+
+        public static GUIStyle styleWithBackground =>
+            s_styleWithBackground ??
+            (s_styleWithBackground = new GUIStyle { normal = { background = Texture2D.whiteTexture } });
+
+        #endregion "Missing GUIStyles copy"
 
         /// <summary>
         ///     Draws the bar.
