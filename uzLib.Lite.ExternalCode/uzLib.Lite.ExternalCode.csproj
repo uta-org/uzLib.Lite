@@ -191,10 +191,15 @@
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Extensions\TypeHelper.cs" />
     <Compile Include="Unity\Global\GlobalConstants.cs" />
+    <Compile Include="Unity\Global\GlobalIdentifier.cs" />
+    <Compile Include="Unity\Global\GlobalInput.cs" />
     <Compile Include="Unity\Global\IMGUI\Enums.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUI.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUILayout.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUISkin.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUIStyle.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalGUIStyleState.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUIUtility.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalStyles.cs" />
     <Compile Include="Unity\Global\IMGUI\GlobalStylesUtility.cs" />
     <Compile Include="Unity\UI\Effects\Enums.cs" />

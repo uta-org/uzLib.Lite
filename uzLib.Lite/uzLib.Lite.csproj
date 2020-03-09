@@ -704,11 +704,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Unity\Extensions\RectHelper.cs" />
-    <Compile Include="Unity\Global\GlobalIdentifier.cs" />
-    <Compile Include="Unity\Global\GlobalInput.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalGUI.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalGUILayout.cs" />
-    <Compile Include="Unity\Global\IMGUI\GlobalGUIUtility.cs" />
     <Compile Include="Unity\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Shells\GitShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
