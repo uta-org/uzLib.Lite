@@ -1,4 +1,4 @@
-﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 extern alias SysDrawing;
 
@@ -24,7 +24,7 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         private static int BmpStride = 0;
 
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         /// To the color.

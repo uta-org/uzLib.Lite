@@ -44,7 +44,7 @@ namespace uzLib.Lite.Extensions
             int oc = FindOccurrences(html.Substring(0, match.Index + 1), match.Index);
             string befChar = html.Substring(match.Index - (element.Length + 3), 1);
             string sep = new string(Convert.ToChar(9), oc);
-            return string.Format("{3}<{0}>{1}{2}", element, Environment.NewLine, sep, befChar.Replace(Environment.NewLine, " ").IsNullOrWhiteSpace() ? sep : "");
+            return string.Format("{3}<{0}>{1}{2}", element, Environment.NewLine, sep, string.IsNullOrWhiteSpace(befChar.Replace(Environment.NewLine, " ")) ? sep : "");
         }
 
         /// <summary>

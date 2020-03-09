@@ -1,4 +1,4 @@
-﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using Onion.SolutionParser.Parser;
 using Onion.SolutionParser.Parser.Model;
@@ -21,7 +21,7 @@ namespace uzLib.Lite.Extensions
     /// </summary>
     public static class VSHelper
     {
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         /// Gets the start name of up project.

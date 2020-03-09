@@ -1,4 +1,4 @@
-﻿#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using Ionic.Zip;
 
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using uzLib.Lite.ExternalCode.Extensions;
 
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
 
@@ -25,7 +25,7 @@ namespace uzLib.Lite.Extensions
     /// </summary>
     public static class CompressionHelper
     {
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         /// Zips the specified source.

@@ -436,18 +436,6 @@ namespace uzLib.Lite.Extensions
         }
 
         /// <summary>
-        ///     Determines whether this instance is extension.
-        /// </summary>
-        /// <param name="extension">The extension.</param>
-        /// <returns>
-        ///     <c>true</c> if the specified extension is extension; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsExtension(this string extension)
-        {
-            return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
-        }
-
-        /// <summary>
         /// Writes all bytes.
         /// </summary>
         /// <param name="path">The path.</param>

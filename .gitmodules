@@ -1,0 +1,4 @@
+[submodule "uzLib.Lite.ExternalCode/Libs/UniGif"]
+	path = uzLib.Lite.ExternalCode/Libs/UniGif
+	url = https://github.com/uta-org/UniGif.git
+	branch = visual-studio

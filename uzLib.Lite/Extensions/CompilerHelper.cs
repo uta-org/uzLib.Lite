@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using Microsoft.Build.BuildEngine;
 using Microsoft.Build.Evaluation;
@@ -30,7 +30,7 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         private const string EmitSolution = "MSBuildEmitSolution";
 
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         /// Compiles the specified solution path.
@@ -119,7 +119,7 @@ namespace uzLib.Lite.Extensions
         {
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
             {
-#if !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
                 Console.WriteLine($"You must restart this process to take of the new env var '{envVar}'!", SysDrawing::System.Drawing.Color.Yellow);
 #else
                 Debug.LogWarning($"You must restart this proccess to take of the new env var '{envVar}'!");

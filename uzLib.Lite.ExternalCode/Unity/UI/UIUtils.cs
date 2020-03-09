@@ -1,7 +1,6 @@
 ﻿using System;
 using RectHelper = UnityEngine.Extensions.RectExtensions;
-using UnityEngine.Global.IMGUI;
-using uzLib.Lite.Extensions;
+using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.UI
 {

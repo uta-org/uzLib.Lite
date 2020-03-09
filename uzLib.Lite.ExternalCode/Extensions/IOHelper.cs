@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using UnityEngine.Extensions;
 
 namespace uzLib.Lite.ExternalCode.Extensions
 {
@@ -26,6 +27,12 @@ namespace uzLib.Lite.ExternalCode.Extensions
             }
         }
 
+        /// <summary>
+        /// Copies directories.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="overwiteFiles">if set to <c>true</c> [overwite files].</param>
         public static void CopyTo(this DirectoryInfo source, DirectoryInfo target, bool overwiteFiles = true)
         {
             if (!source.Exists) return;
@@ -38,9 +45,27 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 sourceFile.CopyTo(Path.Combine(target.FullName, sourceFile.Name), overwiteFiles);
         }
 
+        /// <summary>
+        /// Copies directories.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="target">The target.</param>
+        /// <param name="overwiteFiles">if set to <c>true</c> [overwite files].</param>
         public static void CopyTo(this DirectoryInfo source, string target, bool overwiteFiles = true)
         {
             CopyTo(source, new DirectoryInfo(target), overwiteFiles);
+        }
+
+        /// <summary>
+        ///     Determines whether this instance is extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified extension is extension; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsExtension(this string extension)
+        {
+            return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
         }
     }
 }
