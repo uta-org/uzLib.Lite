@@ -13,6 +13,10 @@ namespace uzLib.Lite.AfterBuild
 
             // TODO: Compiling from Solutuon top-root has an unexpected behaviour, but Editor is compiled
 
+            Console.WriteLine($"Executing from '{Environment.CurrentDirectory}'...");
+
+            var externalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.ExternalCode");
+
             try
             {
                 string MSBuildProjectFullPath = Path.GetDirectoryName(args[0]);
@@ -37,7 +41,7 @@ namespace uzLib.Lite.AfterBuild
                 foreach (var file in files)
                 {
                     var fileName = Path.GetFileNameWithoutExtension(file);
-                    if (!isEditor && !file.Contains("uzLib.Lite."))
+                    if (!isEditor && (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode")))
                     {
                         //  || !file.Contains("ExternalCode") // bugfix: ExternalCode is needed on the same folder
                         count = RemoveFile(file, count);
@@ -70,7 +74,17 @@ namespace uzLib.Lite.AfterBuild
                     string sourceExternalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.AfterBuild", "ExternalCode");
 
                     Console.WriteLine($"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
-                    IOHelper.DirectoryCopy(sourceExternalCodeFolder, FullPath);
+                    new DirectoryInfo(sourceExternalCodeFolder).CopyTo(FullPath);
+
+                    Console.WriteLine($"Copying folder '{externalCodeFolder}' to '{FullPath}'...");
+                    var copyToFolder = Path.Combine(FullPath, "ExternalCode");
+                    foreach (var directory in Directory.GetDirectories(externalCodeFolder))
+                    {
+                        if (directory.Contains("bin") || directory.Contains("obj") || directory.Contains("Properties"))
+                            continue;
+
+                        new DirectoryInfo(directory).CopyTo(copyToFolder);
+                    }
                 }
             }
             catch (Exception ex)

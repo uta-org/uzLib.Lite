@@ -342,7 +342,7 @@ namespace UnityEngine.UI
 
         private static GUIStyle s_styleWithBackground;
 
-        public static GUIStyle styleWithBackground =>
+        private static GUIStyle styleWithBackground =>
             s_styleWithBackground ??
             (s_styleWithBackground = new GUIStyle { normal = { background = Texture2D.whiteTexture } });
 

@@ -55,6 +55,49 @@ namespace UnityEngine.Extensions
         }
 
         /// <summary>
+        ///     Runs the asynchronous.
+        /// </summary>
+        /// <typeparam name="TPre">The type of the pre.</typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func">The function.</param>
+        /// <param name="beforeExecute">The before execute.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">
+        /// func
+        /// or
+        /// beforeExecute
+        /// or
+        /// result
+        /// </exception>
+        public static BackgroundWorker RunAsync<TPre, T>(this Func<TPre, BackgroundWorker, T> func, Func<TPre> beforeExecute,
+            Action<T> result = null)
+        {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
+            if (beforeExecute == null) throw new ArgumentNullException(nameof(beforeExecute));
+
+            var worker = new BackgroundWorker();
+
+            worker.DoWork += (s, e) =>
+            {
+                //Some work...
+                e.Result = func((TPre)e.Argument, s as BackgroundWorker);
+            };
+
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                //e.Result "returned" from thread
+                result?.Invoke((T)e.Result);
+            };
+
+            var argument = beforeExecute();
+            worker.RunWorkerAsync(argument);
+
+            return worker;
+        }
+
+        /// <summary>
         ///     Run a function asynchronously.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -115,6 +158,37 @@ namespace UnityEngine.Extensions
             {
                 //Some work...
                 e.Result = func();
+            };
+
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                //e.Result "returned" from thread
+                result?.Invoke((T)e.Result);
+            };
+
+            worker.RunWorkerAsync();
+
+            return worker;
+        }
+
+        /// <summary>
+        ///     Run a function asynchronously.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func">The function.</param>
+        /// <param name="result">The result.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">func</exception>
+        public static BackgroundWorker RunAsync<T>(this Func<BackgroundWorker, T> func, Action<T> result = null)
+        {
+            if (func == null) throw new ArgumentNullException(nameof(func));
+
+            var worker = new BackgroundWorker();
+
+            worker.DoWork += (s, e) =>
+            {
+                //Some work...
+                e.Result = func(s as BackgroundWorker);
             };
 
             worker.RunWorkerCompleted += (s, e) =>
