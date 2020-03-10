@@ -2,3 +2,7 @@
 	path = uzLib.Lite.ExternalCode/Libs/UniGif
 	url = https://github.com/uta-org/UniGif.git
 	branch = visual-studio
+[submodule "uzLib.Lite.ExternalCode/Libs/TexturePacker"]
+	path = uzLib.Lite.ExternalCode/Libs/TexturePacker
+	url = https://github.com/uta-org/TexturePacker.git
+	branch = visual-studio

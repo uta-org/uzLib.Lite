@@ -1,15 +1,16 @@
 ﻿namespace UnityEngine.Utils
 {
-    extern alias SysDrawing;
-    using _Color = SysDrawing::System.Drawing.Color;
+    using _Color = System.Drawing.Color;
 
     public partial class NamedColor
     {
         public ColorNames ColorName { get; }
         public uint Color { get; }
-        public _Color SysColor  => Color.ToSysColor();
+        public _Color SysColor => Color.ToSysColor();
 
-        private NamedColor() { }
+        private NamedColor()
+        {
+        }
 
         public NamedColor(ColorNames colorName, uint color)
         {

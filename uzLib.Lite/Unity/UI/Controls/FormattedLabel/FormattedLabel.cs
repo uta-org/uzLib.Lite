@@ -1,10 +1,8 @@
-extern alias SysDrawing;
-
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using SysDrawing::System.Drawing;
 using UnityEngine.Extensions;
 using UnityEngine.Utils;
 using uzLib.Lite.Extensions;
@@ -466,14 +464,14 @@ namespace UnityEngine.UI.Controls
 
                     if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
                     {
-                        var sysColor = SysDrawing::System.Drawing.Color.FromKnownColor(parsedColor);
+                        var sysColor = System.Drawing.Color.FromKnownColor(parsedColor);
                         return sysColor.ToUInt();
                     }
 
                     if (hexOrColorName.FindNearestString(knownColors) == colorName)
                     {
                         var sysColor =
-                            SysDrawing::System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
+                            System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
                                 hexOrColorName, true));
 
                         return sysColor.ToUInt();
@@ -485,12 +483,12 @@ namespace UnityEngine.UI.Controls
                 Func<string, uint> getColorNameComplex = colorName =>
                 {
                     if (Enum.TryParse(colorName, true, out ColorNames parsedColor))
-                        return ColorEntity.m_Entities[parsedColor].Hex.ToUInt();
+                        return ColorEntity.Entities[parsedColor].Hex.ToUInt();
 
                     if (hexOrColorName.FindNearestString(ColorEntity.ColorNames) == colorName)
                     {
                         ColorNames colorNameValue = (ColorNames)Enum.Parse(typeof(ColorNames), colorName, true);
-                        return ColorEntity.m_Entities[colorNameValue].Hex.ToUInt();
+                        return ColorEntity.Entities[colorNameValue].Hex.ToUInt();
                     }
 
                     return default;

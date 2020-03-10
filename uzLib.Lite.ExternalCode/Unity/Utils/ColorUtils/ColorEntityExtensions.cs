@@ -5,9 +5,7 @@ using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.Utils
 {
-    extern alias SysDrawing;
-
-    using _Color = SysDrawing::System.Drawing.Color;
+    using _Color = System.Drawing.Color;
 
     public static class ColorEntityExtensions
     {
@@ -18,7 +16,7 @@ namespace UnityEngine.Utils
 
         public static Color ToColor(this ColorNames name)
         {
-            var entity = ColorEntity.m_Entities[name];
+            var entity = ColorEntity.Entities[name];
 
             return ToColor(entity.Hex.SanitizeHex());
         }

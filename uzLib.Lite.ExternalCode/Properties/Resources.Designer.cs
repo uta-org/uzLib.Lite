@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace uzLib.Lite.Properties {
+namespace uzLib.Lite.ExternalCode.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace uzLib.Lite.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uzLib.Lite.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("uzLib.Lite.ExternalCode.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,16 @@ namespace uzLib.Lite.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] ColorNames {
+            get {
+                object obj = ResourceManager.GetObject("ColorNames", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

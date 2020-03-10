@@ -17,7 +17,7 @@ using System.Reflection;
 
 namespace uzLib.Lite.Extensions
 {
-    //extern alias SysDrawing;
+    //
 
     /// <summary>
     /// The ReflectionHelper class

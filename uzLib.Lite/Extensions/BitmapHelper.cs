@@ -1,19 +1,15 @@
 ﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
-extern alias SysDrawing;
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using SysDrawing::System.Drawing;
+using System.Drawing;
 
 #endif
 
 namespace uzLib.Lite.Extensions
 {
-    extern alias SysDrawing;
-
     /// <summary>
     /// The BitmapHelper helper
     /// </summary>
@@ -31,10 +27,10 @@ namespace uzLib.Lite.Extensions
         /// </summary>
         /// <param name="bmp">The BMP.</param>
         /// <returns></returns>
-        public static IEnumerable<SysDrawing::System.Drawing.Color> ToColor(this SysDrawing::System.Drawing.Bitmap bmp)
+        public static IEnumerable<System.Drawing.Color> ToColor(this System.Drawing.Bitmap bmp)
         {
-            SysDrawing::System.Drawing.Rectangle rect = new SysDrawing::System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-            SysDrawing::System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, SysDrawing::System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
+            System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite,
                 bmp.PixelFormat);
 
             IntPtr ptr = bmpData.Scan0;
@@ -56,7 +52,7 @@ namespace uzLib.Lite.Extensions
                     byte g = (byte)rgbValues[column * BmpStride + row * 4 + 1];
                     byte r = (byte)rgbValues[column * BmpStride + row * 4 + 2];
 
-                    yield return SysDrawing::System.Drawing.Color.FromArgb(255, r, g, b);
+                    yield return System.Drawing.Color.FromArgb(255, r, g, b);
                 }
             }
 
@@ -71,7 +67,7 @@ namespace uzLib.Lite.Extensions
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="path">The path.</param>
-        public static void SaveBitmap(this SysDrawing::System.Drawing.Color[] bmp, int width, int height, string path)
+        public static void SaveBitmap(this System.Drawing.Color[] bmp, int width, int height, string path)
         {
             int stride = BmpStride;
             byte[] rgbValues = new byte[BmpStride * height];

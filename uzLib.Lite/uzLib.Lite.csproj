@@ -365,7 +365,7 @@
           <Private>False</Private>
         </Reference>
         <Reference Include="System.Drawing">
-          <Aliases>SysDrawing</Aliases>
+          <Aliases>global</Aliases>
           <Private>False</Private>
         </Reference>
         <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -446,11 +446,6 @@
         <Reference Include="System.Xml.Linq">
           <Private>False</Private>
         </Reference>
-        <Reference Include="TexturePacker.Lib.Unity">
-          <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\ForUnity\TexturePacker.Lib.Unity.dll</HintPath>
-          <Aliases>TexLib</Aliases>
-          <Private>False</Private>
-        </Reference>
         <Reference Include="TidyNetPortable">
           <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
           <Private>False</Private>
@@ -468,10 +463,6 @@
           <HintPath>..\..\..\..\UNITY\Unity Projects\UniGif\UniGif.VisualStudio\UniGif.VisualStudio.UnityEditor\bin\Tests\UniGif.VisualStudio.dll</HintPath>
           <Private>False</Private>
         </Reference>-->
-        <Reference Include="UniGif.VisualStudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\packages\UniGif.1.0.1\lib\net461\UniGif.VisualStudio.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
       </ItemGroup>
     </When>
     <Otherwise>
@@ -723,11 +714,6 @@
     <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
     <Compile Include="Unity\UI\UIBalancedDraw.cs" />
     <Compile Include="Unity\UI\UIEffect.cs" />
-    <Compile Include="Unity\Utils\ColorUtils\ColorEntity.cs" />
-    <Compile Include="Unity\Utils\ColorUtils\ColorEntityExtensions.cs" />
-    <Compile Include="Unity\Utils\ColorUtils\ColorNames.cs" />
-    <Compile Include="Unity\Utils\ColorUtils\NamedColor.cs" />
-    <Compile Include="Unity\Utils\ColorUtils\NamedColor_Partial.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
@@ -747,9 +733,11 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Resources\ColorNames.json" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CielaSpike">
+      <HintPath>..\libs\CielaSpike.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -772,7 +760,9 @@
       <Name>uzLib.Lite.ExternalCode</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

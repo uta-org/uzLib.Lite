@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using TexturePacker.Lib;
 using UnityEngine.Extensions;
 
 namespace UnityEngine.Utils.TexturePackerTool
 {
-    extern alias TexLib;
-
     /// <summary>
     /// The Minified Node class
     /// </summary>
     public class UnityMinifiedNode
-        : TexLib::UnityTexturePacker.Lib.IMinifiedNode
+        : IMinifiedNode
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnityTexturePacker.Lib.MinifiedNode"/> class.
@@ -31,7 +31,7 @@ namespace UnityEngine.Utils.TexturePackerTool
         /// The bounds
         /// </summary>
         [JsonIgnore]
-        public TexLib::System.Drawing.Rectangle Bounds { get; set; }
+        public Rectangle Bounds { get; set; }
 
         [JsonProperty("Bounds")]
         public string BoundsProxy
@@ -40,13 +40,13 @@ namespace UnityEngine.Utils.TexturePackerTool
             set => Bounds = DeserializeBoundsProperty(value);
         }
 
-        private TexLib::System.Drawing.Rectangle DeserializeBoundsProperty(string value)
+        private Rectangle DeserializeBoundsProperty(string value)
         {
             if (string.IsNullOrEmpty(value))
                 throw new NotImplementedException();
 
             var components = value.Split(',');
-            return new TexLib::System.Drawing.Rectangle(
+            return new Rectangle(
                 GetInt(components[0]),
                 GetInt(components[1]),
                 GetInt(components[2]),
