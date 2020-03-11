@@ -16,6 +16,42 @@ namespace UnityEngine.Global.IMGUI
 {
     public static class GlobalGUIUtility
     {
+        // As alternative fix?
+        //public static object GifInstance { get; set; }
+
+        public static object GetImageObject(Func<string, byte[], object, object> gifCallback, byte[] data, string path, string filenameOrExtension,
+            object editorInstance)
+        {
+            if (gifCallback == null)
+                throw new ArgumentNullException(nameof(gifCallback));
+
+            var isExtension = filenameOrExtension.IsExtension();
+            var extension = isExtension ? filenameOrExtension : Path.GetExtension(filenameOrExtension);
+
+            // Note: I'm removing '/' and ':' because this a common part from the url that isn't relevant to get its filename (without extension). But we want to check for '?' or '&'
+            var name = isExtension
+                ? path.IsUrl() && path.MulticaseRemove("/", ":").CheckIfFileNameHasInvalidCharacters() ? string.Empty :
+                Path.GetFileNameWithoutExtension(path)
+                : Path.GetFileName(filenameOrExtension);
+
+            switch (extension)
+            {
+                case ".gif":
+                    return gifCallback(name, data, editorInstance);
+
+                //return new UniGif.GifFile(name, mono, data, editorInstance);
+
+                default:
+                    var tex = new Texture2D(2, 2);
+                    tex.LoadImage(data);
+                    tex.name = path.IsUrl()
+                        ? $"{Path.GetFileNameWithoutExtension(path)}{extension}"
+                        : Path.GetFileName(path);
+
+                    return tex;
+            }
+        }
+
         /// <summary>
         ///     Gets the image object.
         /// </summary>
@@ -40,6 +76,7 @@ namespace UnityEngine.Global.IMGUI
             switch (extension)
             {
                 case ".gif":
+                    // return GifInstance;
                     return Activator.CreateInstance(Type.GetType("UnityGif.UniGif.GifFile") ?? throw new InvalidOperationException(),
                         BindingFlags.CreateInstance, Type.DefaultBinder, new[] { name, mono, data, editorInstance });
                 //return new UniGif.GifFile(name, mono, data, editorInstance);
