@@ -245,12 +245,14 @@
     <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
     <Compile Include="Unity\UI\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Unity\UI\UIBalancedDraw.cs" />
+    <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
     <Compile Include="Unity\Utils\DebugTools\DebugHelper.cs" />
     <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
     <Compile Include="Utils\Interfaces\IDownloadItem.cs" />
     <Compile Include="Unity\Utils\SpecializedCollections\ConcurrentHashSet.cs" />
     <Compile Include="Utils\DownloadBatcher.cs" />
     <Compile Include="Utils\Enums.cs" />
+    <Compile Include="Unity\Utils\MonoUtils.cs" />
     <Compile Include="Utils\NetRequester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
@@ -303,6 +305,5 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -684,6 +684,7 @@
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Task.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\TaskState.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\ThreadNinjaMonoBehaviourExtensions.cs" />
+    <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
     <Compile Include="Unity\Extensions\CoroutineHelper.cs" />
     <Compile Include="Unity\Extensions\RectHelper.cs" />
     <Compile Include="Extensions\RoslynHelper.cs" />
@@ -719,9 +720,9 @@
     <Compile Include="Unity\UI\UIEffect.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
-    <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
     <Compile Include="Unity\Utils\DebugTools\DebugHelper.cs" />
     <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
+    <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
     <Compile Include="Utils\Threading\NamedHandler.cs" />
     <Compile Include="Utils\Threading\ThreadMarker.cs" />

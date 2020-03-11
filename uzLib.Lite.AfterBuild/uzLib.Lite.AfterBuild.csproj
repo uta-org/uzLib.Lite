@@ -154,6 +154,10 @@
       <Project>{fce02434-f560-4d30-9d8c-f7bba0edc36f}</Project>
       <Name>uzLib.Lite.ExternalCode</Name>
     </ProjectReference>
+    <ProjectReference Include="..\uzLib.Lite\uzLib.Lite.csproj">
+      <Project>{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}</Project>
+      <Name>uzLib.Lite</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

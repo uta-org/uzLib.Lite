@@ -1,91 +1,105 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Threading;
+using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
 
 namespace uzLib.Lite.AfterBuild
 {
-    internal class Program
+    public static class Program
     {
+        [Flags]
+        public enum RemoveState
+        {
+            Nothing,
+            Editor,
+            Normal
+        }
+
         private static void Main(string[] args)
         {
             // First param must be $(MSBuildProjectFullPath)
             // Second param must be $(OutputPath)
 
-            // TODO: Compiling from Solutuon top-root has an unexpected behaviour, but Editor is compiled
-
-            Console.WriteLine($"Executing from '{Environment.CurrentDirectory}'...");
+            Console.WriteLine($@"Executing from '{Environment.CurrentDirectory}'...");
 
             var externalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.ExternalCode");
+            var unityEditorFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.UnityEditor");
+
+            Thread.Sleep(2000);
 
             try
             {
                 string MSBuildProjectFullPath = Path.GetDirectoryName(args[0]);
                 string OutputPath = args[1].Replace(@"""", "");
 
-                Console.WriteLine($"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
-                Console.WriteLine($"{nameof(OutputPath)}: {OutputPath}");
+                Console.WriteLine($@"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
+                Console.WriteLine($@"{nameof(OutputPath)}: {OutputPath}");
 
                 string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath ?? throw new InvalidOperationException(), OutputPath));
 
-                Console.WriteLine($"{nameof(FullPath)}: {FullPath}");
+                Console.WriteLine($@"{nameof(FullPath)}: {FullPath}");
 
                 var files = Directory.GetFiles(FullPath, "*.*", SearchOption.TopDirectoryOnly);
                 var folders = Directory.GetDirectories(FullPath);
 
                 int count = 0;
 
-                bool isEditor = FullPath.Contains("Editor");
+                //bool isEditor = FullPath.Contains("Editor");
 
-                Console.WriteLine($"Instance is editor?: {isEditor}");
+                //Console.WriteLine($"Instance is editor?: {isEditor}");
+
+                var editorFolder = files.First().Contains("Editor")
+                    ? Path.GetDirectoryName(files.First())
+                    : Path.Combine(Path.GetDirectoryName(files.First()) ?? throw new InvalidOperationException(), "Editor");
+
+                //bool editorFolderExists = Directory.Exists(editorFolder);
 
                 foreach (var file in files)
                 {
-                    var fileName = Path.GetFileNameWithoutExtension(file);
-                    if (!isEditor && (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode")))
+                    var editorFile = Path.Combine(editorFolder, Path.GetFileName(file) ?? throw new InvalidOperationException());
+                    var fileName = Path.GetFileNameWithoutExtension(editorFile);
+
+                    //Console.WriteLine(editorFile);
+
+                    var remove = (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode") ? RemoveState.Normal : RemoveState.Nothing)
+                                       | (!editorFile.Contains("uzLib.Lite.") || fileName != "UnityEditor" ? RemoveState.Editor : RemoveState.Nothing);
+
+                    if (remove.Has(RemoveState.Editor) || remove.Has(RemoveState.Normal))
                     {
-                        //  || !file.Contains("ExternalCode") // bugfix: ExternalCode is needed on the same folder
-                        count = RemoveFile(file, count);
-                    }
-                    else if (isEditor && (!file.Contains("UnityEditor") || fileName == "UnityEditor"))
-                    {
-                        count = RemoveFile(file, count);
+                        if (remove.Has(RemoveState.Normal))
+                            count = RemoveFile(file, count);
+
+                        //if (remove.Has(RemoveState.Editor) && editorFolderExists)
+                        //    count = RemoveFile(editorFile, count);
                     }
                 }
 
                 foreach (var folder in folders)
                 {
-                    if (!folder.Contains(@"\.Code") || !folder.Contains("Editor"))
+                    if (!folder.Contains(@"\.Code"))
                     {
                         Directory.Delete(folder, true);
 
-                        Console.WriteLine($"Deleted folder '{folder}'!");
+                        Console.WriteLine($@"Deleted folder '{folder}'!");
                         ++count;
                     }
                 }
 
                 // Debug information
 
-                Console.WriteLine($"Removed all files! ({count} of {files.Length})");
+                Console.WriteLine($@"Removed all files! ({count} of {files.Length})");
 
                 // Copy ExternalCode folder
 
-                if (!isEditor)
-                {
-                    string sourceExternalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.AfterBuild", "ExternalCode");
+                //string sourceExternalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.AfterBuild", "ExternalCode");
 
-                    Console.WriteLine($"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
-                    new DirectoryInfo(sourceExternalCodeFolder).CopyTo(FullPath);
+                //Console.WriteLine($@"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
+                //new DirectoryInfo(sourceExternalCodeFolder).CopyTo(FullPath);
 
-                    Console.WriteLine($"Copying folder '{externalCodeFolder}' to '{FullPath}'...");
-                    var copyToFolder = Path.Combine(FullPath, "ExternalCode");
-                    foreach (var directory in Directory.GetDirectories(externalCodeFolder))
-                    {
-                        if (directory.Contains("bin") || directory.Contains("obj") || directory.Contains("Properties"))
-                            continue;
-
-                        new DirectoryInfo(directory).CopyTo(copyToFolder);
-                    }
-                }
+                CopyFolderContents(externalCodeFolder, FullPath, "ExternalCode");
+                CopyFolderContents(unityEditorFolder, FullPath, "Editor");
             }
             catch (Exception ex)
             {
@@ -93,11 +107,29 @@ namespace uzLib.Lite.AfterBuild
             }
         }
 
+        private static void CopyFolderContents(string externalCodeFolder, string fullPath, string folderName)
+        {
+            Console.WriteLine($@"Copying folder '{externalCodeFolder}' to '{fullPath}'...");
+            var copyToFolder = Path.Combine(fullPath, folderName);
+            //Console.WriteLine($@"[COPYTOFOLDER] Copying folder '{copyToFolder}' to '{fullPath}'...");
+
+            if (!Directory.Exists(copyToFolder))
+                Directory.CreateDirectory(copyToFolder);
+
+            foreach (var directory in Directory.GetDirectories(externalCodeFolder))
+            {
+                if (directory.Contains("bin") || directory.Contains("obj") || directory.Contains("Properties"))
+                    continue;
+
+                new DirectoryInfo(directory).CopyTo(copyToFolder);
+            }
+        }
+
         private static int RemoveFile(string file, int count)
         {
             File.Delete(file);
 
-            Console.WriteLine($"Deleted file '{file}'!");
+            Console.WriteLine($@"Deleted file '{file}'!");
             ++count;
             return count;
         }
