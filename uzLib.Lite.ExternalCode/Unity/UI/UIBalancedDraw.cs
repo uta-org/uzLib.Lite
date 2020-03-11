@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
+
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+
+#endif
 
 namespace UnityEngine.UI
 {
     /// <summary>
     ///     The UI Balancer (used to call several blocks of the OnGUI method at different update rates (frequencies))
     /// </summary>
+    [Obsolete]
     public class UIBalancedDraw
     {
         /// <summary>

@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.Extensions;
 using UnityEngine.Networking;
-using uzLib.Lite.ExternalCode.Extensions;
 
 namespace uzLib.Lite.Extensions
 {
@@ -327,6 +326,27 @@ namespace uzLib.Lite.Extensions
             {
                 stream.Seek(0, SeekOrigin.Begin);
                 stream.CopyTo(file);
+            }
+        }
+
+        /// <summary>
+        /// Determines whether this instance is directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified path is directory; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsDirectory(this string path)
+        {
+            try
+            {
+                var fa = File.GetAttributes(path);
+                return (fa & FileAttributes.Directory) != 0;
+            }
+            catch
+            {
+                // The provided path doesn't exists
+                return false;
             }
         }
 

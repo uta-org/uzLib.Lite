@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
-using UnityEngine;
-using uzLib.Lite.ExternalCode.Extensions;
-using Object = UnityEngine.Object;
+using uzLib.Lite.Extensions;
 
-namespace uzLib.Lite.ExternalCode.Unity.Extensions
+namespace UnityEngine.Extensions
 {
     /// <summary>
     /// The ObjectHelper class

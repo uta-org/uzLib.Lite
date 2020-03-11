@@ -1,13 +1,12 @@
 ﻿using System;
-using UnityEngine.Core.Interfaces;
 using UnityEngine.Extensions;
 using UnityEngine.Global;
 using UnityEngine.UI.Interfaces;
-using uzLib.Lite.Core;
+using uzLib.Lite.ExternalCode.Core;
 
 namespace UnityEngine.UI
 {
-    public class DockWindow<T> : Singleton<DockWindow<T>>, IStarted
+    public class DockWindow<T> : Singleton<DockWindow<T>>
         where T : IUnityForm, new()
     {
         private static int IdCounter;

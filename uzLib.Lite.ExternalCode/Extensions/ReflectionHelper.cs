@@ -15,7 +15,7 @@ using Debug = UnityEngine.Debug;
 
 using System.Reflection;
 
-namespace uzLib.Lite.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     //
 

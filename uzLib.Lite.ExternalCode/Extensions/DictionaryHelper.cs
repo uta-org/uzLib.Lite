@@ -61,7 +61,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             if (!dictionary.ContainsKey(key))
             {
-                dictionary.Add(key, new[] {value}.ToList());
+                dictionary.Add(key, new[] { value }.ToList());
                 return true;
             }
 
@@ -104,7 +104,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             if (!dictionary.ContainsKey(key))
             {
-                dictionary.Add(key, new[] {value});
+                dictionary.Add(key, new[] { value });
                 return true;
             }
 
@@ -159,22 +159,6 @@ namespace uzLib.Lite.ExternalCode.Extensions
         public static bool IsNullOrEmpty<TKey, TValue>(this Dictionary<TKey, List<TValue>> dictionary, TKey key)
         {
             return !(dictionary.ContainsKey(key) && dictionary[key].Count > 0);
-        }
-
-        /// <summary>
-        ///     Safes the get.
-        /// </summary>
-        /// <typeparam name="TKey">The type of the key.</typeparam>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="dictionary">The dictionary.</param>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public static TValue SafeGet<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
-        {
-            if (dictionary.ContainsKey(key))
-                return dictionary[key];
-
-            return default;
         }
 
         /// <summary>

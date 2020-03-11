@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using uzLib.Lite.Extensions;
+using uzLib.Lite.ExternalCode.Extensions;
 
-namespace uzLib.Lite.Threading
+namespace uzLib.Lite.ExternalCode.Threading
 {
     public class ThreadMarker : IDisposable
     {

@@ -207,11 +207,5 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\uzLib.Lite\uzLib.Lite.csproj">
-      <Project>{d4da84f9-521f-438b-9c70-7fe8f4d1f32a}</Project>
-      <Name>uzLib.Lite</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

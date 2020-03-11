@@ -3,6 +3,7 @@ using Unity.Collections;
 using System.IO;
 using System.Collections.Generic;
 using Unity.Jobs;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.Utils
 {
@@ -10,10 +11,9 @@ namespace UnityEngine.Utils
     using Extensions;
 
     // TODO: Create ASM Definitions for this
-#if UNITY_2018
 #if UNITY_2018_3_OR_NEWER
 
-        using Rendering;
+    using Rendering;
 
 #else
 
@@ -239,7 +239,7 @@ namespace UnityEngine.Utils
 
                 File.WriteAllBytes(Path.Combine(Application.streamingAssetsPath, "test.png"), ImageConversion.EncodeToPNG(tex));
 
-                Destroy(tex);
+                Object.Destroy(tex);
             }
 
             //private NativeArray<Color32> GetCroppedArray(NativeArray<Color32> buffer, Rect r)
@@ -323,5 +323,4 @@ namespace UnityEngine.Utils
         }
      *
      */
-#endif
 }

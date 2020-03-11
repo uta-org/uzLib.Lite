@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Collections;
-using UnityEngine.Utils.TexturePackerTool;
-using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.Extensions
 {
-    using Global.IMGUI;
-
     public static class TextureHelper
     {
         /// <summary>
@@ -165,92 +162,6 @@ namespace UnityEngine.Extensions
         // public static Texture2D GetTexturesAsync(this Texture2D _texture, params Minified[] nodes) { }
 
         /// <summary>
-        /// Gets the texture.
-        /// </summary>
-        /// <param name="sprite">The sprite.</param>
-        /// <returns></returns>
-        public static Texture2D GetTexture(this Sprite sprite)
-        {
-            // assume "sprite" is your Sprite object
-            var croppedTexture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
-            croppedTexture.name = sprite.name;
-
-            var texture = sprite.texture.isReadable ? sprite.texture : sprite.texture.DuplicateTexture();
-            var rect = sprite.textureRect;
-            var pixels = texture.GetPixels((int)rect.x,
-                (int)(sprite.texture.height - rect.yMax),
-                (int)rect.width,
-                (int)rect.height);
-
-            croppedTexture.SetPixels(pixels);
-            croppedTexture.Apply();
-
-            return croppedTexture;
-        }
-
-        //#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
-
-        public static IEnumerable<Texture2D> GetTextures(this Texture2D _texture, params Rect[] cropRects)
-        {
-            return GetTextures(_texture, cropRects.Select(rect => new UnityMinifiedNode(rect)).ToArray());
-        }
-
-        public static IEnumerable<Texture2D> GetTextures(this Texture2D _texture, params UnityMinifiedNode[] nodes)
-        {
-            var texture = _texture.isReadable ? _texture : _texture.DuplicateTexture();
-
-            foreach (var node in nodes)
-            {
-                var rect = node.Rectangle;
-                var croppedTexture = new Texture2D((int)rect.width, (int)rect.height);
-
-                if (!string.IsNullOrEmpty(node.Name))
-                    croppedTexture.name = node.Name;
-
-                // var rect = sprite.textureRect;
-                var pixels = texture.GetPixels((int)rect.x,
-                    (int)(texture.height - rect.yMax),
-                    (int)rect.width,
-                    (int)rect.height);
-
-                croppedTexture.SetPixels(pixels);
-                croppedTexture.Apply();
-
-                yield return croppedTexture;
-            }
-        }
-
-        //#endif
-
-        /// <summary>
-        /// Duplicates the texture.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <returns></returns>
-        public static Texture2D DuplicateTexture(this Texture2D source)
-        {
-            RenderTexture renderTex = RenderTexture.GetTemporary(
-                source.width,
-                source.height,
-                0,
-                RenderTextureFormat.Default,
-                RenderTextureReadWrite.Linear);
-
-            Graphics.Blit(source, renderTex);
-            RenderTexture previous = RenderTexture.active;
-            RenderTexture.active = renderTex;
-            Texture2D readableText = new Texture2D(source.width, source.height);
-
-            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
-            readableText.Apply();
-
-            RenderTexture.active = previous;
-            RenderTexture.ReleaseTemporary(renderTex);
-
-            return readableText;
-        }
-
-        /// <summary>
         /// Creates the texture.
         /// </summary>
         /// <param name="colors">The colors.</param>
@@ -279,23 +190,23 @@ namespace UnityEngine.Extensions
             return texture;
         }
 
-        /// <summary>
-        /// Debugs the textures.
-        /// </summary>
-        /// <param name="list">The list.</param>
-        /// <exception cref="System.ArgumentNullException">list</exception>
-        public static void DebugTextures(this List<Texture2D> list)
-        {
-            if (list.IsNullOrEmpty())
-                throw new ArgumentNullException(nameof(list));
+        ///// <summary>
+        ///// Debugs the textures.
+        ///// </summary>
+        ///// <param name="list">The list.</param>
+        ///// <exception cref="System.ArgumentNullException">list</exception>
+        //public static void DebugTextures(this List<Texture2D> list)
+        //{
+        //    if (list.IsNullOrEmpty())
+        //        throw new ArgumentNullException(nameof(list));
 
-            GUILayout.BeginHorizontal();
-            {
-                foreach (var texture in list)
-                    GlobalGUILayout.DrawTexture(texture);
-            }
-            GUILayout.EndHorizontal();
-        }
+        //    GUILayout.BeginHorizontal();
+        //    {
+        //        foreach (var texture in list)
+        //            GlobalGUILayout.DrawTexture(texture);
+        //    }
+        //    GUILayout.EndHorizontal();
+        //}
 
         /// <summary>
         ///     Returns a scaled copy of given texture.

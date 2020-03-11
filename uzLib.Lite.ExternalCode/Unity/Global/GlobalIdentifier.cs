@@ -1,5 +1,5 @@
 ﻿using System;
-using uzLib.Lite.Core;
+using uzLib.Lite.ExternalCode.Core;
 
 namespace UnityEngine.Core
 {

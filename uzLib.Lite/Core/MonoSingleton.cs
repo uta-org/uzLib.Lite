@@ -1,10 +1,7 @@
-﻿using UnityEngine;
+﻿using UnityEngine.Core.Interfaces;
 using UnityEngine.Extensions;
-using uzLib.Lite.ExternalCode.Core.Interfaces;
-using uzLib.Lite.ExternalCode.Extensions;
-using uzLib.Lite.ExternalCode.Unity.Extensions;
 
-namespace uzLib.Lite.ExternalCode.Core
+namespace UnityEngine.Core
 {
     /// <summary>
     ///     Inherit from this base class to create a singleton.

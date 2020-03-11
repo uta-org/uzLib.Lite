@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.Extensions
 {
@@ -196,28 +196,6 @@ namespace UnityEngine.Extensions
         public static float GetNegativeValue(this float f)
         {
             return f < 0 ? f : -f;
-        }
-
-        /// <summary>
-        /// Gets the prefix.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public static string GetPrefix(this long value)
-        {
-            if (value >= 100000000000) return (value / 1000000000).ToString("#,0") + " G";
-
-            if (value >= 10000000000) return (value / 1000000000D).ToString("0.#") + " G";
-
-            if (value >= 100000000) return (value / 1000000).ToString("#,0") + " M";
-
-            if (value >= 10000000) return (value / 1000000D).ToString("0.#") + " M";
-
-            if (value >= 100000) return (value / 1000).ToString("#,0") + " K";
-
-            if (value >= 10000) return (value / 1000D).ToString("0.#") + " K";
-
-            return value.ToString("#,0");
         }
 
         public static int Round(this float f)

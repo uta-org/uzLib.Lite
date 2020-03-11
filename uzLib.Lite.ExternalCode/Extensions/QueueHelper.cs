@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnityEngine.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
     ///     The Queue Helper

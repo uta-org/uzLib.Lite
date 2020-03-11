@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
 
 #if UNITY_EDITOR
 using static marijnz.EditorCoroutines;
 
 #endif
 
-namespace uzLib.Lite.ExternalCode.Extensions
+namespace UnityEngine.Extensions
 {
     public static class CoroutineHelper
     {

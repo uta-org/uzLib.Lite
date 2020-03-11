@@ -4,7 +4,7 @@ using System.Net;
 using UnityEngine.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
 
-namespace uzLib.Lite.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
     /// The NetHelper class

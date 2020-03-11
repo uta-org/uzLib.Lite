@@ -9,8 +9,9 @@ using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
 using UnityEngine.Utils.DebugTools;
 using UnityEngine.Utils.Interfaces;
+using uzLib.Lite.ExternalCode.Unity.Extensions;
 
-namespace uzLib.Lite.Utils
+namespace uzLib.Lite.ExternalCode.Utils
 {
     using Extensions;
 

@@ -4,7 +4,6 @@ using System.IO;
 using CielaSpike;
 using UnityEngine.Extensions;
 using UnityGif;
-using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
 
 #if UNITY_EDITOR

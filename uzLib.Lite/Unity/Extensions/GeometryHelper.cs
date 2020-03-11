@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.Extensions;
 
 namespace UnityEngine.Extensions
 {

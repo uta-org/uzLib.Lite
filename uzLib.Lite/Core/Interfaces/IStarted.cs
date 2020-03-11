@@ -1,4 +1,4 @@
-﻿namespace uzLib.Lite.ExternalCode.Core.Interfaces
+﻿namespace UnityEngine.Core.Interfaces
 {
     public interface IStarted
     {

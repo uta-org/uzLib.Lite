@@ -1,7 +1,10 @@
-﻿namespace UnityEngine.ObsoleteUtils
+﻿using System;
+
+namespace UnityEngine.ObsoleteUtils
 {
     using UI;
 
+    [Obsolete]
     public class WorkshopUIBalancer
     {
         private WorkshopUIBalancer()

@@ -6,3 +6,6 @@
 	path = uzLib.Lite.ExternalCode/Libs/TexturePacker
 	url = https://github.com/uta-org/TexturePacker.git
 	branch = visual-studio
+[submodule "uzLib.Lite.ExternalCode/Libs/CielaSpike"]
+	path = uzLib.Lite.ExternalCode/Libs/CielaSpike
+	url = https://github.com/uta-org/CielaSpike-fork.git

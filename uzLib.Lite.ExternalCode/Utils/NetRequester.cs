@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
 using System.Threading;
+using uzLib.Lite.ExternalCode.Core;
 
-namespace uzLib.Lite.Utils
+namespace uzLib.Lite.ExternalCode.Utils
 {
-    using Core;
     using Extensions;
 
     /// <summary>

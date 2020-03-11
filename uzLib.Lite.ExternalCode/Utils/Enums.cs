@@ -1,4 +1,4 @@
-﻿namespace uzLib.Lite.Utils
+﻿namespace uzLib.Lite.ExternalCode.Utils
 {
     public enum BatcherState
     {

@@ -62,7 +62,7 @@
     </Choose>
     -->
     <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
-    <DefineConstants>DEBUG;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;UNITY_2020, UNITY_2019, UNITY_2018, UNITY_2017, UNITY_5, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -644,7 +644,10 @@
     <Compile Include="Core\Input\Internal\KeyHandler.cs" />
     <Compile Include="Core\Input\SmartInput.cs" />
     <Compile Include="Core\Input\SmartPsswrd.cs" />
+    <Compile Include="Core\Interfaces\IStarted.cs" />
+    <Compile Include="Core\MonoSingleton.cs" />
     <Compile Include="Core\Persistent.cs" />
+    <Compile Include="Core\Singleton.cs" />
     <Compile Include="Extensions\AssemblyHelper.cs" />
     <Compile Include="Extensions\AsyncHelper.cs" />
     <Compile Include="Extensions\AttributeHelper.cs" />
@@ -659,10 +662,12 @@
     <Compile Include="Extensions\DateHelper.cs" />
     <Compile Include="Extensions\DateTimeHelper.cs" />
     <Compile Include="Core\Enums.cs" />
+    <Compile Include="Extensions\DicionaryHelper.cs" />
     <Compile Include="Extensions\DOMHelper.cs" />
     <Compile Include="Extensions\Enums.cs" />
     <Compile Include="Extensions\ExceptionHelper.cs" />
     <Compile Include="Extensions\ExpressionHelper.cs" />
+    <Compile Include="Extensions\FileHelper.cs" />
     <Compile Include="Extensions\GenericHelper.cs" />
     <Compile Include="Extensions\GitHelper.cs" />
     <Compile Include="Extensions\HashSetHelper.cs" />
@@ -671,10 +676,17 @@
     <Compile Include="Extensions\IOHelper.cs" />
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
-    <Compile Include="Extensions\QueueHelper.cs" />
+    <Compile Include="Extensions\ReflectionHelper.cs" />
+    <Compile Include="Extensions\TimeSpanHelper.cs" />
+    <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Ninja.cs" />
+    <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Task.cs" />
+    <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\TaskState.cs" />
+    <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\ThreadNinjaMonoBehaviourExtensions.cs" />
+    <Compile Include="Unity\Extensions\CoroutineHelper.cs" />
+    <Compile Include="Unity\Extensions\RectHelper.cs" />
     <Compile Include="Extensions\RoslynHelper.cs" />
     <Compile Include="Extensions\SerializationHelper.cs" />
-    <Compile Include="Extensions\TimeSpanHelper.cs" />
+    <Compile Include="Extensions\StringHelper.cs" />
     <Compile Include="Extensions\TupleHelper.cs" />
     <Compile Include="Extensions\TypeHelper.cs" />
     <Compile Include="Extensions\UriHelper.cs" />
@@ -685,7 +697,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Unity\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Shells\GitShell.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Plugins\SymLinker\Abstracts\ISymLinkCreator.cs" />
@@ -699,44 +710,26 @@
     <Compile Include="Unity\Extensions\F.cs" />
     <Compile Include="Unity\Extensions\GeometryHelper.cs" />
     <Compile Include="Unity\Extensions\MathHelper.cs" />
+    <Compile Include="Unity\Extensions\ObjectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
-    <Compile Include="Unity\UI\Controls\ComboBox.cs" />
-    <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabel.cs" />
-    <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabelTest.cs" />
-    <Compile Include="Unity\UI\Controls\FormattedLabel\GuiHelperDrawLine.cs" />
-    <Compile Include="Unity\UI\Controls\FormattedLabel\HexUtil.cs" />
-    <Compile Include="Unity\UI\Controls\FormattedLabel\IHyperlinkCallback.cs" />
-    <Compile Include="Unity\UI\DockWindow.cs" />
-    <Compile Include="Unity\UI\FileBrowser.cs" />
-    <Compile Include="Unity\UI\Interfaces\Enums.cs" />
-    <Compile Include="Unity\UI\Interfaces\ICommonUI.cs" />
-    <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
-    <Compile Include="Unity\UI\UIBalancedDraw.cs" />
     <Compile Include="Unity\UI\UIEffect.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
     <Compile Include="Unity\Utils\DebugTools\DebugHelper.cs" />
     <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
-    <Compile Include="Utils\DownloadBatcher.cs" />
-    <Compile Include="Utils\Enums.cs" />
-    <Compile Include="Utils\Interfaces\IDownloadItem.cs" />
-    <Compile Include="Utils\NetRequester.cs" />
     <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
-    <Compile Include="Utils\SpecializedCollections\ConcurrentHashSet.cs" />
     <Compile Include="Utils\Threading\NamedHandler.cs" />
     <Compile Include="Utils\Threading\ThreadMarker.cs" />
     <Compile Include="Unity\Utils\Timer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Libs\CielaSpike\.gitignore" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="CielaSpike">
-      <HintPath>..\libs\CielaSpike.dll</HintPath>
-    </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.11.7.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -753,15 +746,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\uzLib.Lite.ExternalCode\uzLib.Lite.ExternalCode.csproj">
-      <Project>{fce02434-f560-4d30-9d8c-f7bba0edc36f}</Project>
-      <Name>uzLib.Lite.ExternalCode</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

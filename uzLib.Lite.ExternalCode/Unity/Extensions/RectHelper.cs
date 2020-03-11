@@ -298,6 +298,8 @@ namespace UnityEngine.Extensions
                 Mathf.RoundToInt(rect.height));
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Gets the length.
         /// </summary>
@@ -307,6 +309,8 @@ namespace UnityEngine.Extensions
         {
             return Mathf.RoundToInt(rect.width * rect.width);
         }
+
+#endif
 
         public static Rect ToRect(this System.Drawing.Rectangle rectangle)
         {

@@ -1,7 +1,7 @@
 using System;
-using uzLib.Lite.ExternalCode.Core.Interfaces;
+using UnityEngine.Core.Interfaces;
 
-namespace uzLib.Lite.ExternalCode.Core
+namespace uzLib.Lite.Core
 {
     /// <summary>
     /// The Singleton class
