@@ -1,10 +1,9 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using uzLib.Lite.ExternalCode.Extensions;
-
-#if UNITY_EDITOR
-
 using UnityEngine.Extensions;
 using UnityEditor;
 
