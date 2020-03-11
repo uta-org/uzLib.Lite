@@ -204,6 +204,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Menus\RadioMenuAttribute.cs" />
+    <Compile Include="UI\Menus\RadioMenuComponent.cs" />
     <Compile Include="Utils\AutoInstantiateSeeker.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +221,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
     <Message Text="Query: $(Configuration)|$(Platform)" Importance="High" />

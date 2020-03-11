@@ -38,6 +38,8 @@ namespace uzLib.Lite.AfterBuild
                 Console.WriteLine($@"{nameof(OutputPath)}: {OutputPath}");
 
                 string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath ?? throw new InvalidOperationException(), OutputPath));
+                if (FullPath.EndsWith("Editor"))
+                    FullPath = Path.GetDirectoryName(FullPath);
 
                 Console.WriteLine($@"{nameof(FullPath)}: {FullPath}");
 
@@ -91,12 +93,7 @@ namespace uzLib.Lite.AfterBuild
 
                 Console.WriteLine($@"Removed all files! ({count} of {files.Length})");
 
-                // Copy ExternalCode folder
-
-                //string sourceExternalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.AfterBuild", "ExternalCode");
-
-                //Console.WriteLine($@"Copying folder '{sourceExternalCodeFolder}' to '{FullPath}'...");
-                //new DirectoryInfo(sourceExternalCodeFolder).CopyTo(FullPath);
+                // Copy folders
 
                 CopyFolderContents(externalCodeFolder, FullPath, "ExternalCode");
                 CopyFolderContents(unityEditorFolder, FullPath, "Editor");
@@ -109,9 +106,8 @@ namespace uzLib.Lite.AfterBuild
 
         private static void CopyFolderContents(string externalCodeFolder, string fullPath, string folderName)
         {
-            Console.WriteLine($@"Copying folder '{externalCodeFolder}' to '{fullPath}'...");
             var copyToFolder = Path.Combine(fullPath, folderName);
-            //Console.WriteLine($@"[COPYTOFOLDER] Copying folder '{copyToFolder}' to '{fullPath}'...");
+            Console.WriteLine($@"Copying folder '{externalCodeFolder}' to '{copyToFolder}'...");
 
             if (!Directory.Exists(copyToFolder))
                 Directory.CreateDirectory(copyToFolder);
@@ -121,8 +117,18 @@ namespace uzLib.Lite.AfterBuild
                 if (directory.Contains("bin") || directory.Contains("obj") || directory.Contains("Properties"))
                     continue;
 
-                new DirectoryInfo(directory).CopyTo(copyToFolder);
+                var folderPath = Path.Combine(copyToFolder, GetLastDirectoryName(directory));
+
+                Console.WriteLine($@"Copying sub-folder '{externalCodeFolder}' to '{copyToFolder}'...");
+
+                new DirectoryInfo(directory).CopyTo(folderPath);
             }
+        }
+
+        private static string GetLastDirectoryName(string path)
+        {
+            return Path.GetFileName(
+                path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar));
         }
 
         private static int RemoveFile(string file, int count)
