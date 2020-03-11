@@ -674,6 +674,8 @@
     <Compile Include="Extensions\HTMLHelper.cs" />
     <Compile Include="Extensions\JsonHelper.cs" />
     <Compile Include="Extensions\IOHelper.cs" />
+    <Compile Include="Extensions\MimeTypeMap.cs" />
+    <Compile Include="Extensions\NetHelper.cs" />
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\ReflectionHelper.cs" />
@@ -713,6 +715,7 @@
     <Compile Include="Unity\Extensions\ObjectHelper.cs" />
     <Compile Include="Unity\Extensions\TextureHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
+    <Compile Include="Unity\Global\IMGUI\GlobalGUIUtility.cs" />
     <Compile Include="Unity\UI\UIEffect.cs" />
     <Compile Include="Unity\Utils\GLDebug.cs" />
     <Compile Include="Unity\Utils\AsyncTextureManipulator.cs" />

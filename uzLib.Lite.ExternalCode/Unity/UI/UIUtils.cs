@@ -1,5 +1,5 @@
 ﻿using System;
-using RectHelper = UnityEngine.Extensions.RectExtensions;
+using RectHelper = uzLib.Lite.ExternalCode.Extensions.RectExtensions;
 using uzLib.Lite.ExternalCode.Extensions;
 
 namespace UnityEngine.UI

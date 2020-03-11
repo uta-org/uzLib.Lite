@@ -5,6 +5,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
 {
     public static class IteratorHelper
     {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Determines whether [is null or empty].
         /// </summary>
@@ -17,5 +19,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             return !(data != null && data.Any());
         }
+
+#endif
     }
 }

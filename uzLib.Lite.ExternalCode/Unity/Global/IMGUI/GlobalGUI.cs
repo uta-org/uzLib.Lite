@@ -1,5 +1,7 @@
 ﻿using System;
 using UnityGif;
+using UnityEngine.Global.IMGUI;
+using uzLib.Lite.ExternalCode.Unity.Global.IMGUI;
 
 #if UNITY_EDITOR
 

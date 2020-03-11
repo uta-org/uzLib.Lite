@@ -122,6 +122,7 @@ namespace UnityEngine.Utils
         /// <param name="finish">The finish.</param>
         public void Start(Action finish)
         {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
             if (m_coroutine != null)
             {
                 Debug.LogWarning("The current Timer internal coroutine has been overrided.");
@@ -131,6 +132,9 @@ namespace UnityEngine.Utils
             CurrentSeconds = m_initialSeconds;
             m_coroutine = Countdown(finish)
                 .StartSmartCorotine(m_editorInstance, m_monoBehaviour);
+#else
+            Debug.LogError("Cannot use this Timer, use ExternalCode one instead!");
+#endif
         }
 
         /// <summary>
@@ -147,6 +151,7 @@ namespace UnityEngine.Utils
         /// <param name="checkNullCoroutine">if set to <c>true</c> [check null coroutine].</param>
         private void Stop(bool checkNullCoroutine)
         {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
             if (m_coroutine == null)
             {
                 if (checkNullCoroutine)
@@ -157,6 +162,9 @@ namespace UnityEngine.Utils
 
             m_coroutine.StopSmartCoroutine(m_editorInstance, m_monoBehaviour);
             m_coroutine = null;
+#else
+            Debug.LogError("Cannot use this Timer, use ExternalCode one instead!");
+#endif
         }
 
         /// <summary>

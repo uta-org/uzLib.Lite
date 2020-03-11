@@ -2,7 +2,10 @@ using System;
 using System.IO;
 using System.Net;
 using UnityEngine.Extensions;
-using uzLib.Lite.ExternalCode.Extensions;
+
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+using uzLib.Lite.Extensions;
+#endif
 
 namespace uzLib.Lite.ExternalCode.Extensions
 {
@@ -120,6 +123,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 return false;
             }
         }
+
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
         /// <summary>
         ///     Gets the name and extension from.
@@ -261,6 +266,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             return !new Uri(p).IsFile;
         }
+
+#endif
 
         /// <summary>
         ///     Downloads the HTML with progress.

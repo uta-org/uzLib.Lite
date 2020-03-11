@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace uzLib.Lite.Extensions
 {
@@ -29,6 +31,21 @@ namespace uzLib.Lite.Extensions
             {
                 method.Invoke(obj, args);
             }
+        }
+
+        /// <summary>
+        /// Gets the attribute from calling method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T GetAttributeFromCallingMethod<T>()
+            where T : Attribute
+        {
+            return (T)new StackTrace()
+                .GetFrame(1)
+                .GetMethod()
+                .GetCustomAttributes(false)
+                .FirstOrDefault(attr => attr.GetType() == typeof(T));
         }
     }
 }

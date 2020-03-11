@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
 using UnityEngine;
-using UnityEngine.Extensions;
-using uzLib.Lite.ExternalCode.Extensions;
 
 namespace uzLib.Lite.ExternalCode.Utils.DebugTools
 {
@@ -27,7 +25,8 @@ namespace uzLib.Lite.ExternalCode.Utils.DebugTools
 
             foreach (var param in @params)
             {
-                string paramName = ExpressionHelper.GetMemberName(param);
+                // ReSharper disable once RedundantNameQualifier
+                string paramName = Extensions.ExpressionHelper.GetMemberName(param);
                 object value = param?.Compile().Invoke();
 
                 debugStr += $"{paramName}: {value}";

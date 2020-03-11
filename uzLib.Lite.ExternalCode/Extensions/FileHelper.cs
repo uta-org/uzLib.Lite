@@ -13,7 +13,7 @@ namespace UnityEngine.Extensions
         private static readonly Lazy<string[]> InvalidFileNameChars = new Lazy<string[]>(() => Path
             .GetInvalidPathChars()
             .Union(Path.GetInvalidFileNameChars()
-                .Union(new[] {'+', '#'})).Select(c => c.ToString(CultureInfo.InvariantCulture)).ToArray());
+                .Union(new[] { '+', '#' })).Select(c => c.ToString(CultureInfo.InvariantCulture)).ToArray());
 
         private static readonly HashSet<string> ProhibitedNames = new HashSet<string>
         {
@@ -69,6 +69,8 @@ namespace UnityEngine.Extensions
             return InvalidFileNameChars.Value.Contains(value.ToString(CultureInfo.InvariantCulture));
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Checks if file name has invalid characters.
         /// </summary>
@@ -123,5 +125,7 @@ namespace UnityEngine.Extensions
                    || extension == ".pict"
                    || extension == ".gif";
         }
+
+#endif
     }
 }

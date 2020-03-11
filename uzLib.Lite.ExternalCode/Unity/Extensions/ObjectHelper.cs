@@ -115,6 +115,8 @@ namespace uzLib.Lite.ExternalCode.Unity.Extensions
             return root.GetComponentsInChildren<T>().FirstOrDefault(x => x.name == name);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Gets or add component.
         /// </summary>
@@ -128,6 +130,8 @@ namespace uzLib.Lite.ExternalCode.Unity.Extensions
                 comp = go.AddComponent<T>();
             return comp;
         }
+
+#endif
 
         /// <summary>
         /// Gets the component or throw.

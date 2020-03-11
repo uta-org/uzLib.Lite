@@ -552,5 +552,17 @@ namespace uzLib.Lite.Extensions
             string contents = ReadAllTextShared(path);
             return Regex.Split(contents, "\r\n|\r|\n");
         }
+
+        /// <summary>
+        ///     Determines whether this instance is extension.
+        /// </summary>
+        /// <param name="extension">The extension.</param>
+        /// <returns>
+        ///     <c>true</c> if the specified extension is extension; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsExtension(this string extension)
+        {
+            return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
+        }
     }
 }

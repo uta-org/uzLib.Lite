@@ -8,6 +8,7 @@ using static marijnz.EditorCoroutines;
 
 namespace UnityEngine.Extensions
 {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
     public static class CoroutineHelper
     {
         /// <summary>
@@ -79,4 +80,5 @@ namespace UnityEngine.Extensions
             }
         }
     }
+#endif
 }

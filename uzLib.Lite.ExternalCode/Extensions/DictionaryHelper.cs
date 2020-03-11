@@ -9,6 +9,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
     /// </summary>
     public static class DictionaryHelper
     {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Adds or set the specified value.
         /// </summary>
@@ -24,6 +26,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             else
                 dictionary[key] = value;
         }
+
+#endif
 
         /// <summary>
         ///     Adds or append the specified value.

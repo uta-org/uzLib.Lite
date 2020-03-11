@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using UnityEngine;
 
-namespace UnityEngine.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
     /// Some Rect extensions
@@ -248,6 +249,8 @@ namespace UnityEngine.Extensions
             return new Rect(rect.position.x, rect.position.y, rect.width + width, rect.height);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Rests the width.
         /// </summary>
@@ -268,6 +271,8 @@ namespace UnityEngine.Extensions
         {
             return new Rect(Vector2.zero, rect.size);
         }
+
+#endif
 
         /// <summary>
         /// Gets the centered rect.
@@ -376,6 +381,8 @@ namespace UnityEngine.Extensions
             return new Rect(rect.position.x - leftMargin, rect.position.y, rect.width, rect.height);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Sums the top margin.
         /// </summary>
@@ -386,6 +393,8 @@ namespace UnityEngine.Extensions
         {
             return new Rect(rect.position.x, rect.position.y + topMargin, rect.width, rect.height);
         }
+
+#endif
 
         /// <summary>
         ///     Rests the top margin.

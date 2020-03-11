@@ -22,6 +22,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             }
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Determines whether [is executing in edit mode].
         /// </summary>
@@ -33,6 +35,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             return Attribute.GetCustomAttribute(type, typeof(ExecuteInEditMode)) != null;
         }
+
+#endif
 
         /// <summary>
         ///     Determines whether this instance is null.

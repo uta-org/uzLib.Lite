@@ -73,5 +73,30 @@ namespace uzLib.Lite.Extensions
 
             return ReplaceInvalidFileNameSymbols(value, replacementValue);
         }
+
+        /// <summary>
+        ///     Checks if file name has invalid characters.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public static bool CheckIfFileNameHasInvalidCharacters([NotNull] this string value)
+        {
+            var newValue = GetValidFileName(value, @"_");
+            return newValue != value;
+        }
+
+        public static bool IsValidTextureExtension(string extension)
+        {
+            return extension == ".psd"
+                   || extension == ".tiff"
+                   || extension == ".jpg"
+                   || extension == ".jpeg"
+                   || extension == ".png"
+                   || extension == ".tga"
+                   || extension == ".bmp"
+                   || extension == ".iff"
+                   || extension == ".pict"
+                   || extension == ".gif";
+        }
     }
 }

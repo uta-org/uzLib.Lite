@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using uzLib.Lite.ExternalCode.Extensions;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
-
+using uzLib.Lite.Extensions;
 #endif
 
 namespace UnityEngine.UI

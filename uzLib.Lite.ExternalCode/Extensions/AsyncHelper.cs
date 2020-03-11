@@ -6,6 +6,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
 {
     public static class AsyncHelper
     {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Run a function asynchronously.
         /// </summary>
@@ -36,6 +38,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
 
             return worker;
         }
+
+#endif
 
         /// <summary>
         /// Runs the asynchronous catching exceptions.

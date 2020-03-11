@@ -2,6 +2,9 @@
 using Unity.Collections;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows.Forms.VisualStyles;
+using System.Drawing;
 using Unity.Jobs;
 using uzLib.Lite.Extensions;
 
@@ -24,7 +27,8 @@ namespace UnityEngine.Utils
     // TODO: Re3search if Sprite.Create can be async
     // If not search for a method that crops textures using Color[] and NativeArray<Color>
     // [AutoInstantiate]
-    public class AsyncTextureManipulator : MonoSingleton<AsyncTextureManipulator>
+    // ReSharper disable once RedundantNameQualifier
+    public class AsyncTextureManipulator : Core.MonoSingleton<AsyncTextureManipulator>
     {
         private Queue<Request> _requests = new Queue<Request>();
 

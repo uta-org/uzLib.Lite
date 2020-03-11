@@ -107,6 +107,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return asm.GetType(className).GetMethod(methodName) != null;
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Gets the attribute from calling method.
         /// </summary>
@@ -121,6 +123,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 .GetCustomAttributes(false)
                 .FirstOrDefault(attr => attr.GetType() == typeof(T));
         }
+
+#endif
 
         /// <summary>
         /// Gets the field information.

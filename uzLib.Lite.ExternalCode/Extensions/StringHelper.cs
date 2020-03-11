@@ -5,6 +5,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+using uzLib.Lite.Extensions;
+#endif
+
 namespace uzLib.Lite.ExternalCode.Extensions
 {
     public static class StringHelper
@@ -202,6 +206,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return string.IsNullOrWhiteSpace(str);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Determines whether [is base64 string].
         /// </summary>
@@ -232,6 +238,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             //return Convert.TryFromBase64String(base64, buffer, out int bytesParsed);
         }
 
+#endif
+
         /// <summary>
         ///     Strips the starting with.
         /// </summary>
@@ -260,6 +268,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return Regex.Replace(str, @"\t|\n|\r", replacement);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Removes the new lines.
         /// </summary>
@@ -269,6 +279,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             return ReplaceNewLines(str, string.Empty);
         }
+
+#endif
 
         /// <summary>
         ///     Replace several ocurrences in a string at once.
@@ -283,6 +295,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return str;
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Removes several ocurrences in a string at once.
         /// </summary>
@@ -296,6 +310,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return str;
         }
 
+#endif
+
         /// <summary>
         ///     Puts the string into the Clipboard.
         /// </summary>
@@ -308,6 +324,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             textEditor.Copy();
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Gets the links.
         /// </summary>
@@ -318,6 +336,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             var linkParser = new Regex(@"\b(?:https?://|www\.)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             return linkParser.Matches(rawString).Cast<Match>();
         }
+
+#endif
 
         /// <summary>
         /// Determines whether this instance is hexadecimal.
@@ -413,6 +433,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 .Value;
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         /// Determines whether this instance has placeholder.
         /// </summary>
@@ -425,5 +447,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
             if (string.IsNullOrEmpty(s)) return false;
             return Regex.IsMatch(s, "{\\d+}");
         }
+
+#endif
     }
 }

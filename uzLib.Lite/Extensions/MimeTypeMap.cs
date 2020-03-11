@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace uzLib.Lite.ExternalCode.Extensions
+namespace UnityEngine.Extensions
 {
-#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
-
     /// <summary>
     ///     The Mime Type Map
     /// </summary>
@@ -25,7 +23,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             var mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                #region Big freaking list of mime types
+#region Big freaking list of mime types
 
                 // maps both ways,
                 // extension -> mime type
@@ -710,7 +708,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 {"video/x-ms-asf", ".asf"},
                 {"x-world/x-vrml", ".xof"},
 
-                #endregion Big freaking list of mime types
+#endregion Big freaking list of mime types
             };
 
             var cache = mappings.ToList(); // need ToList() to avoid modifying while still enumerating
@@ -789,6 +787,4 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return _mappings.Value.TryGetValue(extension, out var value);
         }
     }
-
-#endif
 }

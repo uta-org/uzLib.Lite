@@ -56,6 +56,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             CopyTo(source, new DirectoryInfo(target), overwiteFiles);
         }
 
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
         /// <summary>
         ///     Determines whether this instance is extension.
         /// </summary>
@@ -67,5 +69,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
         }
+
+#endif
     }
 }
