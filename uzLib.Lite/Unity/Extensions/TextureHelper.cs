@@ -188,6 +188,8 @@ namespace UnityEngine.Extensions
             return croppedTexture;
         }
 
+        //#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+
         public static IEnumerable<Texture2D> GetTextures(this Texture2D _texture, params Rect[] cropRects)
         {
             return GetTextures(_texture, cropRects.Select(rect => new UnityMinifiedNode(rect)).ToArray());
@@ -217,6 +219,8 @@ namespace UnityEngine.Extensions
                 yield return croppedTexture;
             }
         }
+
+        //#endif
 
         /// <summary>
         /// Duplicates the texture.

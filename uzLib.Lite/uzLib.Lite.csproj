@@ -728,7 +728,6 @@
     <Compile Include="Utils\Threading\NamedHandler.cs" />
     <Compile Include="Utils\Threading\ThreadMarker.cs" />
     <Compile Include="Unity\Utils\Timer.cs" />
-    <Compile Include="Utils\TexturePacker\UnityMinifiedNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

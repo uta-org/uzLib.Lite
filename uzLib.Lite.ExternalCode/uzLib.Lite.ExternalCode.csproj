@@ -208,7 +208,7 @@
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\Editor\OnInit.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\Enums\BestFitHeuristic.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\Enums\SplitType.cs" />
-    <Compile Include="Libs\TexturePacker\TexturePacker.Lib\IMinifiedNode.cs" />
+    <Compile Include="Libs\TexturePacker\TexturePacker.Lib\Interfaces\IMinifiedNode.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\MinifiedAtlas.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\MinifiedNode.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\Node.cs" />
@@ -216,6 +216,7 @@
     <Compile Include="Libs\TexturePacker\TexturePacker\AtlasBlock.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker\OutputType.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker\Packer.cs" />
+    <Compile Include="Libs\TexturePacker\TexturePacker.Lib\UnityMinifiedNode.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\Editor\UniGifFileEditor.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\UniGif.VisualStudio\UnityGif\UniGif.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\UniGif.VisualStudio\UnityGif\UniGifConst.cs" />
@@ -271,5 +272,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
