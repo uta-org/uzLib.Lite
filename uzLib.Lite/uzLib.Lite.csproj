@@ -684,8 +684,6 @@
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Task.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\TaskState.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\ThreadNinjaMonoBehaviourExtensions.cs" />
-    <Compile Include="Unity\UI\Menus\RadioMenuAttribute.cs" />
-    <Compile Include="Unity\UI\Menus\RadioMenuComponent.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
     <Compile Include="Unity\Extensions\CoroutineHelper.cs" />
     <Compile Include="Unity\Extensions\RectHelper.cs" />

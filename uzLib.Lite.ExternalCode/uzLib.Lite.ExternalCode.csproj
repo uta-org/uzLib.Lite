@@ -243,6 +243,8 @@
     <Compile Include="Unity\UI\Interfaces\Enums.cs" />
     <Compile Include="Unity\UI\Interfaces\ICommonUI.cs" />
     <Compile Include="Unity\UI\Interfaces\IUnityForm.cs" />
+    <Compile Include="Unity\UI\Menus\RadioMenuAttribute.cs" />
+    <Compile Include="Unity\UI\Menus\RadioMenuComponent.cs" />
     <Compile Include="Unity\UI\ObsoleteUtils\WorkshopUIBalancer.cs" />
     <Compile Include="Unity\UI\UIBalancedDraw.cs" />
     <Compile Include="Unity\Utils\AutoInstantiateAttribute.cs" />
