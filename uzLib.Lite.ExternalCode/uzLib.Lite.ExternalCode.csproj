@@ -34,7 +34,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU'">
     <OutputPath>bin\ForUnity\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;UNITY_STANDALONE, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -163,8 +163,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Colorful.Console">
-      <HintPath>..\packages\Colorful.Console.1.2.9\lib\net461\Colorful.Console.dll</HintPath>
+    <Reference Include="Colorful.Console, Version=1.2.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Colorful.Console.1.2.10\lib\net461\Colorful.Console.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -224,6 +224,8 @@
     <Compile Include="Libs\TexturePacker\TexturePacker\OutputType.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker\Packer.cs" />
     <Compile Include="Libs\TexturePacker\TexturePacker.Lib\UnityMinifiedNode.cs" />
+    <Compile Include="Libs\ThirdParty\EditorCoroutines\EditorCoroutineExtensions.cs" />
+    <Compile Include="Libs\ThirdParty\EditorCoroutines\EditorCoroutines.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\Editor\UniGifFileEditor.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\UniGif.VisualStudio\UnityGif\UniGif.cs" />
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\UniGif.VisualStudio\UnityGif\UniGifConst.cs" />
@@ -241,7 +243,9 @@
     <Compile Include="Libs\Unity-WinForms\Controls\BitmapLabel.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\BitmapText.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\ColorPicker.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\ColorPickerForm.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\ColorPickerForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\DrawListBox.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Axis.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\AxisCollection.cs" />
@@ -273,7 +277,9 @@
     <Compile Include="Libs\Unity-WinForms\Core\KeyboardHook.cs" />
     <Compile Include="Libs\Unity-WinForms\Core\MouseHook.cs" />
     <Compile Include="Libs\Unity-WinForms\Examples\ControlsExtensions.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\FormExamples.cs" />
+    <Compile Include="Libs\Unity-WinForms\Examples\FormExamples.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Examples\Panels\BaseExamplePanel.cs" />
     <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelButton.cs" />
     <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelChart.cs" />
@@ -302,7 +308,6 @@
     <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTrackBar.cs" />
     <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTreeView.cs" />
     <Compile Include="Libs\Unity-WinForms\FormattedLabel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Properties\AssemblyInfo.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Drawing\Bitmap.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Drawing\Brush.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Drawing\Brushes.cs" />
@@ -341,19 +346,35 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Border3DStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\BorderStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\BoundsSpecified.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Button.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ButtonBase.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Button.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ButtonBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ButtonBorderStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ButtonState.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\CheckBox.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\CheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\CheckState.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ColorDepth.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ColumnHeader.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ComboBox.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ColumnHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ComboBoxStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ContainerControl.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ContextMenuStrip.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Control.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ContainerControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Control.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ControlEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ControlPaint.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ControlStyles.cs" />
@@ -364,7 +385,9 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DataObject.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DateRangeEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DateRangeEventHandler.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DateTimePicker.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DialogResult.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DockStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DragEventArgs.cs" />
@@ -375,11 +398,19 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DrawMode.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DrawTreeNodeEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\DrawTreeNodeEventHandler.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FileDialog.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FlatStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FolderBrowserDialog.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FontDialog.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Form.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FontDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Form.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormBorderStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormClosedEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormClosedEventHandler.cs" />
@@ -388,9 +419,13 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormCollection.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormStartPosition.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\FormWindowState.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\GroupBox.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\GroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\HorizontalAlignment.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\HScrollBar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\HScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\HScrollProperties.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\IButtonControl.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\IContainerControl.cs" />
@@ -406,47 +441,85 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\KeyPressEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\KeyPressEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Keys.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Label.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Label.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LayoutEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LayoutEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkBehavior.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkLabel.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkLabelLinkClickedEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkLabelLinkClickedEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\LinkState.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListControl.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListSortDirection.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListView.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ListViewItem.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MdiClient.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MenuStrip.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MdiClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MessageBox.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MessageBoxButtons.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MessageBoxIcon.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MonthCalendar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MonthCalendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MouseEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\MouseEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\NativeMethods.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\NumericUpDown.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\OpenFileDialog.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\NumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\OpenFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Orientation.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Padding.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\PaintEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\PaintEventHandler.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Panel.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\PictureBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ProgressBar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Panel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\PictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ProgressBarStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\RadioButton.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\RepeatButton.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ResizeButton.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\RadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\RepeatButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ResizeButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\RightToLeft.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SafeNativeMethods.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SaveFileDialog.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SaveFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Screen.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollableControl.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollBar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollBars.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollEventHandler.cs" />
@@ -454,51 +527,99 @@
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollOrientation.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ScrollProperties.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SizeGripStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SplitContainer.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SplitterPanel.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\StatusStrip.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SplitContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SplitterPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\StatusStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\SystemInformation.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabAlignment.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabControl.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabControlCancelEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabControlEventArgs.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabPage.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TextBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TextBoxBase.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Timer.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStrip.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripButton.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDown.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownButton.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TabPage.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TextBoxBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\Timer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownDirection.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownItem.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownMenu.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripDropDownMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripGripStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItem.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItemAlignment.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItemClickedEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItemClickedEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripItemCollection.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripLabel.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripLayoutStyle.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripMenuItem.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripSeparator.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripStatusLabel.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolTip.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TrackBar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripSeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolStripStatusLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\ToolTip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNode.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNodeCollection.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNodeMouseClickEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNodeMouseClickEventHandler.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNodeMouseHoverEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeNodeStates.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeView.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeViewAction.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeViewEventArgs.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\TreeViewEventHandler.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\UserControl.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\UserControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\View.cs" />
-    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\VScrollBar.cs" />
+    <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\VScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\VScrollProperties.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Windows\Forms\WindowsFormsUtils.cs" />
     <Compile Include="Libs\Unity-WinForms\Unity\API\UnityGdi.cs" />
@@ -649,5 +770,6 @@
     <Content Include="Libs\Unity-WinForms\Resources\treenode_expanded.png" />
     <Content Include="Libs\Unity-WinForms\Unity-WinForms-Premium.csproj" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

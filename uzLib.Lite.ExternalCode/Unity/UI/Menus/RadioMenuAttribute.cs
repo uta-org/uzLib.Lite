@@ -4,8 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using uzLib.Lite.ExternalCode.Extensions;
-using UnityEngine.Extensions;
 using UnityEditor;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+using UnityEngine.Extensions;
+#endif
 
 namespace UnityEngine.UI.Menus
 {
@@ -20,6 +23,7 @@ namespace UnityEngine.UI.Menus
 
         static RadioMenuAttribute()
         {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             var attrs = typeof(Editor).Assembly.GetCustomAttributes<RadioMenuAttribute>();
 
             // Delaying until first editor tick so that the menu
@@ -30,6 +34,7 @@ namespace UnityEngine.UI.Menus
                 foreach (var attr in attrs)
                     RadioMenuInvoker.PerformAction(attr, false);
             };
+#endif
         }
 
         private RadioMenuAttribute()
