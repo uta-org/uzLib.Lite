@@ -1,6 +1,10 @@
 ﻿namespace UnityEngine.Utils
 {
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
     using _Color = System.Drawing.Color;
+#else
+    using _Color = _System.Drawing.Color;
+#endif
 
     public partial class NamedColor
     {

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Windows.Forms;
+using _System.Drawing;
+using Unity.Controls;
 using UnityEngine.Extensions;
 using UnityEngine.Global;
 using UnityEngine.UI.Interfaces;
@@ -82,6 +85,9 @@ namespace UnityEngine.UI
 
         public ICommonUI<T> Worker { get; set; }
 
+        private UIDisplayer m_Display;
+        private Form m_Form;
+
         public T Form
         {
             get
@@ -136,6 +142,16 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
+            m_Form = new Form
+            {
+                Text = content.text,
+                Location = new Point((int)position.x, (int)position.y),
+                Size = new Size((int)position.width, (int)position.height)
+            };
+
+            m_Display = new UIDisplayer(position.SumTop(25).RestHeight(25), DrawWindow);
+            m_Form.Controls.Add(m_Display);
+
             DrawUI = true;
         }
 
@@ -144,19 +160,21 @@ namespace UnityEngine.UI
             if (!DrawUI && !IsEditor)
                 return null;
 
-            if (Style == null)
-                Position = Options == null
-                    ? GUI.Window(Id, Position, DrawWindow, Content)
-                    : GUILayout.Window(Id, Position, DrawWindow, Content, Options);
-            else
-                Position = Options == null
-                    ? GUI.Window(Id, Position, DrawWindow, Content, Style)
-                    : GUILayout.Window(Id, Position, DrawWindow, Content, Style, Options);
+            //if (Style == null)
+            //    Position = Options == null
+            //        ? GUI.Window(Id, Position, DrawWindow, Content)
+            //        : GUILayout.Window(Id, Position, DrawWindow, Content, Options);
+            //else
+            //    Position = Options == null
+            //        ? GUI.Window(Id, Position, DrawWindow, Content, Style)
+            //        : GUILayout.Window(Id, Position, DrawWindow, Content, Style, Options);
+
+            m_Form.RaiseOnPaint(null);
 
             return Position;
         }
 
-        protected virtual void DrawWindow(int windowID)
+        protected virtual void DrawWindow()
         {
             if (DragPosition.HasValue)
                 GUI.DragWindow(DragPosition.Value);
