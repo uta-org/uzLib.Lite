@@ -87,6 +87,9 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 
 - There are some methods missing from the text above.
 - Change `Safe` word on methods and use `Try`.
+- Do a more friendly compilation (select paths of compilation more easily)
+- Check for unusable `usings` in code
+- Copy *.meta files before compilation
 
 ## Donate
 

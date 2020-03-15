@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using _System.Drawing;
 using System.Linq;
 using System.Text;
-using UnityEngine.Extensions;
 using UnityEngine.Utils;
 
 using uzLib.Lite.ExternalCode.Extensions;
 using uzLib.Lite.Utils.SpecializedCollections;
+
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+using AColor = System.Drawing.Color;
+#else
+using SColor = _System.Drawing.Color;
+using UnityEngine.Extensions;
+#endif
 
 namespace UnityEngine.UI.Controls
 {
@@ -462,20 +468,38 @@ namespace UnityEngine.UI.Controls
                         .Select(kc => kc.ToString())
                         .ToList();
 
-                    if (Enum.TryParse(colorName, true, out KnownColor parsedColor))
+
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+                    if (Enum.TryParse(colorName, true, out System.Drawing.KnownColor parsedColor))
                     {
-                        var sysColor = System.Drawing.Color.FromKnownColor(parsedColor);
+                        var sysColor = AColor.FromKnownColor(parsedColor);
                         return sysColor.ToUInt();
                     }
 
                     if (hexOrColorName.FindNearestString(knownColors) == colorName)
                     {
                         var sysColor =
-                            System.Drawing.Color.FromKnownColor((KnownColor)Enum.Parse(typeof(KnownColor),
+                            AColor.FromKnownColor((System.Drawing.KnownColor)Enum.Parse(typeof(System.Drawing.KnownColor),
                                 hexOrColorName, true));
 
                         return sysColor.ToUInt();
                     }
+#else
+                    if (Enum.TryParse(colorName, true, out _System.Drawing.KnownColor parsedColor))
+                    {
+                        var sysColor = SColor.FromKnownColor(parsedColor);
+                        return sysColor.ToUInt();
+                    }
+
+                    if (hexOrColorName.FindNearestString(knownColors) == colorName)
+                    {
+                        var sysColor =
+                            SColor.FromKnownColor((_System.Drawing.KnownColor)Enum.Parse(typeof(_System.Drawing.KnownColor),
+                                hexOrColorName, true));
+
+                        return sysColor.ToUInt();
+                    }
+#endif
 
                     return default;
                 };
@@ -707,7 +731,7 @@ namespace UnityEngine.UI.Controls
             var text = "FormattedLabel.GetTestText()";
             switch (testText)
             {
-                #region Demo
+#region Demo
 
                 case TestText.Demo:
                     text = "This [c 01F573FF]sente nce[C FFFFFFFF] is [c FF6666FF]too[C FFFFFFFF] "
@@ -727,9 +751,9 @@ namespace UnityEngine.UI.Controls
                            + "This is a [FA U][H hyperlink_value]hyperlink[-H][FA -U].";
                     break;
 
-                #endregion Demo
+#endregion Demo
 
-                #region Fireball
+#region Fireball
 
                 case TestText.Fireball:
                     text = "[HA Center]" // Alignment center
@@ -771,18 +795,18 @@ namespace UnityEngine.UI.Controls
                            + "[VA ?]"; // Vertical alignment: Unity default to almost top-aligned;
                     break;
 
-                #endregion Fireball
+#endregion Fireball
 
-                #region Hyperlink
+#region Hyperlink
 
                 case TestText.Hyperlink:
                     text = "This is a hidden [H hidden]hyperlink[-H].\n"
                            + "This is a visible [FA U][H visible]hyperlink[-H][FA -U].";
                     break;
 
-                #endregion Hyperlink
+#endregion Hyperlink
 
-                #region EscapedText
+#region EscapedText
 
                 case TestText.SpecialText:
                     text = "Escaped backslash \\\n"
@@ -790,7 +814,7 @@ namespace UnityEngine.UI.Controls
                            + "Closing bracket ]\n";
                     break;
 
-                #endregion EscapedText
+#endregion EscapedText
 
                 default:
                     //Debug.Log("Invalid index '" + testText.ToString() + "'");
@@ -1378,7 +1402,7 @@ namespace UnityEngine.UI.Controls
             }
         }
 
-        #region IHyperlinkCallback Members
+#region IHyperlinkCallback Members
 
         public void onHyperlinkEnter(string hyperlinkId)
         {
@@ -1404,6 +1428,6 @@ namespace UnityEngine.UI.Controls
                 _hyperlinkCallback.onHyperlinkLeave(hyperlinkId);
         }
 
-        #endregion IHyperlinkCallback Members
+#endregion IHyperlinkCallback Members
     }
 }

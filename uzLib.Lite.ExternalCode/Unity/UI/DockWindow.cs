@@ -87,6 +87,8 @@ namespace UnityEngine.UI
 
         private UIDisplayer m_Display;
         private Form m_Form;
+        private bool m_isEditor;
+
 
         public T Form
         {
@@ -142,15 +144,18 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
-            m_Form = new Form
+            if (!m_isEditor)
             {
-                Text = content.text,
-                Location = new Point((int)position.x, (int)position.y),
-                Size = new Size((int)position.width, (int)position.height)
-            };
+                m_Form = new Form
+                {
+                    Text = content.text,
+                    Location = new Point((int)position.x, (int)position.y),
+                    Size = new Size((int)position.width, (int)position.height)
+                };
 
-            m_Display = new UIDisplayer(position.SumTop(25).RestHeight(25), DrawWindow);
-            m_Form.Controls.Add(m_Display);
+                m_Display = new UIDisplayer(position.SumTop(25).RestHeight(25), DrawWindow);
+                m_Form.Controls.Add(m_Display);
+            }
 
             DrawUI = true;
         }
@@ -169,15 +174,21 @@ namespace UnityEngine.UI
             //        ? GUI.Window(Id, Position, DrawWindow, Content, Style)
             //        : GUILayout.Window(Id, Position, DrawWindow, Content, Style, Options);
 
-            m_Form.RaiseOnPaint(null);
+            //m_Form.RaiseOnPaint(null);
+
+            //if (!m_Form.Visible)
+            //{
+            //    m_Form.Show();
+            //    Debug.Log("Showing form!");
+            //}
 
             return Position;
         }
 
         protected virtual void DrawWindow()
         {
-            if (DragPosition.HasValue)
-                GUI.DragWindow(DragPosition.Value);
+            //if (DragPosition.HasValue)
+            //    GUI.DragWindow(DragPosition.Value);
 
             IsHover = Position.Contains(GlobalInput.MousePosition);
 
@@ -194,6 +205,7 @@ namespace UnityEngine.UI
                 Init(IdCounter, m_pos, m_dragPos, new GUIContent(title), null, null);
 
                 EditorGUI = editorGUI ?? delegate { };
+                m_isEditor = editorGUI != null;
 
                 ++IdCounter;
 
@@ -202,6 +214,11 @@ namespace UnityEngine.UI
             }
 
             return this;
+        }
+
+        public void Show()
+        {
+            m_Form.Show();
         }
 
         public virtual void Update(bool enabled)
