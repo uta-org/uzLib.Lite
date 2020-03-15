@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
+using Newtonsoft.Json;
 using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
+using IOHelper = uzLib.Lite.Extensions.IOHelper;
 
 namespace uzLib.Lite.AfterBuild
 {
     public static class Program
     {
+        private static List<string> metaFiles = new List<string>();
+
+        private const string FolderName = "uzLib.Lite.MetaFiles";
+
         [Flags]
         public enum RemoveState
         {
@@ -27,12 +33,15 @@ namespace uzLib.Lite.AfterBuild
             var externalCodeFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.ExternalCode");
             var unityEditorFolder = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory) ?? throw new InvalidOperationException(), "uzLib.Lite.UnityEditor");
 
-            Thread.Sleep(2000);
+            //Thread.Sleep(2000);
+
+            // TODO: Copy meta files from temp folder
 
             try
             {
-                string MSBuildProjectFullPath = Path.GetDirectoryName(args[0]);
-                string OutputPath = args[1].Replace(@"""", "");
+                string MSBuildProjectFullPath = args.Try(0, "E:\\VISUAL STUDIO\\Visual Studio Projects\\uzLib.Lite\\uzLib.Lite\\uzLib.Lite.csproj", Path.GetDirectoryName);
+                string OutputPath = args.Try(1, "..\\..\\..\\..\\United Teamwork Association\\Unity\\Assets\\UnitySourceToolkit\\Assets\\UnitedTeamworkAssociation\\UnitySourceToolkit\\Scripts\\Utilities\\uzLib.Lite",
+                    alt => alt.Replace(@"""", ""));
 
                 Console.WriteLine($@"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($@"{nameof(OutputPath)}: {OutputPath}");
@@ -42,6 +51,10 @@ namespace uzLib.Lite.AfterBuild
                     FullPath = Path.GetDirectoryName(FullPath);
 
                 Console.WriteLine($@"{nameof(FullPath)}: {FullPath}");
+
+                //CopyMetaFiles(FullPath);
+                //Console.ReadKey();
+                //return;
 
                 var files = Directory.GetFiles(FullPath, "*.*", SearchOption.TopDirectoryOnly);
                 var folders = Directory.GetDirectories(FullPath);
@@ -97,6 +110,8 @@ namespace uzLib.Lite.AfterBuild
 
                 CopyFolderContents(externalCodeFolder, FullPath, "ExternalCode");
                 CopyFolderContents(unityEditorFolder, FullPath, "Editor");
+
+                CopyMetaFiles(FullPath);
             }
             catch (Exception ex)
             {
@@ -138,6 +153,26 @@ namespace uzLib.Lite.AfterBuild
             Console.WriteLine($@"Deleted file '{file}'!");
             ++count;
             return count;
+        }
+
+        private static void CopyMetaFiles(string fullPath)
+        {
+            string tempFolder = IOHelper.GetTemporaryDirectory(IOHelper.GetTemporaryDirectory(FolderName));
+            string tempFolderForFiles = Path.Combine(tempFolder, "Files");
+            var jsonFile = Path.Combine(tempFolder, "files.json");
+            var json = File.ReadAllText(jsonFile);
+            metaFiles = JsonConvert.DeserializeObject<List<string>>(json);
+
+            foreach (var metaFile in metaFiles)
+            {
+                var origFile = metaFile.Replace(tempFolderForFiles, string.Empty);
+                origFile = origFile.Substring(1);
+                origFile = Path.Combine(fullPath, origFile);
+
+                //Console.WriteLine(origFile);
+                if (!File.Exists(origFile))
+                    File.Copy(metaFile, origFile);
+            }
         }
     }
 }

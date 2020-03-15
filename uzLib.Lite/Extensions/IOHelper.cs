@@ -564,5 +564,17 @@ namespace uzLib.Lite.Extensions
         {
             return extension.StartsWith(".") && MimeTypeMap.HasExtension(extension);
         }
+
+        /// <summary>
+        /// Gets the temporary directory.
+        /// </summary>
+        /// <param name="folderName">Name of the folder.</param>
+        /// <returns></returns>
+        public static string GetTemporaryDirectory(string folderName = null)
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), folderName ?? Path.GetRandomFileName());
+            if (!Directory.Exists(tempDirectory)) Directory.CreateDirectory(tempDirectory);
+            return tempDirectory;
+        }
     }
 }

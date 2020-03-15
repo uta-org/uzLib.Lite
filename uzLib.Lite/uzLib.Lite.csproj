@@ -648,6 +648,7 @@
     <Compile Include="Core\MonoSingleton.cs" />
     <Compile Include="Core\Persistent.cs" />
     <Compile Include="Core\Singleton.cs" />
+    <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\AssemblyHelper.cs" />
     <Compile Include="Extensions\AsyncHelper.cs" />
     <Compile Include="Extensions\AttributeHelper.cs" />
@@ -763,6 +764,13 @@
   <!--- /Out &quot;$(SolutionDir)Logs\uzLib.Lite.UnityEditor.BuildLog.log&quot; -->
   <!---  ConsoleToMsBuild="true" -->
   <!--- &quot;$(SolutionDir)uzLib.Lite.UnityEditor\uzLib.Lite.UnityEditor.csproj&quot; -->
+  <Target Name="BeforeBuild" Condition="'$(Configuration)' == 'ForUnity' Or '$(Configuration)' == 'ForUnityEditor' Or '$(Configuration)' == 'ForUnityAsPackage'">
+    <Message Condition="'$(Configuration)' == 'ForUnityAsPackage'" Text="Building 'uzLib.Lite.UnityEditor' Library: &quot;$(VSLibCompilationCommand)&quot;" Importance="High" />
+    <Exec Condition="'$(Configuration)' == 'ForUnityAsPackage'" Command="$(VSLibCompilationCommand)" />
+    <!--- END TODO -->
+    <Message Text="Executing cleanup..." Importance="High" />
+    <Exec Command="&quot;E:\VISUAL STUDIO\Visual Studio Projects\uzLib.Lite\uzLib.Lite.BeforeBuild\bin\Release\uzLib.Lite.BeforeBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
+  </Target>
   <Target Name="AfterBuild" Condition="'$(Configuration)' == 'ForUnity' Or '$(Configuration)' == 'ForUnityEditor' Or '$(Configuration)' == 'ForUnityAsPackage'">
     <!--- TODO: This is not working yet -->
     <PropertyGroup>
