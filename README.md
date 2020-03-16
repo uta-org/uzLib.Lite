@@ -89,7 +89,7 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 - Change `Safe` word on methods and use `Try`.
 - Do a more friendly compilation (select paths of compilation more easily)
 - Check for unusable `usings` in code
-- Copy *.meta files before compilation
+- Disable AssetDatabase refresh while uzLibe.Lite is compiling through WebSockets
 
 ## Donate
 

@@ -16,6 +16,11 @@
         None,
 
         /// <summary>
+        ///     Empty result
+        /// </summary>
+        EmptyResult,
+
+        /// <summary>
         ///     Displaying information
         /// </summary>
         DisplayingInfo,
