@@ -41,7 +41,7 @@ namespace uzLib.Lite.BeforeBuild
                     Directory.Delete(tempFolderForFiles, true);
 
                 int count = 0;
-                DirSearch(FullPath, file =>
+                count = DirSearch(FullPath, file =>
                 {
                     // Copy meta file to another dir, store on list
                     var extension = Path.GetExtension(file);
@@ -62,8 +62,11 @@ namespace uzLib.Lite.BeforeBuild
                     if (File.Exists(tempFile))
                         return;
 
-                    File.Copy(file, tempFile);
-                    ++count;
+                    if (!File.Exists(file))
+                    {
+                        File.Copy(file, tempFile);
+                        // Console.WriteLine($@"Copying meta file from '{file}' to '{tempFile}'...");
+                    }
 
                     //Console.WriteLine($"File: {file} --> {FullPath}" +
                     //                  "\r\n" +
@@ -72,9 +75,9 @@ namespace uzLib.Lite.BeforeBuild
                     //                  $"TempFile: {tempFile}" +
                     //                  "\r\n" +
                     //                  $"TempFolder: {tempFolder}");
-                });
+                }, count);
 
-                Console.WriteLine($@"Copied {count} meta files copied!");
+                Console.WriteLine($@"Copied {count} meta files!");
 
                 var jsonFile = Path.Combine(tempFolder, "files.json");
                 File.WriteAllText(jsonFile, JsonConvert.SerializeObject(metaFiles, Formatting.Indented));
@@ -85,7 +88,7 @@ namespace uzLib.Lite.BeforeBuild
             }
         }
 
-        private static void DirSearch(string sDir, Action<string> callback)
+        private static int DirSearch(string sDir, Action<string> callback, int count)
         {
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
@@ -93,19 +96,28 @@ namespace uzLib.Lite.BeforeBuild
             try
             {
                 foreach (string f in Directory.GetFiles(sDir))
+                {
                     callback(f);
+                    ++count;
+                }
 
                 foreach (string d in Directory.GetDirectories(sDir))
                 {
                     foreach (string f in Directory.GetFiles(d))
+                    {
                         callback(f);
-                    DirSearch(d, callback);
+                        ++count;
+                    }
+
+                    count = DirSearch(d, callback, count);
                 }
             }
             catch (Exception excpt)
             {
                 Console.WriteLine(excpt.Message);
             }
+
+            return count;
         }
     }
 }

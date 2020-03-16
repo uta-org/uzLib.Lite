@@ -52,31 +52,19 @@ namespace uzLib.Lite.AfterBuild
 
                 Console.WriteLine($@"{nameof(FullPath)}: {FullPath}");
 
-                //CopyMetaFiles(FullPath);
-                //Console.ReadKey();
-                //return;
-
                 var files = Directory.GetFiles(FullPath, "*.*", SearchOption.TopDirectoryOnly);
                 var folders = Directory.GetDirectories(FullPath);
 
                 int count = 0;
 
-                //bool isEditor = FullPath.Contains("Editor");
-
-                //Console.WriteLine($"Instance is editor?: {isEditor}");
-
                 var editorFolder = files.First().Contains("Editor")
                     ? Path.GetDirectoryName(files.First())
                     : Path.Combine(Path.GetDirectoryName(files.First()) ?? throw new InvalidOperationException(), "Editor");
-
-                //bool editorFolderExists = Directory.Exists(editorFolder);
 
                 foreach (var file in files)
                 {
                     var editorFile = Path.Combine(editorFolder, Path.GetFileName(file) ?? throw new InvalidOperationException());
                     var fileName = Path.GetFileNameWithoutExtension(editorFile);
-
-                    //Console.WriteLine(editorFile);
 
                     var remove = (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode") ? RemoveState.Normal : RemoveState.Nothing)
                                        | (!editorFile.Contains("uzLib.Lite.") || fileName != "UnityEditor" ? RemoveState.Editor : RemoveState.Nothing);

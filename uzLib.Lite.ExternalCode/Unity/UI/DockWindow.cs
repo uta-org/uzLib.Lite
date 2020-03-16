@@ -89,7 +89,6 @@ namespace UnityEngine.UI
         private Form m_Form;
         private bool m_isEditor;
 
-
         public T Form
         {
             get
@@ -144,6 +143,7 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
+            Debug.Log($"Is Editor?: {m_isEditor}");
             if (!m_isEditor)
             {
                 m_Form = new Form
@@ -190,6 +190,7 @@ namespace UnityEngine.UI
             //if (DragPosition.HasValue)
             //    GUI.DragWindow(DragPosition.Value);
 
+            // TODO
             IsHover = Position.Contains(GlobalInput.MousePosition);
 
             Worker?.DrawInterface(string.Empty, null);

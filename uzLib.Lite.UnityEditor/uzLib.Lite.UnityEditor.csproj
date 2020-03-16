@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzSourceToolkit'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -41,7 +41,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzCraft'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -51,7 +51,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzSurfaceMapper'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -61,7 +61,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzBuildingSystem'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -71,7 +71,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzProceduralCityGen'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -81,7 +81,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'ForUnity' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|uzLib'">
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\uzLib\Assets\UnitedTeamworkAssociation\uzLib\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzLib\Assets\UnitedTeamworkAssociation\uzLib\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -94,7 +94,7 @@
     <!--
     <OutputPath>bin\ForUnityEditor\Release\</OutputPath>
     -->
-    <OutputPath>..\..\..\..\United Teamwork Assocation\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
+    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\Editor\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
