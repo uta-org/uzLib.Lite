@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using Newtonsoft.Json;
 using uzLib.Lite.Extensions;
 using uzLib.Lite.ExternalCode.Extensions;
@@ -83,7 +84,7 @@ namespace uzLib.Lite.AfterBuild
                 {
                     if (!folder.Contains(@"\.Code"))
                     {
-                        Directory.Delete(folder, true);
+                        IOHelper.DeleteDirectory(folder);
 
                         Console.WriteLine($@"Deleted folder '{folder}'!");
                         ++count;
@@ -148,19 +149,39 @@ namespace uzLib.Lite.AfterBuild
             string tempFolder = IOHelper.GetTemporaryDirectory(IOHelper.GetTemporaryDirectory(FolderName));
             string tempFolderForFiles = Path.Combine(tempFolder, "Files");
             var jsonFile = Path.Combine(tempFolder, "files.json");
+
+            // If this file doesn't exists, the BeforeBuild didn't copied any file.
+            if (!File.Exists(jsonFile))
+                return;
+
             var json = File.ReadAllText(jsonFile);
             metaFiles = JsonConvert.DeserializeObject<List<string>>(json);
 
+            int count = 0;
             foreach (var metaFile in metaFiles)
             {
                 var origFile = metaFile.Replace(tempFolderForFiles, string.Empty);
                 origFile = origFile.Substring(1);
                 origFile = Path.Combine(fullPath, origFile);
 
-                //Console.WriteLine(origFile);
-                if (!File.Exists(origFile))
-                    File.Copy(metaFile, origFile);
+                //if (File.Exists(origFile))
+                //{
+                //    Console.WriteLine($@"File '{origFile}' already exists!");
+                //    continue;
+                //}
+
+                try
+                {
+                    File.Copy(metaFile, origFile, true);
+                    ++count;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($@"Couldn't copy file '{metaFile}' to '{origFile}'!\r\n{ex}");
+                }
             }
+
+            Console.WriteLine($"Copied back {count} meta files!");
         }
     }
 }

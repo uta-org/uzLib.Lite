@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Extensions;
 using UnityEngine.Networking;
@@ -575,6 +576,41 @@ namespace uzLib.Lite.Extensions
             string tempDirectory = Path.Combine(Path.GetTempPath(), folderName ?? Path.GetRandomFileName());
             if (!Directory.Exists(tempDirectory)) Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
+        }
+
+        /// <summary>
+        /// Deletes the directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        public static void DeleteDirectory(string path)
+        {
+            foreach (string directory in Directory.GetDirectories(path))
+            {
+                Thread.Sleep(1);
+                DeleteDir(directory);
+            }
+            DeleteDir(path);
+        }
+
+        /// <summary>
+        /// Deletes the dir.
+        /// </summary>
+        /// <param name="dir">The dir.</param>
+        private static void DeleteDir(string dir)
+        {
+            try
+            {
+                Thread.Sleep(1);
+                Directory.Delete(dir, true);
+            }
+            catch (IOException)
+            {
+                DeleteDir(dir);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                DeleteDir(dir);
+            }
         }
     }
 }

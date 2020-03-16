@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using uzLib.Lite.Extensions;
 
@@ -37,8 +39,11 @@ namespace uzLib.Lite.BeforeBuild
                 string tempFolder = IOHelper.GetTemporaryDirectory(FolderName);
                 var tempFolderForFiles = Path.Combine(tempFolder, "Files");
 
-                if (Directory.Exists(tempFolderForFiles))
-                    Directory.Delete(tempFolderForFiles, true);
+                //if (Directory.Exists(tempFolderForFiles))
+                //    Directory.Delete(tempFolderForFiles, true);
+
+                var treeResult = ScanFolder(new DirectoryInfo(FullPath));
+                File.WriteAllText(Path.Combine(tempFolder, "tree.txt"), treeResult);
 
                 int count = 0;
                 count = DirSearch(FullPath, file =>
@@ -59,14 +64,12 @@ namespace uzLib.Lite.BeforeBuild
                     if (!Directory.Exists(folder))
                         Directory.CreateDirectory(folder ?? throw new InvalidOperationException());
 
+                    // Update the temp file
                     if (File.Exists(tempFile))
-                        return;
+                        File.Delete(tempFile);
 
-                    if (!File.Exists(file))
-                    {
-                        File.Copy(file, tempFile);
-                        // Console.WriteLine($@"Copying meta file from '{file}' to '{tempFile}'...");
-                    }
+                    File.Copy(file, tempFile, true);
+                    // Console.WriteLine($@"Copying meta file from '{file}' to '{tempFile}'...");
 
                     //Console.WriteLine($"File: {file} --> {FullPath}" +
                     //                  "\r\n" +
@@ -79,8 +82,11 @@ namespace uzLib.Lite.BeforeBuild
 
                 Console.WriteLine($@"Copied {count} meta files!");
 
-                var jsonFile = Path.Combine(tempFolder, "files.json");
-                File.WriteAllText(jsonFile, JsonConvert.SerializeObject(metaFiles, Formatting.Indented));
+                if (!metaFiles.IsNullOrEmpty())
+                {
+                    var jsonFile = Path.Combine(tempFolder, "files.json");
+                    File.WriteAllText(jsonFile, JsonConvert.SerializeObject(metaFiles, Formatting.Indented));
+                }
             }
             catch (Exception ex)
             {
@@ -118,6 +124,24 @@ namespace uzLib.Lite.BeforeBuild
             }
 
             return count;
+        }
+
+        private static string ScanFolder(DirectoryInfo directory, string indentation = "\t", int maxLevel = -1, int deep = 0)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            builder.AppendLine(string.Concat(Enumerable.Repeat(indentation, deep)) + directory.Name);
+
+            if (maxLevel == -1 || maxLevel < deep)
+            {
+                foreach (var subdirectory in directory.GetDirectories())
+                    builder.Append(ScanFolder(subdirectory, indentation, maxLevel, deep + 1));
+            }
+
+            foreach (var file in directory.GetFiles())
+                builder.AppendLine(string.Concat(Enumerable.Repeat(indentation, deep + 1)) + file.Name);
+
+            return builder.ToString();
         }
     }
 }

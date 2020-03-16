@@ -87,7 +87,7 @@ namespace UnityEngine.UI
 
         private UIDisplayer m_Display;
         private Form m_Form;
-        private bool m_isEditor;
+        private bool m_isEditor => Application.isEditor && !Application.isPlaying;
 
         public T Form
         {
@@ -143,7 +143,7 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
-            Debug.Log($"Is Editor?: {m_isEditor}");
+            //Debug.Log($"Is Editor?: {m_isEditor}");
             if (!m_isEditor)
             {
                 m_Form = new Form
@@ -206,7 +206,6 @@ namespace UnityEngine.UI
                 Init(IdCounter, m_pos, m_dragPos, new GUIContent(title), null, null);
 
                 EditorGUI = editorGUI ?? delegate { };
-                m_isEditor = editorGUI != null;
 
                 ++IdCounter;
 
@@ -219,6 +218,7 @@ namespace UnityEngine.UI
 
         public void Show()
         {
+            Debug.Log("Showing form!");
             m_Form.Show();
         }
 
