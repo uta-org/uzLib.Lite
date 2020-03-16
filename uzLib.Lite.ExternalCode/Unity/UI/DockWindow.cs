@@ -89,7 +89,6 @@ namespace UnityEngine.UI
             }
         }
 
-        //public Rect? DragPosition { get; private set; }
         public GUIContent Content { get; private set; }
 
         public GUIStyle Style { get; private set; }
@@ -110,15 +109,6 @@ namespace UnityEngine.UI
             get
             {
                 if (_form == null)
-                    //if (Control.uwfDefaultController == null)
-                    //{
-                    //    var controller = new Application();
-                    //    //controller.Resources = GdiImages;
-                    //    controller.UpdatePaintClipRect();
-
-                    //    Control.uwfDefaultController = controller;
-                    //}
-
                     _form = new T();
 
                 return _form;
@@ -133,28 +123,6 @@ namespace UnityEngine.UI
             if (Camera.main == null)
                 throw new NullReferenceException();
 
-            //const float margin = 20f;
-
-            //var mainCamera = Camera.main;
-
-            //if (position != Rect.zero)
-            //    position = position
-            //        .SumTop(10)
-            //        .SumLeft(10)
-            //        .RestWidth(margin)
-            //        .RestHeight(margin);
-
-            //Position = position == Rect.zero
-            //    ? new Rect(Vector2.one * 10f, new Vector2(
-            //        mainCamera.pixelWidth - margin,
-            //        mainCamera.pixelHeight - margin))
-            //    : position;
-
-            //if (dragPosition.HasValue && dragPosition.Value == Rect.zero)
-            //    DragPosition = new Rect(0, 0, 600, 20);
-            //else
-            //    DragPosition = dragPosition;
-
             Content = content;
             Style = style;
             Options = options;
@@ -164,9 +132,7 @@ namespace UnityEngine.UI
             {
                 m_Form = new DockForm
                 {
-                    Text = content.text,
-                    //Location = new Point((int)position.x, (int)position.y),
-                    //Size = new Size((int)position.width, (int)position.height)
+                    Text = content.text
                 };
 
                 m_Display = new UIDisplayer(position.SumTop(25).RestHeight(25), DrawWindow);
@@ -174,31 +140,6 @@ namespace UnityEngine.UI
             }
 
             DrawUI = true;
-        }
-
-        public Rect? DoDraw()
-        {
-            if (!DrawUI && !IsEditor)
-                return null;
-
-            //if (Style == null)
-            //    Position = Options == null
-            //        ? GUI.Window(Id, Position, DrawWindow, Content)
-            //        : GUILayout.Window(Id, Position, DrawWindow, Content, Options);
-            //else
-            //    Position = Options == null
-            //        ? GUI.Window(Id, Position, DrawWindow, Content, Style)
-            //        : GUILayout.Window(Id, Position, DrawWindow, Content, Style, Options);
-
-            //m_Form.RaiseOnPaint(null);
-
-            //if (!m_Form.Visible)
-            //{
-            //    m_Form.Show();
-            //    Debug.Log("Showing form!");
-            //}
-
-            return Position;
         }
 
         private void UpdatePosition()
@@ -209,36 +150,8 @@ namespace UnityEngine.UI
             m_Form.Size = m_Position.size;
         }
 
-        //[Obsolete]
-        //public void UpdatePosition(int nElements, float fixedSize, float horizontalPadding = 20, float verticalPadding = 70)
-        //{
-        //    var screenSize = UIUtils.ScreenRect.RestWidth(horizontalPadding * 2).RestHeight(verticalPadding).size;
-
-        //    var widthFactor = Mathf.Floor(screenSize.x / fixedSize);
-        //    var heightFactor = Mathf.Floor(screenSize.y / fixedSize);
-
-        //    var hElements = fixedSize * 6;
-
-        //    if (widthFactor < hElements)
-        //        hElements = widthFactor;
-
-        //    var vElements = Mathf.Ceil(nElements / hElements);
-
-        //    if (heightFactor < vElements)
-        //        vElements = heightFactor;
-
-        //    var size = new Vector2(fixedSize * hElements, fixedSize * vElements);
-        //    Position = new Rect(m_Position.position, size);
-
-        //    //Debug.Log($"({hElements}, {vElements})");
-        //    //Debug.Log(Position);
-        //}
-
         protected virtual void DrawWindow()
         {
-            //if (DragPosition.HasValue)
-            //    GUI.DragWindow(DragPosition.Value);
-
             // TODO
             IsHover = Position.Contains(GlobalInput.MousePosition);
 
@@ -267,8 +180,7 @@ namespace UnityEngine.UI
 
         public void Show(int nElements = 30, float size = 138)
         {
-            // UpdatePosition(nElements, size);
-
+            // TODO: Center window
             var _size = new Resolution().GetSize();
             Position = new Rect(new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2), _size);
 

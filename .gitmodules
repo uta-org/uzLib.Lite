@@ -12,3 +12,7 @@
 [submodule "uzLib.Lite.ExternalCode/Libs/CielaSpike"]
 	path = uzLib.Lite.ExternalCode/Libs/CielaSpike
 	url = https://github.com/uta-org/CielaSpike-fork.git
+[submodule "uzLib.Lite.ExternalCode/Libs/Unity-WinForms-GUISkin-Tests"]
+	path = uzLib.Lite.ExternalCode/Libs/Unity-WinForms-Skin
+	url = https://github.com/uta-org/Unity-WinForms-GUISkin-Tests.git
+	branch = visual-studio

@@ -1,4 +1,6 @@
 ﻿using System;
+using uzLib.Lite.ExternalCode.WinFormsSkins.Core;
+using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 namespace UnityEngine.UI.Controls
 {
@@ -58,6 +60,8 @@ namespace UnityEngine.UI.Controls
 
         private int selectedItemIndex;
 
+        private CustomGUI customUI;
+
         public int List(Rect rect, string buttonText, GUIContent[] listContent, GUIStyle listStyle)
         {
             return List(rect, new GUIContent(buttonText), listContent, "button", "box", listStyle);
@@ -77,6 +81,8 @@ namespace UnityEngine.UI.Controls
         public int List(Rect rect, GUIContent buttonContent, GUIContent[] listContent,
             GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
         {
+            customUI = new CustomGUI(SkinWorker.MySkin);
+
             if (listContent == null)
                 throw new ArgumentNullException(nameof(listContent));
 
@@ -92,13 +98,13 @@ namespace UnityEngine.UI.Controls
             switch (Event.current.GetTypeForControl(controlID))
             {
                 case EventType.MouseUp:
-                {
-                    if (isClickedComboButton) done = true;
-                }
+                    {
+                        if (isClickedComboButton) done = true;
+                    }
                     break;
             }
 
-            if (GUI.Button(rect, buttonContent, buttonStyle))
+            if (customUI.Button(rect, buttonContent, style => buttonStyle))
             {
                 if (useControlID == -1)
                 {

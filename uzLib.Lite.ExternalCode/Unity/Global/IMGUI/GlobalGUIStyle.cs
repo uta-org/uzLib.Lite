@@ -28,7 +28,8 @@ namespace UnityEngine.Global.IMGUI
         //[NonSerialized]
         //internal IntPtr m_Ptr;
 
-        [NonSerialized] private GlobalGUIStyleState m_Normal,
+        [NonSerialized]
+        private GlobalGUIStyleState m_Normal,
             m_Hover,
             m_Active,
             m_Focused,
@@ -143,6 +144,7 @@ namespace UnityEngine.Global.IMGUI
 
         // Shortcut for an empty GUIStyle.
         public static GUIStyle none => s_None ?? (s_None = new GUIStyle());
+
         // Constructor for empty GUIStyle.
         //public GlobalGUIStyle()
         //{
@@ -188,8 +190,10 @@ namespace UnityEngine.Global.IMGUI
         /// <returns></returns>
         public static GUIStyle WithRichText(string baseName = "label")
         {
-            var style = new GUIStyle(baseName);
-            style.richText = true;
+            var style = new GUIStyle(baseName)
+            {
+                richText = true
+            };
 
             return style;
         }
@@ -201,9 +205,27 @@ namespace UnityEngine.Global.IMGUI
         /// <returns></returns>
         public static GUIStyle WithCenteredRichText(string baseName = "label")
         {
-            var style = new GUIStyle(baseName);
-            style.richText = true;
-            style.alignment = TextAnchor.MiddleCenter;
+            var style = new GUIStyle(baseName)
+            {
+                richText = true,
+                alignment = TextAnchor.MiddleCenter
+            };
+
+            return style;
+        }
+
+        /// <summary>
+        ///     Creates a GUIStyle with the centered rich text property.
+        /// </summary>
+        /// <param name="_style">The style.</param>
+        /// <returns></returns>
+        public static GUIStyle WithCenteredRichText(GUIStyle _style)
+        {
+            var style = new GUIStyle(_style)
+            {
+                richText = true,
+                alignment = TextAnchor.MiddleCenter
+            };
 
             return style;
         }
@@ -216,9 +238,11 @@ namespace UnityEngine.Global.IMGUI
         /// <returns></returns>
         public static GUIStyle WithAlignedRichText(TextAnchor alignment, string baseName = "label")
         {
-            var style = new GUIStyle(baseName);
-            style.richText = true;
-            style.alignment = alignment;
+            var style = new GUIStyle(baseName)
+            {
+                richText = true,
+                alignment = alignment
+            };
 
             return style;
         }
@@ -232,10 +256,11 @@ namespace UnityEngine.Global.IMGUI
         /// <returns></returns>
         public static GUIStyle WithFontSize(int fontSize, bool richText = true, string baseName = "label")
         {
-            var style = new GUIStyle(baseName);
-
-            style.richText = richText;
-            style.fontSize = fontSize;
+            var style = new GUIStyle(baseName)
+            {
+                richText = richText,
+                fontSize = fontSize
+            };
 
             return style;
         }
@@ -249,11 +274,12 @@ namespace UnityEngine.Global.IMGUI
         /// <returns></returns>
         public static GUIStyle WithCenteredFontSize(int fontSize, bool richText = true, string baseName = "label")
         {
-            var style = new GUIStyle(baseName);
-
-            style.fontSize = fontSize;
-            style.richText = richText;
-            style.alignment = TextAnchor.MiddleCenter;
+            var style = new GUIStyle(baseName)
+            {
+                fontSize = fontSize,
+                richText = richText,
+                alignment = TextAnchor.MiddleCenter
+            };
 
             return style;
         }
