@@ -78,6 +78,7 @@ namespace UnityEngine.UI.Controls
             return List(rect, new GUIContent(buttonText), listContent, buttonStyle, boxStyle, listStyle);
         }
 
+        // TODO: buttonStyle, boxStyle && listStyle doesn't work right now (compare to GUI.skin)
         public int List(Rect rect, GUIContent buttonContent, GUIContent[] listContent,
             GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
         {
@@ -104,7 +105,13 @@ namespace UnityEngine.UI.Controls
                     break;
             }
 
-            if (customUI.Button(rect, buttonContent, style => buttonStyle))
+            GUIStyle _style = null;
+
+            if (customUI.Button(rect, buttonContent, style =>
+            {
+                _style = style;
+                return style;
+            }))
             {
                 if (useControlID == -1)
                 {
@@ -126,8 +133,8 @@ namespace UnityEngine.UI.Controls
                 var listRect = new Rect(rect.x, rect.y + listStyle.CalcHeight(listContent[0], 1.0f),
                     rect.width, listStyle.CalcHeight(listContent[0], 1.0f) * listContent.Length);
 
-                GUI.Box(listRect, "", boxStyle);
-                var newSelectedItemIndex = GUI.SelectionGrid(listRect, selectedItemIndex, listContent, 1, listStyle);
+                //GUI.Box(listRect, "", _style ?? boxStyle);
+                var newSelectedItemIndex = GUI.SelectionGrid(listRect, selectedItemIndex, listContent, 1, _style ?? listStyle);
                 if (newSelectedItemIndex != selectedItemIndex) selectedItemIndex = newSelectedItemIndex;
             }
 

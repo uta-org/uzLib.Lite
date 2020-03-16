@@ -9,6 +9,7 @@ namespace UnityEngine.Utils.Threading
     public class Dispatcher : MonoBehaviour
     {
         private readonly ConcurrentQueue<Action> _actions = new ConcurrentQueue<Action>();
+        private readonly ConcurrentQueue<Func<object>> _funcs = new ConcurrentQueue<Func<object>>();
         public static Dispatcher Current { get; private set; }
 
         public static void Invoke(Action action)
@@ -17,6 +18,14 @@ namespace UnityEngine.Utils.Threading
             //    return;
 
             InvokeAsync(action).Wait();
+        }
+
+        public static T Invoke<T>(Func<T> action)
+        {
+            //if (Application.isEditor && !Application.isPlaying)
+            //    return;
+
+            return InvokeAsync(action).GetAwaiter().GetResult();
         }
 
         public static async Task InvokeAsync(Action action)
@@ -46,10 +55,44 @@ namespace UnityEngine.Utils.Threading
             await tks.Task;
         }
 
+        public static async Task<T> InvokeAsync<T>(Func<T> func)
+        {
+            if (Current == null)
+                return default;
+
+            // This will prompt on the editor... So we need to comment this
+            // throw new Exception("please run Dispatcher.Initialize() or attach the component to a gameobject in the starting scene");
+
+            var tks = new TaskCompletionSource<object>();
+
+            Current._funcs.Enqueue(() =>
+            {
+                object _func;
+
+                try
+                {
+                    _func = func();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                    _func = null;
+                }
+
+                tks.SetResult(_func);
+
+                return _func;
+            });
+
+            await tks.Task;
+            return (T)tks.Task.Result;
+        }
+
         public static void Initialize()
         {
             if (!Application.isPlaying)
                 return;
+
             if (Current != null) return;
             var g = new GameObject("Dispatcher");
             var d = g.AddComponent<Dispatcher>();
@@ -59,6 +102,8 @@ namespace UnityEngine.Utils.Threading
         private void InitializeAsThis()
         {
             Current = this;
+
+            //if (Application.isPlaying)
             DontDestroyOnLoad(this);
         }
 
@@ -72,12 +117,20 @@ namespace UnityEngine.Utils.Threading
 
         private void Update()
         {
-            Action action;
-            while (_actions.TryDequeue(out action))
+            while (_actions.TryDequeue(out var action))
             {
                 if (action == null)
                     break;
+
                 action();
+            }
+
+            while (_funcs.TryDequeue(out var func))
+            {
+                if (func == null)
+                    break;
+
+                func();
             }
         }
 

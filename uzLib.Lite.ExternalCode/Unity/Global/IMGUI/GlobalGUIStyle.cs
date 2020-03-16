@@ -199,6 +199,21 @@ namespace UnityEngine.Global.IMGUI
         }
 
         /// <summary>
+        ///     Creates a GUIStyle with the rich text property.
+        /// </summary>
+        /// <param name="_style">The style.</param>
+        /// <returns></returns>
+        public static GUIStyle WithRichText(GUIStyle _style)
+        {
+            var style = new GUIStyle(_style)
+            {
+                richText = true
+            };
+
+            return style;
+        }
+
+        /// <summary>
         ///     Creates a GUIStyle with the centered rich text property.
         /// </summary>
         /// <param name="baseName">Name of the base style.</param>
@@ -239,6 +254,23 @@ namespace UnityEngine.Global.IMGUI
         public static GUIStyle WithAlignedRichText(TextAnchor alignment, string baseName = "label")
         {
             var style = new GUIStyle(baseName)
+            {
+                richText = true,
+                alignment = alignment
+            };
+
+            return style;
+        }
+
+        /// <summary>
+        ///     Creates a GUIStyle with the aligned rich text property.
+        /// </summary>
+        /// <param name="alignment">The alignment.</param>
+        /// <param name="_style">The style.</param>
+        /// <returns></returns>
+        public static GUIStyle WithAlignedRichText(TextAnchor alignment, GUIStyle _style)
+        {
+            var style = new GUIStyle(_style)
             {
                 richText = true,
                 alignment = alignment

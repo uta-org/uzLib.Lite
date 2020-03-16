@@ -40,44 +40,23 @@ namespace UnityEngine.UI
         {
         }
 
-        public DockWindow(int id, Rect position, string title, GUIStyle style, params GUILayoutOption[] options)
+        public DockWindow(int id, Rect position, string title, GUIStyle style,
+            params GUILayoutOption[] options)
             : this(id, position, new GUIContent(title), style, options)
         {
         }
 
-        public DockWindow(int id, Rect position, Rect? dragPosition, string title, params GUILayoutOption[] options)
-            : this(id, position, dragPosition, new GUIContent(title), null, options)
-        {
-        }
-
-        public DockWindow(int id, Rect position, Rect? dragPosition, GUIContent content,
-            params GUILayoutOption[] options)
-            : this(id, position, dragPosition, content, null, options)
-        {
-        }
-
-        public DockWindow(int id, Rect position, Rect? dragPosition, string title, GUIStyle style,
-            params GUILayoutOption[] options)
-            : this(id, position, dragPosition, new GUIContent(title), style, options)
-        {
-        }
-
-        public DockWindow(int id, Rect position, GUIContent content, GUIStyle style, params GUILayoutOption[] options)
-            : this(id, position, null, content, style, options)
-        {
-        }
-
-        public DockWindow(int id, Rect position, Rect? dragPosition, GUIContent content, GUIStyle style,
+        public DockWindow(int id, Rect position, GUIContent content, GUIStyle style,
             params GUILayoutOption[] options)
             : this()
         {
-            Init(id, position, dragPosition, content, style, options);
+            Init(id, position, content, style, options);
         }
-
-        private Rect m_Position;
 
         public static bool IsHover { get; set; }
         public int Id { get; private set; }
+
+        private Rect m_Position;
 
         public Rect Position
         {
@@ -89,12 +68,12 @@ namespace UnityEngine.UI
             }
         }
 
+        public bool IsEditor { get; set; }
         public GUIContent Content { get; private set; }
 
         public GUIStyle Style { get; private set; }
         public GUILayoutOption[] Options { get; private set; }
         public bool DrawUI { get; set; }
-        public bool IsEditor { get; set; }
 
         public Action EditorGUI { get; set; }
 
@@ -115,7 +94,7 @@ namespace UnityEngine.UI
             }
         }
 
-        private void Init(int id, Rect position, Rect? dragPosition, GUIContent content, GUIStyle style,
+        private void Init(int id, Rect position, GUIContent content, GUIStyle style,
             GUILayoutOption[] options)
         {
             Id = id;
@@ -127,7 +106,6 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
-            //Debug.Log($"Is Editor?: {m_isEditor}");
             if (!m_isEditor)
             {
                 m_Form = new DockForm
@@ -146,8 +124,15 @@ namespace UnityEngine.UI
         {
             if (m_Form == null) return;
 
-            m_Form.Location = m_Position.position;
+            //m_Form.Location = m_Position.position;
+
+            var _size = m_Position.size;
+            m_Form.Location = new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2);
             m_Form.Size = m_Position.size;
+
+            //m_Form.Padding = new Padding(0);
+
+            //Debug.Log($"Setting position: '{m_Form.Bounds}'!");
         }
 
         protected virtual void DrawWindow()
@@ -163,9 +148,9 @@ namespace UnityEngine.UI
             if (!IsStarted)
             {
                 var m_pos = new Rect(0, 0, Screen.width, Screen.height);
-                var m_dragPos = new Rect(0, 0, Screen.width, 20);
+                //var m_dragPos = new Rect(0, 0, Screen.width, 20);
 
-                Init(IdCounter, m_pos, m_dragPos, new GUIContent(title), null, null);
+                Init(IdCounter, m_pos, new GUIContent(title), null, null);
 
                 EditorGUI = editorGUI ?? delegate { };
 
@@ -191,6 +176,11 @@ namespace UnityEngine.UI
         {
             if (Instance != null)
                 Instance.DrawUI = enabled;
+        }
+
+        public void UpdatePosition(Vector2 v)
+        {
+            m_Form.Location += v;
         }
 
         internal class DockForm : Form
@@ -222,7 +212,7 @@ namespace UnityEngine.UI
         internal class Resolution
         {
             // TODO
-            private int nElements;
+            //private int nElements;
 
             public List<Tuple<int, int>> Grids { get; } = new List<Tuple<int, int>>();
 
@@ -240,13 +230,14 @@ namespace UnityEngine.UI
                 Grids.Add(new Tuple<int, int>(5, 6));
             }
 
-            public Vector2 GetSize(float size = 138f, int hPadding = 100, int vPadding = 150)
+            // TODO: Fix 87 && 10
+            public Vector2 GetSize(float size = 138f, int hPadding = 100, int vPadding = 150, int vMargin = 87, int hMargin = 10)
             {
                 var screenSize = UIUtils.ScreenRect.RestWidth(hPadding * 2).RestHeight(vPadding * 2).size;
                 var tuple = GetNearestTuple(Mathf.FloorToInt(screenSize.x / size));
                 //Debug.Log(tuple);
 
-                return new Vector2(tuple.Item1 * size, tuple.Item2 * size);
+                return new Vector2(tuple.Item1 * size + hMargin, tuple.Item2 * size + vMargin);
             }
 
             private Tuple<int, int> GetNearestTuple(int widthFactor)

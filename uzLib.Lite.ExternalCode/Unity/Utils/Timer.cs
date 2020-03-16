@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine.Extensions;
+using UnityEngine;
+using uzLib.Lite.ExternalCode.Extensions;
 
-namespace UnityEngine.Utils
+namespace uzLib.Lite.ExternalCode.Unity.Utils
 {
     /// <summary>
     ///     Creates a Timer.
@@ -94,13 +95,13 @@ namespace UnityEngine.Utils
             if (timeout <= 0)
                 throw new Exception("Timeout must be positive float.");
 
-            var timer = new Timer();
-
-            timer.m_initialSeconds = timeout;
-
-            timer.m_finish = finish;
-            timer.m_monoBehaviour = monoBehaviour ?? throw new ArgumentNullException(nameof(monoBehaviour));
-            timer.m_editorInstance = editorInstance;
+            var timer = new Timer
+            {
+                m_initialSeconds = timeout,
+                m_finish = finish,
+                m_monoBehaviour = monoBehaviour ?? throw new ArgumentNullException(nameof(monoBehaviour)),
+                m_editorInstance = editorInstance
+            };
 
             if (start)
                 timer.Start(finish);
@@ -122,7 +123,7 @@ namespace UnityEngine.Utils
         /// <param name="finish">The finish.</param>
         public void Start(Action finish)
         {
-#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             if (m_coroutine != null)
             {
                 Debug.LogWarning("The current Timer internal coroutine has been overrided.");
@@ -133,7 +134,7 @@ namespace UnityEngine.Utils
             m_coroutine = Countdown(finish)
                 .StartSmartCorotine(m_editorInstance, m_monoBehaviour);
 #else
-            Debug.LogError("Cannot use this Timer, use ExternalCode one instead!");
+            Debug.LogError("Cannot use this Timer outside of Unity3D!");
 #endif
         }
 
@@ -151,7 +152,7 @@ namespace UnityEngine.Utils
         /// <param name="checkNullCoroutine">if set to <c>true</c> [check null coroutine].</param>
         private void Stop(bool checkNullCoroutine)
         {
-#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             if (m_coroutine == null)
             {
                 if (checkNullCoroutine)
@@ -163,7 +164,7 @@ namespace UnityEngine.Utils
             m_coroutine.StopSmartCoroutine(m_editorInstance, m_monoBehaviour);
             m_coroutine = null;
 #else
-            Debug.LogError("Cannot use this Timer, use ExternalCode one instead!");
+            Debug.LogError("Cannot use this Timer outside of Unity3D!");
 #endif
         }
 
