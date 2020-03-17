@@ -2,6 +2,12 @@
 using System.Linq;
 using UnityEngine;
 
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
+using UnityEngine.Extensions;
+
+#endif
+
 namespace uzLib.Lite.ExternalCode.Extensions
 {
     /// <summary>
@@ -236,6 +242,17 @@ namespace uzLib.Lite.ExternalCode.Extensions
         public static Rect RestHeight(this Rect rect, float height)
         {
             return new Rect(rect.position.x, rect.position.y, rect.width, rect.height - height);
+        }
+
+        /// <summary>
+        /// Sums the y.
+        /// </summary>
+        /// <param name="rect">The rect.</param>
+        /// <param name="y">The y.</param>
+        /// <returns></returns>
+        public static Rect SumY(this Rect rect, float y)
+        {
+            return rect.SumTop(y).RestHeight(y);
         }
 
         /// <summary>

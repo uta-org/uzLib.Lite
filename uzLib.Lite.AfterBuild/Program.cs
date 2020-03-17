@@ -180,7 +180,7 @@ namespace uzLib.Lite.AfterBuild
                 }
             }
 
-            Console.WriteLine($"Copied back {count} meta files!");
+            Console.WriteLine($@"Copied back {count} meta files!");
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows.Forms;
 using _System.Drawing;
 using Unity.Controls;
@@ -10,6 +11,7 @@ using UnityEngine.Global;
 using UnityEngine.UI.Interfaces;
 using uzLib.Lite.ExternalCode.Core;
 using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.ExternalCode.Unity.Utils;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
 
@@ -68,7 +70,6 @@ namespace UnityEngine.UI
             }
         }
 
-        public bool IsEditor { get; set; }
         public GUIContent Content { get; private set; }
 
         public GUIStyle Style { get; private set; }
@@ -81,7 +82,7 @@ namespace UnityEngine.UI
 
         private UIDisplayer m_Display;
         private DockForm m_Form;
-        private bool m_isEditor => Application.isEditor && !Application.isPlaying;
+        //private bool m_isEditor => Application.isEditor && !Application.isPlaying;
 
         public T Form
         {
@@ -106,18 +107,49 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
-            if (!m_isEditor)
-            {
-                m_Form = new DockForm
-                {
-                    Text = content.text
-                };
+            //  Application.isEditor && !Application.isPlaying
 
-                m_Display = new UIDisplayer(position.SumTop(25).RestHeight(25), DrawWindow);
-                m_Form.Controls.Add(m_Display);
+            //var uiObject = GameObject.FindGameObjectWithTag("UI");
+            //var isPlaying = Application.IsPlaying(uiObject);
+            //Debug.Log($"IsPlaying?: {Application.isPlaying} | [UI] IsPlaying?: {isPlaying}");
+
+            if (ScenePlaybackDetector.IsPlaying)
+            {
+                //Debug.Log($"[{content.text}] Created form!");
+
+                CreateForm(position, content);
             }
+            //else
+            //{
+            //    Debug.Log("Not playing");
+            //}
 
             DrawUI = true;
+
+            //Thread.Sleep(2000);
+
+            //Debug.Log($"IsPlaying?: {ScenePlaybackDetector.IsPlaying}");
+        }
+
+        /// <summary>
+        /// Sloppy patch to creates the form.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="content">The content.</param>
+        private void CreateForm(Rect position, GUIContent content)
+        {
+            m_Form = new DockForm();
+
+            if (content != null)
+                m_Form.Text = content.text;
+            else
+            {
+                m_Form.Location = position.position;
+                m_Form.Size = position.size;
+            }
+
+            m_Display = new UIDisplayer(position.SumY(25), DrawWindow);
+            m_Form.Controls.Add(m_Display);
         }
 
         private void UpdatePosition()
@@ -145,6 +177,12 @@ namespace UnityEngine.UI
 
         public DockWindow<T> Start(string title, ICommonUI<T> worker, Action editorGUI = null)
         {
+            //Debug.Log($"[{title}] Starting?: {IsStarted}");
+
+            // Sloppy patch
+            if (IsStarted && ScenePlaybackDetector.IsPlaying)
+                IsStarted = false;
+
             if (!IsStarted)
             {
                 var m_pos = new Rect(0, 0, Screen.width, Screen.height);
@@ -169,6 +207,8 @@ namespace UnityEngine.UI
             var _size = new Resolution().GetSize();
             Position = new Rect(new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2), _size);
 
+            // Don't use this approach
+            if (m_Form == null) CreateForm(Position, null);
             m_Form.Show();
         }
 

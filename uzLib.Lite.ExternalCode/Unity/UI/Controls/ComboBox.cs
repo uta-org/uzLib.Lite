@@ -109,8 +109,8 @@ namespace UnityEngine.UI.Controls
 
             if (customUI.Button(rect, buttonContent, style =>
             {
-                _style = style;
-                return style;
+                _style = style ?? GUI.skin.button;
+                return _style;
             }))
             {
                 if (useControlID == -1)

@@ -8,6 +8,8 @@ namespace UnityEngine.UI
     {
         internal static bool IsShown { get; set; }
 
+        //public static bool? IsEditor { get; set; }
+
         private static GUIStyle buttonStyle;
 
         private bool isInit;
