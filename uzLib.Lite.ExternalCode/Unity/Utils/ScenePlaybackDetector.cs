@@ -19,53 +19,11 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils
         /// </value>
         public static bool IsPlaying { get; private set; }
 
-        //public static bool AboutToStartScene { get; private set; }
-
-        //// InitializeOnLoad ensures that this constructor is called when the Unity Editor is started.
-        //static ScenePlaybackDetector()
-        //{
-        //    EditorApplication.playModeStateChanged += state =>
-        //    {
-        //        Debug.Log($"State changed: {state}");
-
-        //        // Before scene start:          isPlayingOrWillChangePlaymode = false;  isPlaying = false
-        //        // Pressed Playback button:     isPlayingOrWillChangePlaymode = true;   isPlaying = false
-        //        // Playing (after Start()):     isPlayingOrWillChangePlaymode = false;  isPlaying = true
-        //        // Pressed stop button:         isPlayingOrWillChangePlaymode = true;   isPlaying = true
-        //        // if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
-        //        AboutToStartScene = state == PlayModeStateChange.EnteredPlayMode;
-
-        //        // Detect when playback is stopped.
-        //        if (!EditorApplication.isPlaying)
-        //        {
-        //            IsPlaying = false;
-        //        }
-        //    };
-        //}
-
-        //// This callback is notified after scripts have been reloaded.
-        //[DidReloadScripts]
-        //public static void OnDidReloadScripts()
-        //{
-        //    Debug.Log("Reloaded scripts!");
-
-        //    // Filter DidReloadScripts callbacks to the moment where playmodeState transitions into isPlaying.
-        //    if (AboutToStartScene)
-        //    {
-        //        IsPlaying = true;
-
-        //        // Ensures the dispatcher GameObject is created by the main thread
-        //        //MainThreadDispatcher.Initialize();
-        //    }
-        //}
-
         [PostProcessScene]
         public static void OnPostprocessScene()
         {
-            //Debug.Log("OnPostprocessScene");
+            // THanks to: https://github.com/neuecc/UniRx/issues/33
             IsPlaying = true;
-
-            //MainThreadDispatcher.Initialize();
         }
     }
 }
