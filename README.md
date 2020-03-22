@@ -65,6 +65,22 @@ This API has an extensive list of methods to extend functionality of .NET Framew
 - **uzLib.Lite.Unity.Utils**
 	- Contains a *GLDebug class* to visualize Gizmos in-game.
 
+# TODO: This must be rewritten
+
+## Projects on this repo
+
+- **uzLib.Lite**: Main project.
+- **uzLib.Lite.BeforeBuild**: Program project that launches *before* `uzLib.Lite` builds.
+- **uzLib.Lite.AfterBuild**: Program project that launches *after* `uzLib.Lite` builds.
+- **uzLib.Lite.Tests**: Project to do tests.
+- **uzLib.Lite.UnitTesting**: Project for UnitTesting (used outside of Unity3D).
+- **uzLib.Lite.UnityEditor**: Project that contains Unity3D Editor scripts.
+- **uzLib.Lite.ExternalCode**: Project used to include files that will not be compiled (mainly used for Unity3D directives, `UNITY_EDITOR` or `UNITY_xxx`). This files are copied by the *BeforeBuild* && *AfterBuild* projects.
+
+#### TODO Projects
+
+- **uzLib.Lite.ResolveConflicts**: This project will resolve conflicts when Rebuiling (launched at uzLib.Lite.BeforeBuild exception). It will launch Meld with the conflicting files (those files will be serialized in BeforeBuild process).
+
 ## Setup
 
 Need help? Just clone this repository into your Unity project or in your solution.
@@ -92,6 +108,7 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 - Disable AssetDatabase refresh while uzLibe.Lite is compiling through WebSockets
 - Make backups of the ExternalCode, in case we didn't saved the code on the lib part
 - Automerge changes from local Unity projects in the ExternalCode part
+- Fix namespaces (files inside of Unity folders must be starting by `UnityEngine` instead of `uzLib.Lite....`)
 
 ## Donate
 

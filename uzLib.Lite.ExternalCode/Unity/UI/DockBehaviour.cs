@@ -41,7 +41,7 @@ namespace UnityEngine.UI
 
             if (IsShown)
             {
-                GUI.depth = 0;
+                GUI.depth = 1;
                 GUILayout.Button("", buttonStyle, GUILayout.Width(Screen.width), GUILayout.Height(Screen.height));
             }
         }
