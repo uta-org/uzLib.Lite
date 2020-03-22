@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using UnityEngine;
 
-namespace UnityEngine.Utils.Threading
+namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
 {
     [AutoInstantiate]
     public class Dispatcher : MonoBehaviour

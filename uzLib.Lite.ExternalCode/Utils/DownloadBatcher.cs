@@ -283,6 +283,22 @@ namespace uzLib.Lite.ExternalCode.Utils
         public string ExceptionReason { get; set; }
 
         /// <summary>
+        /// Gets or sets the exception UI.
+        /// </summary>
+        /// <value>
+        /// The exception UI.
+        /// </value>
+        public Action ExceptionUI { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exception rect.
+        /// </summary>
+        /// <value>
+        /// The exception rect.
+        /// </value>
+        public Rect ExceptionRect { get; set; }
+
+        /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
         public void Dispose()
@@ -461,17 +477,16 @@ namespace uzLib.Lite.ExternalCode.Utils
 
             if (m_DownloadHasException)
             {
-                var groupRect = rect.RestTop(100); // TODO
-                Debug.Log(groupRect);
+                if (ExceptionRect == default) throw new InvalidOperationException("Invalid Exception Rect provided.");
 
-                GUI.BeginGroup(groupRect, SkinWorker.DefaultSkin.box);
+                GUI.BeginGroup(ExceptionRect, SkinWorker.DefaultSkin.box);
                 {
                     var _rect = rect.ResetPosition();
                     var labelRect = GetRectFor(_rect, height);
 
                     GUI.Label(labelRect, "The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"), m_RedLabel);
 
-                    // TODO: Copy button & continue button (disabled/enabled)
+                    ExceptionUI?.Invoke();
                 }
                 GUI.EndGroup();
             }

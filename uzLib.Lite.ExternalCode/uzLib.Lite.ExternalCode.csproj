@@ -681,6 +681,7 @@
     <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
     <Compile Include="Unity\Utils\HandledMonoBehaviour.cs" />
     <Compile Include="Unity\Utils\ScenePlaybackDetector.cs" />
+    <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
     <Compile Include="Unity\Utils\Timer.cs" />
     <Compile Include="Utils\Interfaces\IDownloadItem.cs" />
     <Compile Include="Unity\Utils\SpecializedCollections\ConcurrentHashSet.cs" />
