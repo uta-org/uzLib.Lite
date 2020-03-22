@@ -235,6 +235,7 @@
     <Compile Include="Libs\UniGif\UniGif.VisualStudio\UniGif.VisualStudio\UnityGif\UniGifWrapper.cs" />
     <Compile Include="Libs\Unity-WinForms-Skin\Core\CustomGUI.cs" />
     <Compile Include="Libs\Unity-WinForms-Skin\Core\CustomGUILayout.cs" />
+    <Compile Include="Libs\Unity-WinForms-Skin\Core\CustomGUIUtility.cs" />
     <Compile Include="Libs\Unity-WinForms-Skin\Core\Polar.cs" />
     <Compile Include="Libs\Unity-WinForms-Skin\Core\RectCorners.cs" />
     <Compile Include="Libs\Unity-WinForms-Skin\Examples\DrawExamples.cs" />
