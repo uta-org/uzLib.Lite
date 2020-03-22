@@ -90,6 +90,8 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 - Do a more friendly compilation (select paths of compilation more easily)
 - Check for unusable `usings` in code
 - Disable AssetDatabase refresh while uzLibe.Lite is compiling through WebSockets
+- Make backups of the ExternalCode, in case we didn't saved the code on the lib part
+- Automerge changes from local Unity projects in the ExternalCode part
 
 ## Donate
 

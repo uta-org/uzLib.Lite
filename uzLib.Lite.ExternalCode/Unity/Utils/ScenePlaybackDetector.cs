@@ -22,7 +22,7 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils
         [PostProcessScene]
         public static void OnPostprocessScene()
         {
-            // THanks to: https://github.com/neuecc/UniRx/issues/33
+            // Thanks to: https://github.com/neuecc/UniRx/issues/33
             IsPlaying = true;
         }
     }

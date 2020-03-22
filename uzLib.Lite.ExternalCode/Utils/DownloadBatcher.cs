@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
-using UnityEngine.Extensions;
 using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
 using UnityEngine.Utils.DebugTools;
 using UnityEngine.Utils.Interfaces;
 using uzLib.Lite.ExternalCode.Unity.Extensions;
+using uzLib.Lite.ExternalCode.Utils.Interfaces;
+using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
-using uzLib.Lite.Extensions;
+using UnityEngine.Extensions;
 #endif
 
 namespace uzLib.Lite.ExternalCode.Utils
@@ -23,9 +24,12 @@ namespace uzLib.Lite.ExternalCode.Utils
     ///     The Download Batcher class
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TFile">The type of the file.</typeparam>
+    /// <seealso cref="System.IDisposable" />
     /// <seealso cref="IDisposable" />
-    public class DownloadBatcher<T> : IDisposable
-        where T : IDownloadItem
+    public class DownloadBatcher<T, TFile> : IDisposable
+        where TFile : IFileModel
+        where T : IDownloadItem<TFile>
     {
         /// <summary>
         ///     The current pending items
@@ -91,6 +95,11 @@ namespace uzLib.Lite.ExternalCode.Utils
         ///     The web clients
         /// </summary>
         private readonly List<WebClient> m_WebClients;
+
+        /// <summary>
+        /// The red label style
+        /// </summary>
+        private GUIStyle m_RedLabel;
 
         /// <summary>
         /// Occurs when [on finished asynchronous].
@@ -237,6 +246,11 @@ namespace uzLib.Lite.ExternalCode.Utils
         private bool m_DoingCallback;
 
         /// <summary>
+        /// The download has exception
+        /// </summary>
+        private bool m_DownloadHasException;
+
+        /// <summary>
         /// Gets or sets the name of the callback.
         /// </summary>
         /// <value>
@@ -259,6 +273,14 @@ namespace uzLib.Lite.ExternalCode.Utils
         ///     The state of the batcher.
         /// </value>
         public BatcherState BatcherState { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the exception reason.
+        /// </summary>
+        /// <value>
+        /// The exception reason.
+        /// </value>
+        public string ExceptionReason { get; set; }
 
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
@@ -397,11 +419,14 @@ namespace uzLib.Lite.ExternalCode.Utils
                 return BatcherState;
             }
 
-            GUI.BeginGroup(rect, GUI.skin.box);
-            {
-                const float height = 20f,
-                            border = 2f;
+            if (m_RedLabel == null)
+                m_RedLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.red } };
 
+            const float height = 20f,
+                        border = 2f;
+
+            GUI.BeginGroup(rect, SkinWorker.DefaultSkin.box); // TODO: Depending if Editor or not use different skins, box style in the GUI.skin & SkinWorker.MySkin are broken
+            {
                 Color fillColor = Color.white,
                       backgroundColor = Color.gray;
 
@@ -434,12 +459,37 @@ namespace uzLib.Lite.ExternalCode.Utils
             }
             GUI.EndGroup();
 
+            if (m_DownloadHasException)
+            {
+                var groupRect = rect.RestTop(100); // TODO
+                Debug.Log(groupRect);
+
+                GUI.BeginGroup(groupRect, SkinWorker.DefaultSkin.box);
+                {
+                    var _rect = rect.ResetPosition();
+                    var labelRect = GetRectFor(_rect, height);
+
+                    GUI.Label(labelRect, "The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"), m_RedLabel);
+
+                    // TODO: Copy button & continue button (disabled/enabled)
+                }
+                GUI.EndGroup();
+            }
+
             if (!m_PendingAsyncDownloadsFlag)
+            {
                 BatcherState = Update();
+                if (BatcherState == BatcherState.Exception) m_DownloadHasException = true;
+            }
             else
                 return BatcherState.PendingAsyncDownloads;
 
             return BatcherState;
+        }
+
+        public void DisableExceptionFlag()
+        {
+            m_DownloadHasException = false;
         }
 
         /// <summary>
@@ -465,10 +515,23 @@ namespace uzLib.Lite.ExternalCode.Utils
 
             var webClient = CreateNewWebClient();
 
-            webClient.DownloadDataAsync(new Uri(CurrentDownload.Url));
-            m_WebClients.Add(webClient);
+            try
+            {
+                webClient.DownloadDataAsync(new Uri(CurrentDownload.FileModel.FileUrl));
+                m_WebClients.Add(webClient);
 
-            m_DownloadAvailable = false;
+                m_DownloadAvailable = false;
+            }
+            catch
+            {
+                Debug.LogError($"[{CurrentDownload.FileModel.FileUrl}] Error occurred while downloading with Batcher!");
+
+                webClient.Dispose();
+
+                m_DownloadAvailable = false;
+                return BatcherState.Exception;
+            }
+
             return BatcherState.CreatedWebClient;
         }
 

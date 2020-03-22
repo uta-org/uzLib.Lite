@@ -5,6 +5,7 @@
         NoPendingDownloads,
         DownloadingItems,
         PendingAsyncDownloads,
-        CreatedWebClient
+        CreatedWebClient,
+        Exception
     }
 }

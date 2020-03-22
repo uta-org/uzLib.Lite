@@ -1,7 +1,10 @@
-﻿namespace UnityEngine.Utils.Interfaces
+﻿using uzLib.Lite.ExternalCode.Utils.Interfaces;
+
+namespace UnityEngine.Utils.Interfaces
 {
-    public interface IDownloadItem
+    public interface IDownloadItem<T>
+        where T : IFileModel
     {
-        string Url { get; set; }
+        T FileModel { get; set; }
     }
 }
