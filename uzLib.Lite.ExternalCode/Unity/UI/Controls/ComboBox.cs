@@ -60,8 +60,6 @@ namespace UnityEngine.UI.Controls
 
         private int selectedItemIndex;
 
-        private CustomGUI customUI;
-
         public int List(Rect rect, string buttonText, GUIContent[] listContent, GUIStyle listStyle)
         {
             return List(rect, new GUIContent(buttonText), listContent, "button", "box", listStyle);
@@ -82,8 +80,6 @@ namespace UnityEngine.UI.Controls
         public int List(Rect rect, GUIContent buttonContent, GUIContent[] listContent,
             GUIStyle buttonStyle, GUIStyle boxStyle, GUIStyle listStyle)
         {
-            customUI = new CustomGUI(SkinWorker.MySkin);
-
             if (listContent == null)
                 throw new ArgumentNullException(nameof(listContent));
 
@@ -107,7 +103,7 @@ namespace UnityEngine.UI.Controls
 
             GUIStyle _style = null;
 
-            if (customUI.Button(rect, buttonContent, style =>
+            if (CustomGUI.Button(rect, buttonContent, style =>
             {
                 _style = style ?? GUI.skin.button;
                 return _style;
