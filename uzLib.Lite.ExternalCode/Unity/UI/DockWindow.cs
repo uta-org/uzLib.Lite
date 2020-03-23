@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
-using _System.Drawing;
 using Unity.Controls;
-using UnityEngine.Extensions;
 using UnityEngine.Global;
 using UnityEngine.UI.Interfaces;
 using uzLib.Lite.ExternalCode.Core;
@@ -81,7 +77,6 @@ namespace UnityEngine.UI
 
         private UIDisplayer m_Display;
         public DockForm DockForm { get; private set; }
-        //private bool m_isEditor => Application.isEditor && !Application.isPlaying;
 
         public T Form
         {
@@ -164,7 +159,6 @@ namespace UnityEngine.UI
             if (!IsStarted)
             {
                 var m_pos = new Rect(0, 0, Screen.width, Screen.height);
-                //var m_dragPos = new Rect(0, 0, Screen.width, 20);
 
                 Init(IdCounter, m_pos, new GUIContent(title), null, null);
 
