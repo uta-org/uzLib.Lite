@@ -669,6 +669,9 @@
     <Compile Include="Unity\UI\Controls\FormattedLabel\HexUtil.cs" />
     <Compile Include="Unity\UI\Controls\FormattedLabel\IHyperlinkCallback.cs" />
     <Compile Include="Unity\UI\DockBehaviour.cs" />
+    <Compile Include="Unity\UI\DockForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Unity\UI\DockWindow.cs" />
     <Compile Include="Unity\UI\Interfaces\Enums.cs" />
     <Compile Include="Unity\UI\Interfaces\ICommonUI.cs" />

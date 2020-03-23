@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Windows.Forms;
 using _System.Drawing;
 using Unity.Controls;
 using UnityEngine.Extensions;
@@ -81,7 +80,7 @@ namespace UnityEngine.UI
         public ICommonUI<T> Worker { get; set; }
 
         private UIDisplayer m_Display;
-        private DockForm m_Form;
+        public DockForm DockForm { get; private set; }
         //private bool m_isEditor => Application.isEditor && !Application.isPlaying;
 
         public T Form
@@ -107,28 +106,10 @@ namespace UnityEngine.UI
             Style = style;
             Options = options;
 
-            //  Application.isEditor && !Application.isPlaying
-
-            //var uiObject = GameObject.FindGameObjectWithTag("UI");
-            //var isPlaying = Application.IsPlaying(uiObject);
-            //Debug.Log($"IsPlaying?: {Application.isPlaying} | [UI] IsPlaying?: {isPlaying}");
-
             if (ScenePlaybackDetector.IsPlaying)
-            {
-                //Debug.Log($"[{content.text}] Created form!");
-
                 CreateForm(position, content);
-            }
-            //else
-            //{
-            //    Debug.Log("Not playing");
-            //}
 
             DrawUI = true;
-
-            //Thread.Sleep(2000);
-
-            //Debug.Log($"IsPlaying?: {ScenePlaybackDetector.IsPlaying}");
         }
 
         /// <summary>
@@ -138,33 +119,32 @@ namespace UnityEngine.UI
         /// <param name="content">The content.</param>
         private void CreateForm(Rect position, GUIContent content)
         {
-            m_Form = new DockForm();
+            DockForm = new DockForm();
 
             if (content != null)
-                m_Form.Text = content.text;
+                DockForm.Text = content.text;
             else
             {
-                m_Form.Location = position.position;
-                m_Form.Size = position.size;
+                DockForm.Location = position.position;
+                DockForm.Size = position.size;
             }
 
             m_Display = new UIDisplayer(position.SumY(25), DrawWindow);
-            m_Form.Controls.Add(m_Display);
+            DockForm.Controls.Add(m_Display);
         }
 
         private void UpdatePosition()
         {
-            if (m_Form == null) return;
+            if (DockForm == null) return;
 
-            //m_Form.Location = m_Position.position;
+            DockForm.Location = GetCenterLocation();
+            DockForm.Size = m_Position.size;
+        }
 
-            var _size = m_Position.size;
-            m_Form.Location = new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2);
-            m_Form.Size = m_Position.size;
-
-            //m_Form.Padding = new Padding(0);
-
-            //Debug.Log($"Setting position: '{m_Form.Bounds}'!");
+        private Vector2 GetCenterLocation()
+        {
+            Vector2 _size = m_Position.size;
+            return new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2);
         }
 
         protected virtual void DrawWindow()
@@ -177,8 +157,6 @@ namespace UnityEngine.UI
 
         public DockWindow<T> Start(string title, ICommonUI<T> worker, Action editorGUI = null)
         {
-            //Debug.Log($"[{title}] Starting?: {IsStarted}");
-
             // Sloppy patch
             if (IsStarted && ScenePlaybackDetector.IsPlaying)
                 IsStarted = false;
@@ -208,45 +186,24 @@ namespace UnityEngine.UI
             Position = new Rect(new Vector2(Screen.width / 2f - _size.x / 2, Screen.height / 2f - _size.y / 2), _size);
 
             // Don't use this approach
-            if (m_Form == null) CreateForm(Position, null);
-            m_Form.Show();
+            if (DockForm == null) CreateForm(Position, null);
+            DockForm.Show();
         }
 
         public virtual void Update(bool enabled)
         {
             if (Instance != null)
                 Instance.DrawUI = enabled;
+
+            // Sloppy patch
+            var centerPosition = GetCenterLocation();
+            if (DockForm != null && DockForm.Location != centerPosition)
+                DockForm.Location = centerPosition;
         }
 
         public void UpdatePosition(Vector2 v)
         {
-            m_Form.Location += v;
-        }
-
-        internal class DockForm : Form
-        {
-            public DockForm()
-            {
-                FormBorderStyle = FormBorderStyle.FixedSingle;
-                uwfMovable = false;
-
-                Shown += _Shown;
-                FormClosed += _Closed;
-            }
-
-            protected override void OnResize(EventArgs e)
-            {
-            }
-
-            private void _Shown(object sender, EventArgs e)
-            {
-                DockBehaviour.IsShown = true;
-            }
-
-            private void _Closed(object sender, EventArgs e)
-            {
-                DockBehaviour.IsShown = false;
-            }
+            DockForm.Location += v;
         }
 
         internal class Resolution

@@ -109,6 +109,7 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 - Make backups of the ExternalCode, in case we didn't saved the code on the lib part
 - Automerge changes from local Unity projects in the ExternalCode part
 - Fix namespaces (files inside of Unity folders must be starting by `UnityEngine` instead of `uzLib.Lite....`)
+- Check that Unity3D can compile without problems before launching v1.3
 
 ## Donate
 
