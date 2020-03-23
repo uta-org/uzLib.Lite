@@ -1,4 +1,5 @@
-﻿using UnityEngine.Extensions;
+﻿using System;
+using UnityEngine.Extensions;
 using uzLib.Lite.ExternalCode.Unity.Utils;
 
 namespace UnityEngine.UI
@@ -6,6 +7,8 @@ namespace UnityEngine.UI
     [AutoInstantiate]
     public class DockBehaviour : MonoBehaviour
     {
+        public event Action OnUpdate = delegate { };
+
         internal static bool IsShown { get; set; }
 
         //public static bool? IsEditor { get; set; }
@@ -13,6 +16,11 @@ namespace UnityEngine.UI
         private static GUIStyle buttonStyle;
 
         private bool isInit;
+
+        private void Update()
+        {
+            OnUpdate();
+        }
 
         private void OnGUI()
         {

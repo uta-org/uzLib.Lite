@@ -16,6 +16,10 @@ using uzLib.Lite.Extensions;
 
 namespace UnityEngine.UI
 {
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+    using Extensions;
+#endif
+
     public class DockWindow<T> : Singleton<DockWindow<T>>
         where T : IUnityForm, new()
     {
@@ -63,6 +67,12 @@ namespace UnityEngine.UI
                 m_Position = value;
                 UpdatePosition();
             }
+        }
+
+        public Vector2 Size
+        {
+            get => m_Position.size;
+            set => Position = new Rect(Vector2.zero, value);
         }
 
         public GUIContent Content { get; private set; }

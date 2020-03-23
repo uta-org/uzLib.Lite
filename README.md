@@ -97,17 +97,17 @@ Having issues? Just report in [the issue section](/issues). **Thanks for the fee
 
 ## Contribute
 
-Fork this repository, make your changes and then issue a pull request. If you find bugs or have new ideas that you do not want to implement yourself, file a bug report.
+Fork this repository, make your changes and then issue a pull request. If you find bugs or have new ideas that you do not want to implement yourself, fill a bug report.
 
 ### TODO
 
-- There are some methods missing from the text above.
+- There are some methods missing on the above text.
 - Change `Safe` word on methods and use `Try`.
 - Do a more friendly compilation (select paths of compilation more easily)
 - Check for unusable `usings` in code
-- Disable AssetDatabase refresh while uzLibe.Lite is compiling through WebSockets
-- Make backups of the ExternalCode, in case we didn't saved the code on the lib part
-- Automerge changes from local Unity projects in the ExternalCode part
+- Disable `AssetDatabase` refresh while uzLibe.Lite is compiling through `WebSockets`
+- Make backups of the `ExternalCode`, in case we didn't saved the code on the lib part
+- Automerge changes from local Unity projects in the `ExternalCode` part
 - Fix namespaces (files inside of Unity folders must be starting by `UnityEngine` instead of `uzLib.Lite....`)
 - Check that Unity3D can compile without problems before launching v1.3
 
@@ -123,6 +123,6 @@ Become a patron, by simply clicking on this button (**very appreciated!**):
 
 ## Copyright
 
-Copyright (c) 2019 z3nth10n (United Teamwork Association).
+Copyright (c) 2020 z3nth10n (United Teamwork Association).
 
 License: GNU General Public License v3.0

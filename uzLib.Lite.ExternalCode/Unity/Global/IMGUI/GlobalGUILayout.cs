@@ -32,6 +32,14 @@ namespace UnityEngine.Global.IMGUI
         public static GUISkin Skin { get; set; } = GUI.skin;
 
         /// <summary>
+        /// Gets the input io rect.
+        /// </summary>
+        /// <value>
+        /// The input io rect.
+        /// </value>
+        public Rect InputIORect { get; private set; }
+
+        /// <summary>
         ///     The instances
         /// </summary>
         private static readonly Dictionary<int, GlobalGUILayout> Instances = new Dictionary<int, GlobalGUILayout>();
@@ -270,15 +278,17 @@ namespace UnityEngine.Global.IMGUI
             GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, LeftAlignedLabelStyle);
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
+            var rect1 = GUILayoutUtility.GetLastRect();
+
             GUI.enabled = isEnabled;
             if (buttonCallback?.Invoke("Browse...", GUILayout.MaxWidth(100)) ?? GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
             {
                 if (fEditor)
                 {
 #if UNITY_EDITOR
-                                var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
-                                    new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
-                                path = string.IsNullOrEmpty(p) ? null : p;
+                    var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
+                        new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
+                    path = string.IsNullOrEmpty(p) ? null : p;
 #endif
                 }
                 else
@@ -293,6 +303,10 @@ namespace UnityEngine.Global.IMGUI
                     path = MyFileBrowser.Open();
                 }
             }
+
+            var rect2 = GUILayoutUtility.GetLastRect();
+            InputIORect = new Rect(rect2.RestLeft(rect1.width).SumWidth(rect1.width));
+
             GUI.enabled = true;
 
             GUILayout.Space(3);
