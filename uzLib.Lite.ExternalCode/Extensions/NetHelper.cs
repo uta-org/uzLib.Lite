@@ -24,8 +24,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             try
             {
-                var webRequest = WebRequest.Create(url) as HttpWebRequest;
-                if (webRequest != null)
+                if (WebRequest.Create(url) is HttpWebRequest webRequest)
                 {
                     webRequest.Method = "GET";
                     webRequest.Timeout = 12000;
@@ -180,7 +179,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
         {
             if (!string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
                 return wc.ResponseHeaders["Content-Disposition"]
-                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=", StringComparison.Ordinal) + 9).Replace("\"", "");
 
             return string.Empty;
         }
@@ -197,7 +196,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
             data = wc.DownloadData(url);
             if (!string.IsNullOrEmpty(wc.ResponseHeaders["Content-Disposition"]))
                 return wc.ResponseHeaders["Content-Disposition"]
-                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=") + 9).Replace("\"", "");
+                    .Substring(wc.ResponseHeaders["Content-Disposition"].IndexOf("filename=", StringComparison.Ordinal) + 9).Replace("\"", "");
 
             return string.Empty;
         }
@@ -288,6 +287,31 @@ namespace uzLib.Lite.ExternalCode.Extensions
             }
         }
 
+        public static HttpStatusCode GetHttpStatusCode(string url)
+        {
+            HttpWebResponse resp = null;
+            HttpStatusCode code;
+            try
+            {
+                var req = (HttpWebRequest)WebRequest.Create(url);
+                req.Method = "HEAD";
+                req.AllowAutoRedirect = false;
+                resp = (HttpWebResponse)req.GetResponse();
+                code = resp.StatusCode;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return default;
+            }
+            finally
+            {
+                resp?.Close();
+            }
+
+            return code;
+        }
+
         public static string GetFinalRedirect(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -297,11 +321,10 @@ namespace uzLib.Lite.ExternalCode.Extensions
             string newUrl = url;
             do
             {
-                HttpWebRequest req = null;
                 HttpWebResponse resp = null;
                 try
                 {
-                    req = (HttpWebRequest)HttpWebRequest.Create(url);
+                    var req = (HttpWebRequest)WebRequest.Create(url);
                     req.Method = "HEAD";
                     req.AllowAutoRedirect = false;
                     resp = (HttpWebResponse)req.GetResponse();
@@ -318,7 +341,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
                             if (newUrl == null)
                                 return url;
 
-                            if (newUrl.IndexOf("://", System.StringComparison.Ordinal) == -1)
+                            if (newUrl.IndexOf("://", StringComparison.Ordinal) == -1)
                             {
                                 // Doesn't have a URL Schema, meaning it's a relative or absolute URL
                                 Uri u = new Uri(new Uri(url), newUrl);
@@ -338,6 +361,7 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     return null;
                 }
                 finally
