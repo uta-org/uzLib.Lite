@@ -662,6 +662,7 @@
     <Compile Include="Libs\Unity-WinForms\Utility\swfHelper.cs" />
     <Compile Include="Unity\Extensions\MathHelper.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
+    <Compile Include="Unity\Extensions\GUIStyleHelper.cs" />
     <Compile Include="Unity\UI\Controls\ComboBox.cs" />
     <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabel.cs" />
     <Compile Include="Unity\UI\Controls\FormattedLabel\FormattedLabelTest.cs" />

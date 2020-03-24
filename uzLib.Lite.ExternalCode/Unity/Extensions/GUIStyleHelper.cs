@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.Extensions;
 
-namespace UnityEngine.Extensions
+namespace uzLib.Lite.ExternalCode.Extensions
 {
     public static class GUIStyleHelper
     {
@@ -15,6 +13,9 @@ namespace UnityEngine.Extensions
             Top,
             Bottom
         }
+
+        public static GUIStyle AddPadding(this GUIStyle style, int all)
+            => style.AddPadding(all, all, all, all);
 
         public static GUIStyle AddPadding(this GUIStyle style, int value, PaddingType type)
         {
@@ -73,6 +74,26 @@ namespace UnityEngine.Extensions
         public static GUIStyle AddPadding(this GUIStyle style, RectOffset offset)
         {
             return new GUIStyle(style) { padding = offset };
+        }
+
+        public static GUIStyle GetStyle(this Color color)
+        {
+            return GetStyle(color, null);
+        }
+
+        public static GUIStyle GetStyle(this Color color, string styleName)
+            => GetStyle(color, new GUIStyle(styleName));
+
+        public static GUIStyle GetStyle(this Color color, GUIStyle other)
+        {
+            var style = other == null || string.IsNullOrEmpty(other.name) ? new GUIStyle() : new GUIStyle(other);
+
+            style.normal = new GUIStyleState
+            {
+                background = color.ToTexture(16, 16)
+            };
+
+            return style;
         }
     }
 }

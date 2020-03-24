@@ -31,6 +31,18 @@ namespace UnityEngine.Extensions
         ///     To the texture.
         /// </summary>
         /// <param name="color">The color.</param>
+        /// <param name="width">The width.</param>
+        /// <param name="height">The height.</param>
+        /// <returns></returns>
+        public static Texture2D ToTexture(this Color color, int width, int height)
+        {
+            return CreateTexture(width, height, color);
+        }
+
+        /// <summary>
+        ///     To the texture.
+        /// </summary>
+        /// <param name="color">The color.</param>
         /// <returns></returns>
         public static Texture2D ToTexture(this Color color)
         {
