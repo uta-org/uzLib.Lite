@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace uzLib.Lite.ExternalCode.Extensions
 {
@@ -34,6 +35,17 @@ namespace uzLib.Lite.ExternalCode.Extensions
                 action(item, i);
                 i++;
             }
+        }
+
+        /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="items">The items.</param>
+        public static void AddRange<T>(this List<T> list, params T[] items)
+        {
+            list.AddRange(items.AsEnumerable() ?? throw new InvalidOperationException());
         }
     }
 }

@@ -8,6 +8,7 @@ using UnityGif;
 
 using uzLib.Lite.ExternalCode.Core;
 using uzLib.Lite.ExternalCode.Extensions;
+using uzLib.Lite.ExternalCode.Unity.Utils;
 
 #if UNITY_EDITOR
 
@@ -30,14 +31,6 @@ namespace UnityEngine.Global.IMGUI
         /// The skin.
         /// </value>
         public static GUISkin Skin { get; set; } = GUI.skin;
-
-        /// <summary>
-        /// Gets the input io rect.
-        /// </summary>
-        /// <value>
-        /// The input io rect.
-        /// </value>
-        public Rect InputIORect { get; private set; }
 
         /// <summary>
         ///     The instances
@@ -200,36 +193,135 @@ namespace UnityEngine.Global.IMGUI
             return SelectedValue;
         }
 
-        /// <summary>
-        /// Display a input to select IO resource (folder or file).
-        /// </summary>
-        /// <param name="label">The label.</param>
-        /// <param name="path">The path.</param>
-        /// <param name="buttonCallback">The button callback.</param>
-        /// <param name="browserType">Type of the browser.</param>
-        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
-        /// <param name="customStyle">The custom style.</param>
-        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
-        /// <param name="verticalSpacing">The vertical spacing.</param>
-        /// <returns></returns>
-        public string InputIO(string label, string path, UIUtils.ButtonDelegate buttonCallback, FileBrowserType browserType = FileBrowserType.File,
-            bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
-            => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing, buttonCallback);
+        ///// <summary>
+        ///// Display a input to select IO resource (folder or file).
+        ///// </summary>
+        ///// <param name="label">The label.</param>
+        ///// <param name="path">The path.</param>
+        ///// <param name="buttonCallback">The button callback.</param>
+        ///// <param name="browserType">Type of the browser.</param>
+        ///// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        ///// <param name="customStyle">The custom style.</param>
+        ///// <param name="fEditor">if set to <c>true</c> [f editor].</param>
+        ///// <param name="verticalSpacing">The vertical spacing.</param>
+        ///// <returns></returns>
+        //public string InputIO(string label, string path, UIUtils.ButtonDelegate buttonCallback, FileBrowserType browserType = FileBrowserType.File,
+        //    bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
+        //    => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing, buttonCallback);
 
-        /// <summary>
-        /// Display a input to select IO resource (folder or file).
-        /// </summary>
-        /// <param name="label">The label.</param>
-        /// <param name="path">The path.</param>
-        /// <param name="browserType">Type of the browser.</param>
-        /// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
-        /// <param name="customStyle">The custom style.</param>
-        /// <param name="fEditor">if set to <c>true</c> [f editor].</param>
-        /// <param name="verticalSpacing">The vertical spacing.</param>
-        /// <returns></returns>
-        public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File,
-            bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
-            => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing);
+        ///// <summary>
+        ///// Display a input to select IO resource (folder or file).
+        ///// </summary>
+        ///// <param name="label">The label.</param>
+        ///// <param name="path">The path.</param>
+        ///// <param name="browserType">Type of the browser.</param>
+        ///// <param name="isEnabled">if set to <c>true</c> [is enabled].</param>
+        ///// <param name="customStyle">The custom style.</param>
+        ///// <param name="fEditor">if set to <c>true</c> [f editor].</param>
+        ///// <param name="verticalSpacing">The vertical spacing.</param>
+        ///// <returns></returns>
+        //public string InputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File,
+        //    bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7)
+        //    => InternalInputIO(label, path, browserType, isEnabled, customStyle, fEditor, verticalSpacing);
+
+        public class InputIOSettings
+        {
+            private GUIContent _content;
+
+            //public GUIContent Content
+            //{
+            //    get => _content;
+            //    set
+            //    {
+            //        Debug.Log($"Value: {value.text}");
+            //        _content = value;
+            //    }
+            //}
+
+            public GUIContent Content { get; set; }
+
+            public string Path { get; }
+            public FileBrowserType BrowserType { get; } = FileBrowserType.File;
+            public bool IsEnabled { get; } = true;
+            public GUIStyle CustomStyle { get; }
+            public int VerticalSpacing { get; }
+            public UIUtils.ButtonDelegate ButtonCallback { get; }
+
+            internal bool IsEditor => !ScenePlaybackDetector.IsPlaying;
+
+            public Rect Rect { get; internal set; }
+            public bool ShowPath { get; set; } = true;
+
+            private InputIOSettings()
+            {
+            }
+
+            public InputIOSettings(string label, string path)
+                : this(label, path, null)
+            {
+            }
+
+            public InputIOSettings(string label, string path,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, 0, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path, int verticalSpacing = 7,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, null, verticalSpacing, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path, GUIStyle customStyle = null,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, customStyle, 0, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path, GUIStyle customStyle = null, int verticalSpacing = 7,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, true, customStyle, verticalSpacing, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path, bool isEnabled = true, GUIStyle customStyle = null,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, isEnabled, customStyle, 0, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path, bool isEnabled = true, GUIStyle customStyle = null, int verticalSpacing = 7,
+                UIUtils.ButtonDelegate buttonCallback = null)
+                : this(label, path, FileBrowserType.File, isEnabled, customStyle, verticalSpacing, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path,
+                FileBrowserType browserType = FileBrowserType.File, GUIStyle customStyle = null,
+                UIUtils.ButtonDelegate buttonCallback = null) : this(label, path, browserType, true, customStyle, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path,
+                FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, GUIStyle customStyle = null,
+                UIUtils.ButtonDelegate buttonCallback = null) : this(label, path, browserType, isEnabled, customStyle, 0, buttonCallback)
+            {
+            }
+
+            public InputIOSettings(string label, string path,
+                FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, GUIStyle customStyle = null, int verticalSpacing = 7,
+                UIUtils.ButtonDelegate buttonCallback = null)
+            {
+                Content = new GUIContent(label);
+                Path = path;
+                BrowserType = browserType;
+                IsEnabled = isEnabled;
+                CustomStyle = customStyle;
+                VerticalSpacing = verticalSpacing;
+                ButtonCallback = buttonCallback;
+            }
+        }
 
         /// <summary>
         /// Display a input to select IO resource (folder or file).
@@ -245,14 +337,23 @@ namespace UnityEngine.Global.IMGUI
         /// <returns>
         /// The path.
         /// </returns>
-        private string InternalInputIO(string label, string path, FileBrowserType browserType = FileBrowserType.File, bool isEnabled = true, GUIStyle customStyle = null, bool fEditor = false, int verticalSpacing = 7, UIUtils.ButtonDelegate buttonCallback = null)
+        public string InputIO(InputIOSettings settings)
         {
+            //var label = settings.Label;
+            var path = settings.Path;
+            var browserType = settings.BrowserType;
+            var isEnabled = settings.IsEnabled;
+            var customStyle = settings.CustomStyle;
+            var verticalSpacing = settings.VerticalSpacing;
+            var buttonCallback = settings.ButtonCallback;
+
             if (verticalSpacing > 0)
                 GUILayout.Space(verticalSpacing);
 
-            bool hasLabel = !string.IsNullOrEmpty(label);
+            bool hasLabel = !string.IsNullOrEmpty(settings.Content.text);
 
             var boxStyle = customStyle ?? Skin.box;
+
             if (hasLabel)
             {
                 if (boxStyle != null)
@@ -260,11 +361,15 @@ namespace UnityEngine.Global.IMGUI
                 else
                     GUILayout.BeginVertical();
 
+                if (!settings.ShowPath)
+                    GUILayout.BeginHorizontal();
+
                 //GUILayout.Label(label);
-                GUILayout.Label(label, BoldLabelStyle);
+                GUILayout.Label(settings.Content, BoldLabelStyle);
                 //GUILayout.Label(label, GlobalStyles.BoldLabelStyle);
 
-                GUILayout.BeginHorizontal();
+                if (settings.ShowPath)
+                    GUILayout.BeginHorizontal();
             }
             else
             {
@@ -275,7 +380,8 @@ namespace UnityEngine.Global.IMGUI
             }
 
             // TODO: Fix the alignment of the two labels
-            GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, LeftAlignedLabelStyle);
+            if (settings.ShowPath)
+                GUILayout.Label(string.IsNullOrEmpty(path) ? $"Select a {browserType.ToString().ToLowerInvariant()}..." : path, LeftAlignedLabelStyle);
             //GUILayout.Label(path ?? "Select a file...", GlobalStyles.CenteredLabelStyle); // GlobalStyles.CenteredLabelStyle --> GUI.skin.label returns null and an error
 
             var rect1 = GUILayoutUtility.GetLastRect();
@@ -283,9 +389,10 @@ namespace UnityEngine.Global.IMGUI
             GUI.enabled = isEnabled;
             if (buttonCallback?.Invoke("Browse...", GUILayout.MaxWidth(100)) ?? GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
             {
-                if (fEditor)
+                if (settings.IsEditor)
                 {
 #if UNITY_EDITOR
+                    // TODO
                     var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
                         new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
                     path = string.IsNullOrEmpty(p) ? null : p;
@@ -304,19 +411,23 @@ namespace UnityEngine.Global.IMGUI
                 }
             }
 
+            if (hasLabel && !settings.ShowPath)
+                GUILayout.FlexibleSpace();
+
             var rect2 = GUILayoutUtility.GetLastRect();
-            InputIORect = new Rect(rect2.RestLeft(rect1.width).SumWidth(rect1.width));
+            settings.Rect = new Rect(rect2.RestLeft(rect1.width).SumWidth(rect1.width));
 
             GUI.enabled = true;
 
-            GUILayout.Space(3);
+            if (hasLabel && settings.ShowPath || !hasLabel)
+                GUILayout.Space(3);
 
             GUILayout.EndHorizontal();
 
             if (hasLabel)
                 GUILayout.EndVertical();
 
-            if (!fEditor && MyFileBrowser != null && MyFileBrowser.IsReady())
+            if (!settings.IsEditor && MyFileBrowser != null && MyFileBrowser.IsReady())
             {
                 path = MyFileBrowser.CurrentPath;
                 //Debug.Log($"Setting path to '{path}'...");
@@ -911,55 +1022,198 @@ namespace UnityEngine.Global.IMGUI
         // TODO: Implement all methods like this
         // TODO: Use GUILayout.ExpandWidth(true) when needed instead of doing complex calculations
 
+        public class ScrollViewSettings
+        {
+            internal bool IsEditor => ScenePlaybackDetector.IsPlaying;
+
+            private Vector2 ScrollPosition { get; }
+            private Vector2 ViewSize { get; }
+            private bool AlwaysShowHorizontal { get; }
+            private bool AlwaysShowVertical { get; }
+            private GUIStyle HorizontalScrollbar { get; }
+            private GUIStyle VerticalScrollbar { get; }
+            private GUIStyle Background { get; }
+
+            private ScrollViewSettings()
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition)
+                : this(scrollPosition, new Vector2())
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize)
+                : this(scrollPosition, viewSize, null)
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize, GUIStyle style)
+                : this(scrollPosition, viewSize, false, false, null, null, style)
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize,
+                bool alwaysShowHorizontal, bool alwaysShowVertical)
+                : this(scrollPosition, viewSize, alwaysShowHorizontal, alwaysShowVertical, null, null)
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize, GUIStyle horizontalScrollbar, GUIStyle verticalScrollbar)
+                : this(scrollPosition, viewSize, false, false, horizontalScrollbar, verticalScrollbar)
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize,
+                bool alwaysShowHorizontal, bool alwaysShowVertical, GUIStyle horizontalScrollbar, GUIStyle verticalScrollbar)
+                : this(scrollPosition, viewSize, alwaysShowHorizontal, alwaysShowVertical, horizontalScrollbar, verticalScrollbar, null)
+            {
+            }
+
+            public ScrollViewSettings(Vector2 scrollPosition, Vector2 viewSize,
+                bool alwaysShowHorizontal, bool alwaysShowVertical, GUIStyle horizontalScrollbar, GUIStyle verticalScrollbar, GUIStyle background)
+            {
+                ScrollPosition = scrollPosition;
+                ViewSize = viewSize;
+                AlwaysShowHorizontal = alwaysShowHorizontal;
+                AlwaysShowVertical = alwaysShowVertical;
+                HorizontalScrollbar = horizontalScrollbar;
+                VerticalScrollbar = verticalScrollbar;
+                Background = background;
+            }
+
+            private GUILayoutOption[] GetOptions()
+            {
+                float width = ViewSize == default ? -1 : ViewSize.x,
+                      height = ViewSize == default ? -1 : ViewSize.y;
+
+                var list = new List<GUILayoutOption>();
+
+                if (width > -1 && height > -1)
+                    list.AddRange(GUILayout.Width(width), GUILayout.Height(height));
+                else if (width > -1)
+                    list.Add(GUILayout.Width(width));
+                else if (height > -1)
+                    list.Add(GUILayout.Height(height));
+
+                return list.ToArray();
+            }
+
+            public Vector2 GetScrollView()
+            {
+                var options = GetOptions();
+                bool hasOptions = !options.IsNullOrEmpty();
+
+                if (!IsEditor)
+                {
+                    if (AlwaysShowHorizontal && AlwaysShowVertical && HorizontalScrollbar != null && VerticalScrollbar != null && Background != null)
+                    {
+                        if (hasOptions)
+                            return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                                HorizontalScrollbar, VerticalScrollbar, Background, options);
+
+                        return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                            HorizontalScrollbar, VerticalScrollbar, Background);
+                    }
+
+                    if (AlwaysShowHorizontal && AlwaysShowVertical && HorizontalScrollbar != null && VerticalScrollbar != null)
+                    {
+                        if (hasOptions)
+                            return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                                HorizontalScrollbar, VerticalScrollbar, options);
+
+                        return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                            HorizontalScrollbar, VerticalScrollbar);
+                    }
+
+                    if (HorizontalScrollbar != null && VerticalScrollbar != null)
+                    {
+                        if (hasOptions)
+                            return GUILayout.BeginScrollView(ScrollPosition, HorizontalScrollbar, VerticalScrollbar, options);
+
+                        return GUILayout.BeginScrollView(ScrollPosition, HorizontalScrollbar, VerticalScrollbar);
+                    }
+
+                    if (AlwaysShowHorizontal && AlwaysShowVertical)
+                    {
+                        if (hasOptions)
+                            return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical, options);
+
+                        return GUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical);
+                    }
+
+                    if (Background != null)
+                    {
+                        if (hasOptions)
+                            return GUILayout.BeginScrollView(ScrollPosition, Background, options);
+
+                        return GUILayout.BeginScrollView(ScrollPosition, Background);
+                    }
+
+                    if (hasOptions)
+                        return GUILayout.BeginScrollView(ScrollPosition, options);
+
+                    return GUILayout.BeginScrollView(ScrollPosition);
+                }
+
+#if UNITY_EDITOR
+                if (AlwaysShowHorizontal && AlwaysShowVertical && HorizontalScrollbar != null && VerticalScrollbar != null && Background != null)
+                {
+                    if (hasOptions)
+                        return EditorGUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                            HorizontalScrollbar, VerticalScrollbar, Background, options);
+
+                    return EditorGUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical,
+                        HorizontalScrollbar, VerticalScrollbar, Background);
+                }
+
+                if (HorizontalScrollbar != null && VerticalScrollbar != null)
+                {
+                    if (hasOptions)
+                        return EditorGUILayout.BeginScrollView(ScrollPosition, HorizontalScrollbar, VerticalScrollbar, options);
+
+                    return EditorGUILayout.BeginScrollView(ScrollPosition, HorizontalScrollbar, VerticalScrollbar);
+                }
+
+                if (AlwaysShowHorizontal && AlwaysShowVertical)
+                {
+                    if (hasOptions)
+                        return EditorGUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical, options);
+
+                    return EditorGUILayout.BeginScrollView(ScrollPosition, AlwaysShowHorizontal, AlwaysShowVertical);
+                }
+
+                if (Background != null)
+                {
+                    if (hasOptions)
+                        return EditorGUILayout.BeginScrollView(ScrollPosition, Background, options);
+
+                    return EditorGUILayout.BeginScrollView(ScrollPosition, Background);
+                }
+
+                if (hasOptions)
+                    return EditorGUILayout.BeginScrollView(ScrollPosition, options);
+
+                return EditorGUILayout.BeginScrollView(ScrollPosition);
+#else
+                    return default;
+#endif
+            }
+        }
+
         /// <summary>
-        ///     Begins the scroll view.
+        /// Begins the scroll view.
         /// </summary>
         /// <param name="f_isEditor">if set to <c>true</c> [f is editor].</param>
         /// <param name="scrollPosition">The scroll position.</param>
         /// <param name="viewSize">Size of the view.</param>
+        /// <param name="style">The style.</param>
         /// <param name="alwaysShowHorizontal">if set to <c>true</c> [always show horizontal].</param>
         /// <param name="alwaysShowVertical">if set to <c>true</c> [always show vertical].</param>
         /// <returns></returns>
-        public static Vector2 BeginScrollView(bool f_isEditor, Vector2 scrollPosition, Vector2? viewSize = null,
-            bool alwaysShowHorizontal = false, bool alwaysShowVertical = false)
+        public static Vector2 BeginScrollView(ScrollViewSettings settings)
         {
-            float width = viewSize.GetValue(Vector2.left).x,
-                height = viewSize.GetValue(Vector2.down).y;
-
-            if (f_isEditor)
-            {
-#if UNITY_EDITOR
-                if (width > -1 && height > -1)
-                    scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal,
-                        alwaysShowVertical, GUILayout.Width(width), GUILayout.Height(height));
-                else if (width > -1)
-                    scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal,
-                        alwaysShowVertical, GUILayout.Width(width));
-                else if (height > -1)
-                    scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal,
-                        alwaysShowVertical, GUILayout.Height(height));
-                else
-                    scrollPosition =
-                        EditorGUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal, alwaysShowVertical);
-#endif
-            }
-            else
-            {
-                if (width > -1 && height > -1)
-                    scrollPosition = GUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal, alwaysShowVertical,
-                        GUILayout.Width(width), GUILayout.Height(height));
-                else if (width > -1)
-                    scrollPosition = GUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal, alwaysShowVertical,
-                        GUILayout.Width(width));
-                else if (height > -1)
-                    scrollPosition = GUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal, alwaysShowVertical,
-                        GUILayout.Height(height));
-                else
-                    scrollPosition =
-                        GUILayout.BeginScrollView(scrollPosition, alwaysShowHorizontal, alwaysShowVertical);
-            }
-
-            return scrollPosition;
+            return settings.GetScrollView();
         }
 
         /// <summary>

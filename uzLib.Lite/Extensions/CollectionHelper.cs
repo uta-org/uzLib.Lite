@@ -218,6 +218,17 @@ namespace uzLib.Lite.Extensions
         }
 
         /// <summary>
+        /// Adds the range.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The list.</param>
+        /// <param name="items">The items.</param>
+        public static void AddRange<T>(this List<T> list, params T[] items)
+        {
+            list.AddRange(items.AsEnumerable() ?? throw new InvalidOperationException());
+        }
+
+        /// <summary>
         /// Determines whether [is null or empty].
         /// </summary>
         /// <typeparam name="T"></typeparam>
