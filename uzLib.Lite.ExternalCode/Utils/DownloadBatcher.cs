@@ -441,41 +441,43 @@ namespace uzLib.Lite.ExternalCode.Utils
             const float height = 20f,
                         border = 2f;
 
-            GUI.BeginGroup(rect, SkinWorker.MySkin.box); // TODO: Depending if Editor or not use different skins, box style in the GUI.skin & SkinWorker.MySkin are broken
+            if (!m_DownloadHasException)
             {
-                Color fillColor = Color.white,
-                      backgroundColor = Color.gray;
+                GUI.BeginGroup(rect, SkinWorker.MySkin.box); // TODO: Depending if Editor or not use different skins, box style in the GUI.skin & SkinWorker.MySkin are broken
+                {
+                    Color fillColor = Color.white,
+                          backgroundColor = Color.gray;
 
-                bool reportProgress = m_ProgressValue != null;
-                float progressValue = m_CurrentProgress * (1 - m_CallbackLoadPercentage) +
-                                      m_ReportedProgress * m_CallbackLoadPercentage;
-                float finalValue = !reportProgress ? m_CurrentProgress : progressValue;
+                    bool reportProgress = m_ProgressValue != null;
+                    float progressValue = m_CurrentProgress * (1 - m_CallbackLoadPercentage) +
+                                          m_ReportedProgress * m_CallbackLoadPercentage;
+                    float finalValue = !reportProgress ? m_CurrentProgress : progressValue;
 
-                float fillPerc1 = finalValue,
-                      fillPerc2 = finalValue / m_CurrentPendingItems;
+                    float fillPerc1 = finalValue,
+                          fillPerc2 = finalValue / m_CurrentPendingItems;
 
-                var _rect = rect.ResetPosition();
-                var labelRect = GetRectFor(_rect, height * 2);
-                var labelCaption = $"Download item {fillPerc1 * 100f:F2}%" + (m_CurrentPendingItems > 1
-                                       ? $" of total {fillPerc2 * 100f:F2}%"
-                                       : string.Empty) +
-                                   Environment.NewLine +
-                                   $"({m_CurrentPendingItems} pending items -- {GetCaption()})";
+                    var _rect = rect.ResetPosition();
+                    var labelRect = GetRectFor(_rect, height * 2);
+                    var labelCaption = $"Download item {fillPerc1 * 100f:F2}%" + (m_CurrentPendingItems > 1
+                                           ? $" of total {fillPerc2 * 100f:F2}%"
+                                           : string.Empty) +
+                                       Environment.NewLine +
+                                       $"({m_CurrentPendingItems} pending items -- {GetCaption()})";
 
-                GUI.Label(
-                    labelRect,
-                    labelCaption,
-                    GlobalGUIStyle.WithCenteredRichText());
+                    GUI.Label(
+                        labelRect,
+                        labelCaption,
+                        GlobalGUIStyle.WithCenteredRichText());
 
-                var bar1Rect = GetRectFor(_rect, height).SumTop(height * 2 + 5);
-                UIUtils.DrawBar(bar1Rect, fillPerc1, fillColor, backgroundColor, border);
+                    var bar1Rect = GetRectFor(_rect, height).SumTop(height * 2 + 5);
+                    UIUtils.DrawBar(bar1Rect, fillPerc1, fillColor, backgroundColor, border);
 
-                var bar2Rect = GetRectFor(_rect, height).SumTop(height * 3 + 10);
-                UIUtils.DrawBar(bar2Rect, fillPerc2, fillColor, backgroundColor, border);
+                    var bar2Rect = GetRectFor(_rect, height).SumTop(height * 3 + 10);
+                    UIUtils.DrawBar(bar2Rect, fillPerc2, fillColor, backgroundColor, border);
+                }
+                GUI.EndGroup();
             }
-            GUI.EndGroup();
-
-            if (m_DownloadHasException)
+            else
             {
                 if (ExceptionRect == default) throw new InvalidOperationException("Invalid Exception Rect provided.");
 
