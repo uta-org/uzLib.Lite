@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 
@@ -333,6 +334,19 @@ namespace uzLib.Lite.ExternalCode.Extensions
         }
 
 #endif
+
+        public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container, RectOffset offset = default, GUIStyle style = null)
+        {
+            if (style == null) style = SkinWorker.MySkin.label;
+            if (offset == default) offset = new RectOffset();
+
+            var width = container.width - (offset.left - offset.right);
+            var height = style.CalcHeight(content, width);
+
+            rect.ForceBoth(width, height);
+
+            return rect;
+        }
 
         public static Rect ToRect(this System.Drawing.Rectangle rectangle)
         {

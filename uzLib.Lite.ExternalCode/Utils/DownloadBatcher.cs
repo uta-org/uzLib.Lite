@@ -479,18 +479,41 @@ namespace uzLib.Lite.ExternalCode.Utils
             }
             else
             {
-                if (ExceptionRect == default) throw new InvalidOperationException("Invalid Exception Rect provided.");
+                if (ExceptionRect == default)
+                    throw new InvalidOperationException("Invalid Exception Rect provided.");
 
                 GUI.BeginGroup(ExceptionRect, SkinWorker.MySkin.box);
                 {
+                    // TODO: Use GUILayout
+
                     var _rect = rect.ResetPosition();
-                    var labelRect = GetRectFor(_rect, height);
 
-                    GUI.Label(labelRect, "The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"), m_RedLabel);
+                    var titleRect = GetRectFor(_rect, height);
 
-                    ExceptionUI?.Invoke();
+                    GUI.Label(titleRect, "Exception ocurred!");
+
+                    var closeButton = titleRect.SumLeft(ExceptionRect.width - 24 - 5);
+
+                    if (GUI.Button(closeButton, "X"))
+                    {
+                        m_DownloadHasException = false;
+                        CurrentDownload = default;
+                    }
+
+                    var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"));
+                    var labelRect = titleRect.SumTop(25);
+                    labelRect = labelRect.ForceContainer(labelContent, ExceptionRect);
+
+                    GUI.Label(labelRect, labelContent, m_RedLabel);
                 }
                 GUI.EndGroup();
+
+                // TODO: Does this work on editor?
+                GUILayout.BeginArea(ExceptionRect);
+                {
+                    ExceptionUI?.Invoke();
+                }
+                GUILayout.EndArea();
             }
 
             if (!m_PendingAsyncDownloadsFlag)
