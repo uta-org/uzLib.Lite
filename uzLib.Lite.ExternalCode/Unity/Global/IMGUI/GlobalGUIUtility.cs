@@ -191,5 +191,59 @@ namespace uzLib.Lite.ExternalCode.Unity.Global.IMGUI
         }
 
 #endif
+
+        public static string Wrap(this string str, float maxWidth)
+        {
+            return Wrap(str, maxWidth, null);
+        }
+
+        public static string Wrap(this string str, float maxWidth, Font font)
+        {
+            if (string.IsNullOrEmpty(str))
+                throw new ArgumentNullException(nameof(str));
+
+            if (font == null)
+                font = Font.CreateDynamicFontFromOSFont("Arial", 12);
+
+            int nLastWordInd = 0;
+            int nIter = 0;
+            float fCurWidth = 0.0f;
+            float fCurWordWidth = 0.0f;
+            while (nIter < str.Length)
+            {
+                // get char info
+                char c = str[nIter];
+                CharacterInfo charInfo;
+                if (!font.GetCharacterInfo(c, out charInfo))
+                    throw new Exception("Unrecognized character encountered (" + (int)c + "): " + c);
+
+                if (c == '\n')
+                {
+                    nLastWordInd = nIter;
+                    fCurWidth = 0.0f;
+                }
+                else
+                {
+                    if (c == ' ')
+                    {
+                        nLastWordInd = nIter; // replace this character with '/n' if breaking here
+                        fCurWordWidth = 0.0f;
+                    }
+
+                    fCurWidth += charInfo.width;
+                    fCurWordWidth += charInfo.width;
+                    if (fCurWidth >= maxWidth)
+                    {
+                        str = str.Remove(nLastWordInd, 1);
+                        str = str.Insert(nLastWordInd, "\n");
+                        fCurWidth = fCurWordWidth;
+                    }
+                }
+
+                ++nIter;
+            }
+
+            return str;
+        }
     }
 }

@@ -6,10 +6,12 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
+using UnityEngine.UI.Controls;
 using UnityEngine.Utils.DebugTools;
 using UnityEngine.Utils.Interfaces;
 using uzLib.Lite.ExternalCode.Unity.Extensions;
 using uzLib.Lite.ExternalCode.Utils.Interfaces;
+using uzLib.Lite.ExternalCode.WinFormsSkins.Core;
 using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
@@ -113,6 +115,8 @@ namespace uzLib.Lite.ExternalCode.Utils
         {
             m_Queue = new ConcurrentQueue<T>();
             m_WebClients = new List<WebClient>();
+
+            m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
         }
 
         /// <summary>
@@ -298,6 +302,9 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// </value>
         public Rect ExceptionRect { get; set; }
 
+        // TODO: Create extension method, customgui.label, and refactor into UIUtils
+        private GUIStyle m_BlackLabelStyle;
+
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
@@ -482,19 +489,26 @@ namespace uzLib.Lite.ExternalCode.Utils
                 if (ExceptionRect == default)
                     throw new InvalidOperationException("Invalid Exception Rect provided.");
 
+                var exceptionRectPadding = ExceptionRect.SumLeft(10).RestWidth(20);
+
+                float summedHeight = 0;
                 GUI.BeginGroup(ExceptionRect, SkinWorker.MySkin.box);
                 {
                     // TODO: Use GUILayout
 
                     var _rect = rect.ResetPosition();
 
-                    var titleRect = GetRectFor(_rect, height);
+                    var titleRect = GetRectFor(_rect, height).RestTop(10);
 
-                    GUI.Label(titleRect, "Exception ocurred!");
+                    GUI.Label(titleRect, "Exception occurred!", m_BlackLabelStyle);
+                    summedHeight += titleRect.height;
 
-                    var closeButton = titleRect.SumLeft(ExceptionRect.width - 24 - 5);
+                    var lineRect = titleRect.SumTop(summedHeight + 5).ForceHeight(1);
+                    GuiHelper.DrawLine(lineRect.min, lineRect.max.RestY(1), Color.gray);
 
-                    if (GUI.Button(closeButton, "X"))
+                    var closeButton = titleRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
+
+                    if (CustomGUI.Button(closeButton, "x", Color.red))
                     {
                         m_DownloadHasException = false;
                         CurrentDownload = default;
@@ -502,14 +516,18 @@ namespace uzLib.Lite.ExternalCode.Utils
 
                     var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"));
                     var labelRect = titleRect.SumTop(25);
-                    labelRect = labelRect.ForceContainer(labelContent, ExceptionRect);
+                    labelRect = labelRect.ForceContainer(labelContent, exceptionRectPadding);
+
+                    Debug.Log(labelRect);
 
                     GUI.Label(labelRect, labelContent, m_RedLabel);
+                    summedHeight += labelRect.height;
                 }
                 GUI.EndGroup();
 
                 // TODO: Does this work on editor?
-                GUILayout.BeginArea(ExceptionRect);
+                var exRect = exceptionRectPadding.SumTop(summedHeight).RestHeight(summedHeight);
+                GUILayout.BeginArea(exRect);
                 {
                     ExceptionUI?.Invoke();
                 }

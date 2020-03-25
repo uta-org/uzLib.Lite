@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using uzLib.Lite.ExternalCode.Unity.Global.IMGUI;
 using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
@@ -335,10 +336,32 @@ namespace uzLib.Lite.ExternalCode.Extensions
 
 #endif
 
-        public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container, RectOffset offset = default, GUIStyle style = null)
+        public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container)
         {
+            return ForceContainer(rect, content, container, null);
+        }
+
+        public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container, RectOffset offset)
+        {
+            return ForceContainer(rect, content, container, offset, null);
+        }
+
+        public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container, RectOffset offset, GUIStyle style)
+        {
+            //if (style != null && !style.wordWrap)
+            //    throw new ArgumentException(@"Wordwrap must be active on this style!", nameof(style));
+
+            if (rect == default) throw new ArgumentNullException(nameof(rect));
+            if (content == null) throw new ArgumentNullException(nameof(content));
+
             if (style == null) style = SkinWorker.MySkin.label;
-            if (offset == default) offset = new RectOffset();
+            //if (style == null) style = new GUIStyle(SkinWorker.MySkin.label) { wordWrap = true };
+            if (offset == null) offset = new RectOffset();
+
+            var size = style.CalcSize(content);
+
+            if (size.x > container.width)
+                content = new GUIContent(content.text.Wrap(container.width));
 
             var width = container.width - (offset.left - offset.right);
             var height = style.CalcHeight(content, width);
