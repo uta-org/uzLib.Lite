@@ -101,7 +101,6 @@ Fork this repository, make your changes and then issue a pull request. If you fi
 
 ### TODO
 
-- There are some methods missing on the above text.
 - Change `Safe` word on methods and use `Try`.
 - Do a more friendly compilation (select paths of compilation more easily)
 - Check for unusable `usings` in code

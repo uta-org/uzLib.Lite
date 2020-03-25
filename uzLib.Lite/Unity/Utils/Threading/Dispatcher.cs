@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Utils.Threading
 {
-    [AutoInstantiate]
+    //[AutoInstantiate]
     public class Dispatcher : MonoBehaviour
     {
         private readonly ConcurrentQueue<Action> _actions = new ConcurrentQueue<Action>();

@@ -184,5 +184,26 @@ namespace uzLib.Lite.ExternalCode.Extensions
                     $@"Couldn't find field {fieldName} in type {objType.FullName}");
             fieldInfo.SetValue(obj, val);
         }
+
+        /// <summary>
+        ///     Gets the property value.
+        /// </summary>
+        /// <param name="src">The source.</param>
+        /// <param name="propName">Name of the property.</param>
+        /// <returns></returns>
+        public static object GetPropertyValue(this object src, string propName)
+        {
+            return src.GetType().GetProperty(propName)?.GetValue(src, null);
+        }
+
+        /// <summary>
+        ///     Gets the property value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="src">The source.</param>
+        /// <param name="propName">Name of the property.</param>
+        /// <returns></returns>
+        public static T GetPropertyValue<T>(this object src, string propName)
+            => (T)src.GetPropertyValue(propName);
     }
 }

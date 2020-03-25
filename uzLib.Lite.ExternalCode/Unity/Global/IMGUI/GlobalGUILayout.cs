@@ -253,6 +253,9 @@ namespace UnityEngine.Global.IMGUI
             public int VerticalSpacing { get; }
             public UIUtils.ButtonDelegate ButtonCallback { get; }
 
+            public string EditorTitle { get; set; } = "Select a file";
+            public string[] EditorFilters { get; set; } = { "Image files", "png, jpg, jpeg, bmp, gif, tif" };
+
             internal bool IsEditor => !ScenePlaybackDetector.IsPlaying;
 
             public Rect Rect { get; internal set; }
@@ -398,9 +401,14 @@ namespace UnityEngine.Global.IMGUI
                 if (settings.IsEditor)
                 {
 #if UNITY_EDITOR
-                    // TODO
-                    var p = EditorUtility.OpenFilePanelWithFilters("Select a file", path,
-                        new[] { "Image files", "png,jpg,jpeg,bmp,gif,tif" });
+                    string p;
+
+                    if (settings.BrowserType == FileBrowserType.File)
+                        p = EditorUtility.OpenFilePanelWithFilters(settings.EditorTitle, path,
+                            settings.EditorFilters);
+                    else
+                        p = EditorUtility.OpenFolderPanel(settings.EditorTitle, path, string.Empty);
+
                     path = string.IsNullOrEmpty(p) ? null : p;
 #endif
                 }

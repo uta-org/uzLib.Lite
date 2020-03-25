@@ -3,14 +3,24 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using UnityEngine;
+using uzLib.Lite.ExternalCode.Core;
+
+//using uzLib.Lite.ExternalCode.Extensions;
 
 namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
 {
     [AutoInstantiate]
-    public class Dispatcher : MonoBehaviour
+    [AddComponentMenu("Window/Utils/Dispatcher (ExternalCode)")]
+    public class Dispatcher : MonoSingleton<Dispatcher>
     {
         private readonly ConcurrentQueue<Action> _actions = new ConcurrentQueue<Action>();
+        private readonly ConcurrentQueue<Func<object>> _funcs = new ConcurrentQueue<Func<object>>(); // TODO?
         public static Dispatcher Current { get; private set; }
+
+        private static bool m_Stop;
+
+        private static Coroutine m_ActionsCoroutine;
+        private static Coroutine m_FuncCoroutine;
 
         public static void Invoke(Action action)
         {
@@ -51,6 +61,7 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
         {
             if (!Application.isPlaying)
                 return;
+
             if (Current != null) return;
             var g = new GameObject("Dispatcher");
             var d = g.AddComponent<Dispatcher>();
@@ -73,13 +84,58 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
 
         private void Update()
         {
-            Action action;
-            while (_actions.TryDequeue(out action))
+            while (_actions.TryDequeue(out var action))
             {
                 if (action == null)
                     break;
+
                 action();
             }
+
+            //if (m_ActionsCoroutine == null && !_actions.IsNullOrEmpty())
+            //    m_ActionsCoroutine = StartCoroutine(UpdateForAction());
+
+            //if (m_FuncCoroutine == null && !_funcs.IsNullOrEmpty())
+            //    m_FuncCoroutine = StartCoroutine(UpdateForFunc());
+        }
+
+        // TODO
+        private IEnumerator UpdateForAction()
+        {
+            while (true)
+            {
+                if (_actions.TryDequeue(out var action))
+                    action?.Invoke();
+
+                if (m_Stop) break;
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            m_Stop = false;
+            m_ActionsCoroutine = null;
+        }
+
+        // TODO
+        private IEnumerator UpdateForFunc()
+        {
+            while (true)
+            {
+                if (_funcs.TryDequeue(out var func))
+                    func();
+
+                if (m_Stop) break;
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            m_Stop = false;
+            m_FuncCoroutine = null;
+        }
+
+        public static void Stop()
+        {
+            m_Stop = true;
         }
 
         private void OnDestroy()
@@ -89,6 +145,29 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
                 Current = null;
             }
         }
+
+        //public class CoroutineTask
+        //{
+        //    public Coroutine Coroutine { get; }
+        //    public object Result { get; private set; }
+
+        //    private IEnumerator m_Target;
+
+        //    public CoroutineTask(MonoBehaviour owner, IEnumerator target)
+        //    {
+        //        m_Target = target;
+        //        Coroutine = owner.StartCoroutine(Run());
+        //    }
+
+        //    private IEnumerator Run()
+        //    {
+        //        while (m_Target.MoveNext())
+        //        {
+        //            Result = m_Target.Current;
+        //            yield return Result;
+        //        }
+        //    }
+        //}
     }
 
     public static class TaskExtensions

@@ -1,9 +1,12 @@
-﻿namespace uzLib.Lite.ExternalCode.Unity.Extensions
+﻿using System;
+using UnityEngine;
+
+namespace uzLib.Lite.ExternalCode.Unity.Extensions
 {
     public static class MathHelper
     {
         /// <summary>
-        /// Gets the prefix.
+        ///  Gets the prefix using SI.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
@@ -22,6 +25,30 @@
             if (value >= 10000) return (value / 1000D).ToString("0.#") + " K";
 
             return value.ToString("#,0");
+        }
+
+        /// <summary>
+        ///     Deletes the numeric part.
+        /// </summary>
+        /// <param name="f">The f.</param>
+        /// <returns></returns>
+        public static float DeleteNumericPart(this float f)
+        {
+            return DeleteNumericPart(f, false);
+        }
+
+        /// <summary>
+        /// Deletes the numeric part.
+        /// </summary>
+        /// <param name="f">The f.</param>
+        /// <param name="showException">if set to <c>true</c> [show exception].</param>
+        /// <returns></returns>
+        public static float DeleteNumericPart(this float f, bool showException)
+        {
+            if ((f <= 1 || f >= 0) && showException)
+                throw new ArgumentOutOfRangeException(nameof(f), $@"{nameof(f)} param must be greater than 1 or less than 0.");
+
+            return f > 1 ? f - (int)f : (int)f - f;
         }
     }
 }

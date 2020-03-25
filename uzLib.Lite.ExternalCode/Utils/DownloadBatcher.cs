@@ -441,7 +441,7 @@ namespace uzLib.Lite.ExternalCode.Utils
             const float height = 20f,
                         border = 2f;
 
-            GUI.BeginGroup(rect, SkinWorker.DefaultSkin.box); // TODO: Depending if Editor or not use different skins, box style in the GUI.skin & SkinWorker.MySkin are broken
+            GUI.BeginGroup(rect, SkinWorker.MySkin.box); // TODO: Depending if Editor or not use different skins, box style in the GUI.skin & SkinWorker.MySkin are broken
             {
                 Color fillColor = Color.white,
                       backgroundColor = Color.gray;
@@ -479,7 +479,7 @@ namespace uzLib.Lite.ExternalCode.Utils
             {
                 if (ExceptionRect == default) throw new InvalidOperationException("Invalid Exception Rect provided.");
 
-                GUI.BeginGroup(ExceptionRect, SkinWorker.DefaultSkin.box);
+                GUI.BeginGroup(ExceptionRect, SkinWorker.MySkin.box);
                 {
                     var _rect = rect.ResetPosition();
                     var labelRect = GetRectFor(_rect, height);

@@ -284,5 +284,10 @@ namespace uzLib.Lite.ExternalCode.Unity.Extensions
 
             return comp;
         }
+
+        public static MonoBehaviour GetActiveMonoBehaviour()
+        {
+            return Object.FindObjectsOfType<MonoBehaviour>().FirstOrDefault(mono => mono.gameObject.activeSelf && mono.gameObject.activeInHierarchy);
+        }
     }
 }
