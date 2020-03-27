@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Interfaces\IStarted.cs" />
+    <Compile Include="Core\MonoSingletonSettings.cs" />
     <Compile Include="Core\Singleton.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />
     <Compile Include="Extensions\AsyncHelper.cs" />
@@ -252,23 +253,33 @@
     <Compile Include="Libs\Unity-WinForms\CommonExtensions\TextureHelper.cs" />
     <Compile Include="Libs\Unity-WinForms\CommonExtensions\TypeHelper.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\BitmapFont.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\BitmapLabel.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\BitmapLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\BitmapText.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\ColorPicker.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\ColorPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\ColorPickerForm.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Libs\Unity-WinForms\Controls\DrawListBox.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\DrawListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Axis.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\AxisCollection.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\AxisTitle.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Chart.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\DataCollection.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Highchart.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Highchart.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\HighchartTitle.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\HightchartSubtitle.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Legend.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\LegendButton.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\LegendButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\LegendItemStyle.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\PlotOptions.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\Series.cs" />
@@ -276,9 +287,15 @@
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\XAxis.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\YAxis.cs" />
     <Compile Include="Libs\Unity-WinForms\Controls\Highcharts\ZoomTypes.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\SmartLinkLabel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\TableView.cs" />
-    <Compile Include="Libs\Unity-WinForms\Controls\UIDisplayer.cs" />
+    <Compile Include="Libs\Unity-WinForms\Controls\SmartLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Controls\TableView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Controls\UIDisplayer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\Core\ApiHolder.cs" />
     <Compile Include="Libs\Unity-WinForms\Core\API\IApiGraphics.cs" />
     <Compile Include="Libs\Unity-WinForms\Core\API\IApiInput.cs" />
@@ -292,33 +309,87 @@
     <Compile Include="Libs\Unity-WinForms\Examples\FormExamples.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\BaseExamplePanel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelButton.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelChart.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelCheckBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelColorPicker.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelComboBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelDateTimePicker.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelFileDialog.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelFontDialog.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelForm.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelGroupBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelLabel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelLinkLabel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelMenuStrip.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelMonthCalendar.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelNumericUpDown.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelPanel.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelPictureBox.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelProgressBar.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelRadioButton.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelScrollBar.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelSplitContainer.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTabControl.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTableView.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTableViewLazy.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTrackBar.cs" />
-    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTreeView.cs" />
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\BaseExamplePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelChart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelColorPicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelDateTimePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelFileDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelFontDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelForm.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelLinkLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelMonthCalendar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelScrollBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelSplitContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTableView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTableViewLazy.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Libs\Unity-WinForms\Examples\Panels\PanelTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Libs\Unity-WinForms\FormattedLabel.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Drawing\Bitmap.cs" />
     <Compile Include="Libs\Unity-WinForms\System\Drawing\Brush.cs" />

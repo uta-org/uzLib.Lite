@@ -348,20 +348,16 @@ namespace uzLib.Lite.ExternalCode.Extensions
 
         public static Rect ForceContainer(this Rect rect, GUIContent content, Rect container, RectOffset offset, GUIStyle style)
         {
-            //if (style != null && !style.wordWrap)
-            //    throw new ArgumentException(@"Wordwrap must be active on this style!", nameof(style));
-
             if (rect == default) throw new ArgumentNullException(nameof(rect));
             if (content == null) throw new ArgumentNullException(nameof(content));
 
             if (style == null) style = SkinWorker.MySkin.label;
-            //if (style == null) style = new GUIStyle(SkinWorker.MySkin.label) { wordWrap = true };
             if (offset == null) offset = new RectOffset();
 
-            var size = style.CalcSize(content);
+            //var size = style.CalcSize(content);
 
-            if (size.x > container.width)
-                content = new GUIContent(content.text.Wrap(container.width));
+            //if (size.x > container.width)
+            //    content = new GUIContent(content.text.Wrap(container.width));
 
             var width = container.width - (offset.left - offset.right);
             var height = style.CalcHeight(content, width);

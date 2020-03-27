@@ -646,6 +646,7 @@
     <Compile Include="Core\Input\SmartPsswrd.cs" />
     <Compile Include="Core\Interfaces\IStarted.cs" />
     <Compile Include="Core\MonoSingleton.cs" />
+    <Compile Include="Core\MonoSingletonSettings.cs" />
     <Compile Include="Core\Persistent.cs" />
     <Compile Include="Core\Singleton.cs" />
     <Compile Include="Extensions\ArrayHelper.cs" />

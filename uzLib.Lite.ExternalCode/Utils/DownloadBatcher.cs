@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
+using UnityEngine.Extensions;
 using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
 using UnityEngine.UI.Controls;
 using UnityEngine.Utils.DebugTools;
 using UnityEngine.Utils.Interfaces;
 using uzLib.Lite.ExternalCode.Unity.Extensions;
+using uzLib.Lite.ExternalCode.Unity.Utils;
 using uzLib.Lite.ExternalCode.Utils.Interfaces;
 using uzLib.Lite.ExternalCode.WinFormsSkins.Core;
 using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
@@ -104,6 +106,16 @@ namespace uzLib.Lite.ExternalCode.Utils
         private GUIStyle m_RedLabel;
 
         /// <summary>
+        /// The white label style
+        /// </summary>
+        private GUIStyle m_WhiteLabel;
+
+        /// <summary>
+        /// The editor box style
+        /// </summary>
+        private GUIStyle m_EditorBoxStyle;
+
+        /// <summary>
         /// Occurs when [on finished asynchronous].
         /// </summary>
         public event Action<dynamic> OnFinishedAsync = delegate { };
@@ -115,8 +127,6 @@ namespace uzLib.Lite.ExternalCode.Utils
         {
             m_Queue = new ConcurrentQueue<T>();
             m_WebClients = new List<WebClient>();
-
-            m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
         }
 
         /// <summary>
@@ -443,7 +453,12 @@ namespace uzLib.Lite.ExternalCode.Utils
             }
 
             if (m_RedLabel == null)
-                m_RedLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.red } };
+            {
+                m_RedLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.red }, wordWrap = true };
+                m_WhiteLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.white } };
+                m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
+                m_EditorBoxStyle = new GUIStyle(SkinWorker.MySkin.box) { normal = new GUIStyleState { background = new Color(0, 0, 0, .8f).ToTexture(16, 16) } };
+            }
 
             const float height = 20f,
                         border = 2f;
@@ -491,22 +506,18 @@ namespace uzLib.Lite.ExternalCode.Utils
 
                 var exceptionRectPadding = ExceptionRect.SumLeft(10).RestWidth(20);
 
-                float summedHeight = 0;
-                GUI.BeginGroup(ExceptionRect, SkinWorker.MySkin.box);
+                GUILayout.BeginArea(exceptionRectPadding, !ScenePlaybackDetector.IsPlaying ? m_EditorBoxStyle : SkinWorker.MySkin.box);
                 {
-                    // TODO: Use GUILayout
+                    GUILayout.Label("Exception occurred!", !ScenePlaybackDetector.IsPlaying ? m_WhiteLabel : m_BlackLabelStyle);
 
-                    var _rect = rect.ResetPosition();
-
-                    var titleRect = GetRectFor(_rect, height).RestTop(10);
-
-                    GUI.Label(titleRect, "Exception occurred!", m_BlackLabelStyle);
-                    summedHeight += titleRect.height;
-
-                    var lineRect = titleRect.SumTop(summedHeight + 5).ForceHeight(1);
+                    var lastRect = GUILayoutUtility.GetLastRect();
+                    var lineRect = lastRect.ForceHeight(1).SumTop(30); // TODO: Get from style
                     GuiHelper.DrawLine(lineRect.min, lineRect.max.RestY(1), Color.gray);
 
-                    var closeButton = titleRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
+                    var _rect = rect.ResetPosition();
+                    var closeButtonRect = GetRectFor(_rect, height).RestLeft(32 - 5).ForceBoth(24, 24);
+
+                    var closeButton = closeButtonRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
 
                     if (CustomGUI.Button(closeButton, "x", Color.red))
                     {
@@ -514,22 +525,18 @@ namespace uzLib.Lite.ExternalCode.Utils
                         CurrentDownload = default;
                     }
 
-                    var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $" Reason: {ExceptionReason}"));
-                    var labelRect = titleRect.SumTop(25);
-                    labelRect = labelRect.ForceContainer(labelContent, exceptionRectPadding);
+                    GUILayout.BeginVertical();
+                    {
+                        GUILayout.FlexibleSpace();
 
-                    Debug.Log(labelRect);
+                        var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $"\r\nReason: {ExceptionReason}"));
+                        GUILayout.Label(labelContent, m_RedLabel);
 
-                    GUI.Label(labelRect, labelContent, m_RedLabel);
-                    summedHeight += labelRect.height;
-                }
-                GUI.EndGroup();
+                        ExceptionUI?.Invoke();
 
-                // TODO: Does this work on editor?
-                var exRect = exceptionRectPadding.SumTop(summedHeight).RestHeight(summedHeight);
-                GUILayout.BeginArea(exRect);
-                {
-                    ExceptionUI?.Invoke();
+                        GUILayout.FlexibleSpace();
+                    }
+                    GUILayout.EndVertical();
                 }
                 GUILayout.EndArea();
             }

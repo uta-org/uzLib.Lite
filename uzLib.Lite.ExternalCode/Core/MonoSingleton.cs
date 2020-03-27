@@ -30,8 +30,13 @@ namespace uzLib.Lite.ExternalCode.Core
                 {
                     // FIX: Shutting down takes affect after playing a scene, this makes (ie) SteamWorkshopWrapper unavailable on Editor
                     // (check for ExecuteInEditrMode attribute, if available, shutthing down shuld not be performed)
-                    Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
-                                     "' already destroyed. Returning null.");
+                    // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+                    if (MonoSingletonSettings.ShowWarning)
+#pragma warning disable 162
+                        // ReSharper disable once HeuristicUnreachableCode
+                        Debug.LogWarning("[Singleton] Instance '" + typeof(T) +
+                                         "' already destroyed. Returning null.");
+#pragma warning restore 162
                     return null;
                 }
 
