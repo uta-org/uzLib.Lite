@@ -457,7 +457,7 @@ namespace uzLib.Lite.ExternalCode.Utils
                 m_RedLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.red }, wordWrap = true };
                 m_WhiteLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.white } };
                 m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
-                m_EditorBoxStyle = new GUIStyle(SkinWorker.MySkin.box) { normal = new GUIStyleState { background = new Color(0, 0, 0, .8f).ToTexture(16, 16) } };
+                m_EditorBoxStyle = new GUIStyle(SkinWorker.MySkin.box) { normal = new GUIStyleState { background = new Color(0, 0, 0, .85f).ToTexture(16, 16) } };
             }
 
             const float height = 20f,
@@ -499,47 +499,47 @@ namespace uzLib.Lite.ExternalCode.Utils
                 }
                 GUI.EndGroup();
             }
-            else
-            {
-                if (ExceptionRect == default)
-                    throw new InvalidOperationException("Invalid Exception Rect provided.");
+            //else
+            //{
+            //    if (ExceptionRect == default)
+            //        throw new InvalidOperationException("Invalid Exception Rect provided.");
 
-                var exceptionRectPadding = ExceptionRect.SumLeft(10).RestWidth(20);
+            //    var exceptionRectPadding = ExceptionRect.SumLeft(10).RestWidth(20);
 
-                GUILayout.BeginArea(exceptionRectPadding, !ScenePlaybackDetector.IsPlaying ? m_EditorBoxStyle : SkinWorker.MySkin.box);
-                {
-                    GUILayout.Label("Exception occurred!", !ScenePlaybackDetector.IsPlaying ? m_WhiteLabel : m_BlackLabelStyle);
+            //    GUILayout.BeginArea(exceptionRectPadding, !ScenePlaybackDetector.IsPlaying ? m_EditorBoxStyle : SkinWorker.MySkin.box);
+            //    {
+            //        GUILayout.Label("Exception occurred!", !ScenePlaybackDetector.IsPlaying ? m_WhiteLabel : m_BlackLabelStyle);
 
-                    var lastRect = GUILayoutUtility.GetLastRect();
-                    var lineRect = lastRect.ForceHeight(1).SumTop(30); // TODO: Get from style
-                    GuiHelper.DrawLine(lineRect.min, lineRect.max.RestY(1), Color.gray);
+            //        var lastRect = GUILayoutUtility.GetLastRect();
+            //        var lineRect = lastRect.ForceHeight(1).SumTop(30); // TODO: Get from style
+            //        GuiHelper.DrawLine(lineRect.min, lineRect.max.RestY(1), Color.gray);
 
-                    var _rect = rect.ResetPosition();
-                    var closeButtonRect = GetRectFor(_rect, height).RestLeft(32 - 5).ForceBoth(24, 24);
+            //        var _rect = rect.ResetPosition();
+            //        var closeButtonRect = GetRectFor(_rect, height).RestLeft(32 - 5).ForceBoth(24, 24);
 
-                    var closeButton = closeButtonRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
+            //        var closeButton = closeButtonRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
 
-                    if (CustomGUI.Button(closeButton, "x", Color.red))
-                    {
-                        m_DownloadHasException = false;
-                        CurrentDownload = default;
-                    }
+            //        if (CustomGUI.Button(closeButton, "x", Color.red))
+            //        {
+            //            m_DownloadHasException = false;
+            //            CurrentDownload = default;
+            //        }
 
-                    GUILayout.BeginVertical();
-                    {
-                        GUILayout.FlexibleSpace();
+            //        GUILayout.BeginVertical();
+            //        {
+            //            GUILayout.FlexibleSpace();
 
-                        var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $"\r\nReason: {ExceptionReason}"));
-                        GUILayout.Label(labelContent, m_RedLabel);
+            //            var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $"\r\nReason: {ExceptionReason}"));
+            //            GUILayout.Label(labelContent, m_RedLabel);
 
-                        ExceptionUI?.Invoke();
+            //            ExceptionUI?.Invoke();
 
-                        GUILayout.FlexibleSpace();
-                    }
-                    GUILayout.EndVertical();
-                }
-                GUILayout.EndArea();
-            }
+            //            GUILayout.FlexibleSpace();
+            //        }
+            //        GUILayout.EndVertical();
+            //    }
+            //    GUILayout.EndArea();
+            //}
 
             if (!m_PendingAsyncDownloadsFlag)
             {
