@@ -765,6 +765,7 @@
     <Compile Include="Utils\DownloadBatcher.cs" />
     <Compile Include="Utils\Enums.cs" />
     <Compile Include="Unity\Utils\MonoUtils.cs" />
+    <Compile Include="Utils\Interfaces\IDownloadManager.cs" />
     <Compile Include="Utils\Interfaces\IFileModel.cs" />
     <Compile Include="Utils\Model\FileModel.cs" />
     <Compile Include="Utils\NetRequester.cs" />

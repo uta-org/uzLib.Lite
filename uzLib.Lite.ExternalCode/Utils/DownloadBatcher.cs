@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using UnityEngine;
-using UnityEngine.Extensions;
 using UnityEngine.Global.IMGUI;
 using UnityEngine.UI;
-using UnityEngine.UI.Controls;
 using UnityEngine.Utils.DebugTools;
 using UnityEngine.Utils.Interfaces;
 using uzLib.Lite.ExternalCode.Unity.Extensions;
-using uzLib.Lite.ExternalCode.Unity.Utils;
 using uzLib.Lite.ExternalCode.Utils.Interfaces;
-using uzLib.Lite.ExternalCode.WinFormsSkins.Core;
 using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
@@ -24,6 +20,27 @@ namespace uzLib.Lite.ExternalCode.Utils
 {
     using Extensions;
 
+    public class DownloadBatcher<T, TFile> : DownloadBatcher<T, TFile, WebClient>
+        where TFile : IFileModel
+        where T : IDownloadItem<TFile>, new()
+    {
+        public DownloadBatcher(Action<byte[], T> callback) : base(callback)
+        {
+        }
+
+        public DownloadBatcher(Action<byte[], T, IProgress<float>> callback, float callbackLoadPercentage) : base(callback, callbackLoadPercentage)
+        {
+        }
+
+        public DownloadBatcher(Func<byte[], T, dynamic> callback) : base(callback)
+        {
+        }
+
+        public DownloadBatcher(Func<byte[], T, IProgress<float>, dynamic> callback, float callbackLoadPercentage) : base(callback, callbackLoadPercentage)
+        {
+        }
+    }
+
     /// <summary>
     ///     The Download Batcher class
     /// </summary>
@@ -31,9 +48,10 @@ namespace uzLib.Lite.ExternalCode.Utils
     /// <typeparam name="TFile">The type of the file.</typeparam>
     /// <seealso cref="System.IDisposable" />
     /// <seealso cref="IDisposable" />
-    public class DownloadBatcher<T, TFile> : IDisposable
+    public class DownloadBatcher<T, TFile, TManagerType> : IDisposable
         where TFile : IFileModel
-        where T : IDownloadItem<TFile>
+        where T : IDownloadItem<TFile>, new()
+        where TManagerType : new()
     {
         /// <summary>
         ///     The current pending items
@@ -98,22 +116,22 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// <summary>
         ///     The web clients
         /// </summary>
-        private readonly List<WebClient> m_WebClients;
+        private readonly List<IDownloadManager<dynamic>> m_Managers;
 
         /// <summary>
         /// The red label style
         /// </summary>
         private GUIStyle m_RedLabel;
 
-        /// <summary>
-        /// The white label style
-        /// </summary>
-        private GUIStyle m_WhiteLabel;
+        ///// <summary>
+        ///// The white label style
+        ///// </summary>
+        //private GUIStyle m_WhiteLabel;
 
-        /// <summary>
-        /// The editor box style
-        /// </summary>
-        private GUIStyle m_EditorBoxStyle;
+        ///// <summary>
+        ///// The editor box style
+        ///// </summary>
+        //private GUIStyle m_EditorBoxStyle;
 
         /// <summary>
         /// Occurs when [on finished asynchronous].
@@ -126,7 +144,9 @@ namespace uzLib.Lite.ExternalCode.Utils
         private DownloadBatcher()
         {
             m_Queue = new ConcurrentQueue<T>();
-            m_WebClients = new List<WebClient>();
+            m_Managers = new List<IDownloadManager<dynamic>>();
+
+            //SetManager<DefaultManager>(new DefaultManager());
         }
 
         /// <summary>
@@ -312,32 +332,42 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// </value>
         public Rect ExceptionRect { get; set; }
 
+        public Func<IDownloadManager<dynamic>> OnExceptionResolver { get; set; }
+        public Func<TFile, object> ResolveObject { get; set; }
+
         // TODO: Create extension method, customgui.label, and refactor into UIUtils
-        private GUIStyle m_BlackLabelStyle;
+        //private GUIStyle m_BlackLabelStyle;
 
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
         public void Dispose()
         {
-            foreach (var webClient in m_WebClients) webClient.Dispose();
+            foreach (var manager in m_Managers)
+            {
+                if (manager is IDisposable disposableObject)
+                {
+                    disposableObject.Dispose();
+                }
+            }
         }
 
         /// <summary>
-        /// Creates the new web client.
+        /// Creates a new manager.
         /// </summary>
         /// <returns></returns>
-        private WebClient CreateNewWebClient()
+        private IDownloadManager<dynamic> CreateManager()
         {
             if (!m_ThreadSafe)
                 m_PendingAsyncDownloadsFlag = false;
 
-            var webClient = new WebClient();
+            var manager = new DefaultManager();
+            // Activator.CreateInstance<IDownloadManager<TManagerType>>();
 
-            webClient.DownloadProgressChanged += WebClient_DownloadProgressChanged;
-            webClient.DownloadDataCompleted += WebClient_DownloadDataCompleted;
+            manager.DownloadProgressChanged += DownloadProgressChanged;
+            manager.DownloadCompleted += DownloadDataCompleted;
 
-            return webClient;
+            return manager;
         }
 
         /// <summary>
@@ -349,27 +379,21 @@ namespace uzLib.Lite.ExternalCode.Utils
             m_ReportedProgress = value;
         }
 
-        /// <summary>
-        ///     Handles the DownloadDataCompleted event of the WebClient control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DownloadDataCompletedEventArgs" /> instance containing the event data.</param>
-        private void WebClient_DownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+        private void DownloadDataCompleted(object managerObj, byte[] result)
         {
-            var webClient = sender as WebClient;
-
-            if (webClient == null)
+            if (managerObj == null)
                 throw new NullReferenceException("Something unexpected happened with WebClient!");
 
-            webClient.DownloadProgressChanged -= WebClient_DownloadProgressChanged;
-            webClient.DownloadDataCompleted -= WebClient_DownloadDataCompleted;
+            var manager = (IDownloadManager<dynamic>)managerObj;
+            manager.UnloadEvents();
 
             // Dispose
 
-            if (!m_WebClients.Remove(webClient))
+            if (!m_Managers.Remove(manager))
                 Debug.LogError("Couldn't find any web client to remove!");
 
-            webClient.Dispose();
+            if (manager.Target is IDisposable disposable)
+                disposable.Dispose();
 
             m_DownloadAvailable = true;
             m_DoingCallback = true;
@@ -377,9 +401,9 @@ namespace uzLib.Lite.ExternalCode.Utils
             if (m_ThreadSafe)
             {
                 if (m_ProgressValue == null)
-                    DataDownloaded(e.Result, CurrentDownload);
+                    DataDownloaded(result, CurrentDownload);
                 else
-                    DataDownloadedWithProgress(e.Result, CurrentDownload, m_ProgressValue);
+                    DataDownloadedWithProgress(result, CurrentDownload, m_ProgressValue);
 
                 m_DoingCallback = false;
             }
@@ -388,21 +412,21 @@ namespace uzLib.Lite.ExternalCode.Utils
                 Func<dynamic> action;
 
                 if (m_ProgressValue == null)
-                    action = () => DataDownloadedAsync(e.Result, CurrentDownload);
+                    action = () => DataDownloadedAsync(result, CurrentDownload);
                 else
-                    action = () => DataDownloadedWithProgressAsync(e.Result, CurrentDownload, m_ProgressValue);
+                    action = () => DataDownloadedWithProgressAsync(result, CurrentDownload, m_ProgressValue);
 
                 // If we are on async mode, we must call the callback first to avoid NREs
-                Action<dynamic> onFinish = dyn =>
+                void OnFinish(dynamic dyn)
                 {
                     OnFinishedAsync(dyn);
 
                     m_DoingCallback = false;
                     if (m_Queue.Count == 0)
                         CurrentDownload = default;
-                };
+                }
 
-                action.RunAsync(onFinish);
+                action.RunAsync(OnFinish);
             }
 
             if (m_Queue.Count > 0)
@@ -429,12 +453,12 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DownloadProgressChangedEventArgs" /> instance containing the event data.</param>
-        private void WebClient_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void DownloadProgressChanged(ulong bytesReceived, ulong totalBytesToReceive)
         {
-            m_CurrentProgress = (float)e.BytesReceived / e.TotalBytesToReceive;
+            m_CurrentProgress = (float)bytesReceived / totalBytesToReceive;
 
-            m_MeasuredBytes = e.BytesReceived;
-            m_TotalBytes = e.TotalBytesToReceive;
+            m_MeasuredBytes = (long)bytesReceived;
+            m_TotalBytes = (long)totalBytesToReceive;
 
             //Debug.Log($"Current progress {(m_CurrentProgress * 100f).ToString("F2")}% of download ({e.BytesReceived} bytes of {e.TotalBytesToReceive})");
         }
@@ -455,9 +479,9 @@ namespace uzLib.Lite.ExternalCode.Utils
             if (m_RedLabel == null)
             {
                 m_RedLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.red }, wordWrap = true };
-                m_WhiteLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.white } };
-                m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
-                m_EditorBoxStyle = new GUIStyle(SkinWorker.MySkin.box) { normal = new GUIStyleState { background = new Color(0, 0, 0, .85f).ToTexture(16, 16) } };
+                // m_WhiteLabel = new GUIStyle("label") { normal = new GUIStyleState { textColor = Color.white } };
+                // m_BlackLabelStyle = new GUIStyle(SkinWorker.MySkin.label) { normal = new GUIStyleState { textColor = Color.black } };
+                // m_EditorBoxStyle = new GUIStyle(SkinWorker.MySkin.box) { normal = new GUIStyleState { background = new Color(0, 0, 0, .85f).ToTexture(16, 16) } };
             }
 
             const float height = 20f,
@@ -578,24 +602,31 @@ namespace uzLib.Lite.ExternalCode.Utils
             if (!m_DownloadAvailable)
                 return BatcherState.DownloadingItems;
 
-            var webClient = CreateNewWebClient();
+            var manager = CreateManager();
 
             try
             {
-                webClient.DownloadDataAsync(new Uri(CurrentDownload.FileModel.FileUrl));
-                m_WebClients.Add(webClient);
-
-                m_DownloadAvailable = false;
+                manager.DownloadDataAsync(new Uri(CurrentDownload.FileModel.FileUrl));
             }
             catch
             {
-                Debug.LogError($"[{CurrentDownload.FileModel.FileUrl}] Error occurred while downloading with Batcher!");
+                if (OnExceptionResolver == null)
+                {
+                    Debug.LogError($"[{CurrentDownload.FileModel.FileUrl}] Error occurred while downloading with Batcher!");
 
-                webClient.Dispose();
+                    if (manager.Target is IDisposable disposable)
+                        disposable.Dispose();
 
-                m_DownloadAvailable = false;
-                return BatcherState.Exception;
+                    m_DownloadAvailable = false;
+                    return BatcherState.Exception;
+                }
+
+                manager = OnExceptionResolver();
+                manager.DownloadDataAsync(ResolveObject(CurrentDownload.FileModel));
             }
+
+            m_Managers.Add(manager);
+            m_DownloadAvailable = false;
 
             return BatcherState.CreatedWebClient;
         }
@@ -610,7 +641,7 @@ namespace uzLib.Lite.ExternalCode.Utils
                 var diff = m_MeasuredBytes - m_LastMeasuredBytes;
                 if (diff == 0) diff = 1;
 
-                m_LastMeasuredSeconds = m_TotalBytes / diff / secDiff;
+                m_LastMeasuredSeconds = (float)m_TotalBytes / diff / secDiff;
                 m_LastMeasuredBytes = m_MeasuredBytes;
 
                 var rate = diff / secDiff;
@@ -694,6 +725,63 @@ namespace uzLib.Lite.ExternalCode.Utils
             if (index == -1) throw new Exception("Item didn't found on queue!");
 
             m_Queue.RemoveAt(index);
+        }
+
+        //public void SetManager<TManager, TManagerType>(TManager target)
+        //    where TManagerType : new()
+        //    where TManager : IDownloadManager<TManagerType>
+        //{
+        //    Manager = target;
+        //}
+
+        //public IDownloadManager<TManagerType> GetManager<TManagerType>(object obj)
+        //    where TManagerType : new()
+        //{
+        //    return (IDownloadManager<TManagerType>)obj;
+        //}
+
+        //private object Manager;
+
+        internal class DefaultManager : IDownloadManager<WebClient>, IDisposable
+        {
+            public WebClient Target { get; }
+
+            public event Action<ulong, ulong> DownloadProgressChanged = delegate { };
+
+            public event Action<object, byte[]> DownloadCompleted = delegate { };
+
+            public void UnloadEvents()
+            {
+                Target.DownloadProgressChanged -= OnDownloadProgressChanged;
+                Target.DownloadDataCompleted -= OnDownloadDataCompleted;
+            }
+
+            public void DownloadDataAsync(object fromWhere)
+            {
+                Target.DownloadDataAsync(new Uri((string)fromWhere));
+            }
+
+            public DefaultManager()
+            {
+                Target = new WebClient();
+                Target.DownloadProgressChanged += OnDownloadProgressChanged;
+                Target.DownloadDataCompleted += OnDownloadDataCompleted;
+            }
+
+            private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+            {
+                DownloadProgressChanged((ulong)e.BytesReceived, (ulong)e.TotalBytesToReceive);
+            }
+
+            private void OnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
+            {
+                DownloadCompleted((WebClient)sender, e.Result);
+            }
+
+            public void Dispose()
+            {
+                Target?.Dispose();
+            }
         }
     }
 }
