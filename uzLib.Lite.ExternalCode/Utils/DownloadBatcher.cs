@@ -101,16 +101,6 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// </summary>
         private GUIStyle m_RedLabel;
 
-        ///// <summary>
-        ///// The white label style
-        ///// </summary>
-        //private GUIStyle m_WhiteLabel;
-
-        ///// <summary>
-        ///// The editor box style
-        ///// </summary>
-        //private GUIStyle m_EditorBoxStyle;
-
         /// <summary>
         /// Occurs when [on finished asynchronous].
         /// </summary>
@@ -286,35 +276,8 @@ namespace uzLib.Lite.ExternalCode.Utils
         /// </value>
         public BatcherState BatcherState { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the exception reason.
-        /// </summary>
-        /// <value>
-        /// The exception reason.
-        /// </value>
-        public string ExceptionReason { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exception UI.
-        /// </summary>
-        /// <value>
-        /// The exception UI.
-        /// </value>
-        public Action ExceptionUI { get; set; }
-
-        /// <summary>
-        /// Gets or sets the exception rect.
-        /// </summary>
-        /// <value>
-        /// The exception rect.
-        /// </value>
-        public Rect ExceptionRect { get; set; }
-
         public Func<IDownloadManager<dynamic>> OnExceptionResolver { get; set; }
         public Func<TFile, object> ResolveObject { get; set; }
-
-        // TODO: Create extension method, customgui.label, and refactor into UIUtils
-        //private GUIStyle m_BlackLabelStyle;
 
         /// <summary>
         ///     Releases unmanaged and - optionally - managed resources.
@@ -359,11 +322,11 @@ namespace uzLib.Lite.ExternalCode.Utils
 
         private void DownloadDataCompleted(object managerObj, byte[] result)
         {
-            if (managerObj == null)
-                throw new NullReferenceException("Something unexpected happened with WebClient!");
+            //if (managerObj == null)
+            //    throw new NullReferenceException("Something unexpected happened with WebClient!");
 
             var manager = (IDownloadManager<dynamic>)managerObj;
-            manager.UnloadEvents();
+            manager?.UnloadEvents();
 
             // Dispose
 
@@ -501,47 +464,6 @@ namespace uzLib.Lite.ExternalCode.Utils
                 }
                 GUI.EndGroup();
             }
-            //else
-            //{
-            //    if (ExceptionRect == default)
-            //        throw new InvalidOperationException("Invalid Exception Rect provided.");
-
-            //    var exceptionRectPadding = ExceptionRect.SumLeft(10).RestWidth(20);
-
-            //    GUILayout.BeginArea(exceptionRectPadding, !ScenePlaybackDetector.IsPlaying ? m_EditorBoxStyle : SkinWorker.MySkin.box);
-            //    {
-            //        GUILayout.Label("Exception occurred!", !ScenePlaybackDetector.IsPlaying ? m_WhiteLabel : m_BlackLabelStyle);
-
-            //        var lastRect = GUILayoutUtility.GetLastRect();
-            //        var lineRect = lastRect.ForceHeight(1).SumTop(30); // TODO: Get from style
-            //        GuiHelper.DrawLine(lineRect.min, lineRect.max.RestY(1), Color.gray);
-
-            //        var _rect = rect.ResetPosition();
-            //        var closeButtonRect = GetRectFor(_rect, height).RestLeft(32 - 5).ForceBoth(24, 24);
-
-            //        var closeButton = closeButtonRect.SumLeft(ExceptionRect.width - 32 - 5).ForceBoth(24, 24).RestTop(5);
-
-            //        if (CustomGUI.Button(closeButton, "x", Color.red))
-            //        {
-            //            m_DownloadHasException = false;
-            //            CurrentDownload = default;
-            //        }
-
-            //        GUILayout.BeginVertical();
-            //        {
-            //            GUILayout.FlexibleSpace();
-
-            //            var labelContent = new GUIContent("The current downloaded item had an exception." + (string.IsNullOrEmpty(ExceptionReason) ? string.Empty : $"\r\nReason: {ExceptionReason}"));
-            //            GUILayout.Label(labelContent, m_RedLabel);
-
-            //            ExceptionUI?.Invoke();
-
-            //            GUILayout.FlexibleSpace();
-            //        }
-            //        GUILayout.EndVertical();
-            //    }
-            //    GUILayout.EndArea();
-            //}
 
             if (!m_PendingAsyncDownloadsFlag)
             {
@@ -753,7 +675,7 @@ namespace uzLib.Lite.ExternalCode.Utils
 
             private void OnDownloadDataCompleted(object sender, DownloadDataCompletedEventArgs e)
             {
-                DownloadCompleted((WebClient)sender, e.Result);
+                DownloadCompleted(sender, e.Result);
             }
 
             public void Dispose()
