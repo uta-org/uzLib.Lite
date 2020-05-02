@@ -20,27 +20,6 @@ namespace uzLib.Lite.ExternalCode.Utils
 {
     using Extensions;
 
-    public class DownloadBatcher<T, TFile> : DownloadBatcher<T, TFile, WebClient>
-        where TFile : IFileModel
-        where T : IDownloadItem<TFile>, new()
-    {
-        public DownloadBatcher(Action<byte[], T> callback) : base(callback)
-        {
-        }
-
-        public DownloadBatcher(Action<byte[], T, IProgress<float>> callback, float callbackLoadPercentage) : base(callback, callbackLoadPercentage)
-        {
-        }
-
-        public DownloadBatcher(Func<byte[], T, dynamic> callback) : base(callback)
-        {
-        }
-
-        public DownloadBatcher(Func<byte[], T, IProgress<float>, dynamic> callback, float callbackLoadPercentage) : base(callback, callbackLoadPercentage)
-        {
-        }
-    }
-
     /// <summary>
     ///     The Download Batcher class
     /// </summary>
@@ -48,10 +27,9 @@ namespace uzLib.Lite.ExternalCode.Utils
     /// <typeparam name="TFile">The type of the file.</typeparam>
     /// <seealso cref="System.IDisposable" />
     /// <seealso cref="IDisposable" />
-    public class DownloadBatcher<T, TFile, TManagerType> : IDisposable
+    public class DownloadBatcher<T, TFile> : IDisposable
         where TFile : IFileModel
-        where T : IDownloadItem<TFile>, new()
-        where TManagerType : new()
+        where T : IDownloadItem<TFile>
     {
         /// <summary>
         ///     The current pending items
