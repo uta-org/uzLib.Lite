@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace UnityEngine.Extensions
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
     /// <summary>
     /// The ColorHelper class
     /// </summary>
@@ -179,4 +181,5 @@ namespace UnityEngine.Extensions
         //        c.B.RoundOff(roundTo));
         //}
     }
+#endif
 }

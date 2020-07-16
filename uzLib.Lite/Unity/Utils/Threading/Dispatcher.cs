@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace UnityEngine.Utils.Threading
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
     //[AutoInstantiate]
     public class Dispatcher : MonoBehaviour
     {
@@ -119,4 +120,5 @@ namespace UnityEngine.Utils.Threading
                 yield return null;
         }
     }
+#endif
 }

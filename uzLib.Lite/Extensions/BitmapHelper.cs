@@ -1,15 +1,28 @@
 ﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+extern alias SysDrawing;
+// extern alias SysDrawingImaging;
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 using _System.Drawing;
+#else
+
+using SysDrawing::System.Drawing;
+
+//using System.Drawing.Imaging;
+
+#endif
 
 #endif
 
 namespace uzLib.Lite.Extensions
 {
+    extern alias SysDrawing;
+
     /// <summary>
     /// The BitmapHelper helper
     /// </summary>
@@ -26,12 +39,24 @@ namespace uzLib.Lite.Extensions
         /// To the color.
         /// </summary>
         /// <param name="bmp">The BMP.</param>
-        /// <returns></returns>
-        public static IEnumerable<System.Drawing.Color> ToColor(this _System.Drawing.Bitmap bmp)
+        /// <returns></returns>/ *
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+        public static IEnumerable<Color> ToColor(this SystemBitmap bmp)
         {
-            _System.Drawing.Rectangle rect = new _System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height);
-            _System.Drawing.Imaging.BitmapData bmpData = bmp.LockBits(rect, _System.Drawing.Imaging.ImageLockMode.ReadWrite,
+            SystemRectangle rect = new SystemRectangle(0, 0, bmp.Width, bmp.Height);
+            SystemImaging.BitmapData bmpData = bmp.LockBits(rect, SystemImaging.ImageLockMode.ReadWrite,
                 bmp.PixelFormat);
+#else
+
+        public static IEnumerable<Color> ToColor(this Bitmap bmp)
+        {
+            Rectangle rect = new Rectangle(0, 0, bmp.Width, bmp.Height);
+            //SystemImaging.BitmapData bmpData = bmp.LockBits(rect, SystemImaging.ImageLockMode.ReadWrite,
+            //    bmp.PixelFormat);
+
+            // TODO
+            dynamic bmpData = default;
+#endif
 
             IntPtr ptr = bmpData.Scan0;
 
@@ -52,7 +77,11 @@ namespace uzLib.Lite.Extensions
                     byte g = (byte)rgbValues[column * BmpStride + row * 4 + 1];
                     byte r = (byte)rgbValues[column * BmpStride + row * 4 + 2];
 
-                    yield return _System.Drawing.Color.FromArgb(255, r, g, b);
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+                    yield return SystemColor.FromArgb(255, r, g, b);
+#else
+                    yield return Color.FromArgb(255, r, g, b);
+#endif
                 }
             }
 
@@ -67,7 +96,12 @@ namespace uzLib.Lite.Extensions
         /// <param name="width">The width.</param>
         /// <param name="height">The height.</param>
         /// <param name="path">The path.</param>
-        public static void SaveBitmap(this _System.Drawing.Color[] bmp, int width, int height, string path)
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+        public static void SaveBitmap(this SystemColor[] bmp, int width, int height, string path)
+#else
+
+        public static void SaveBitmap(this Color[] bmp, int width, int height, string path)
+#endif
         {
             int stride = BmpStride;
             byte[] rgbValues = new byte[BmpStride * height];

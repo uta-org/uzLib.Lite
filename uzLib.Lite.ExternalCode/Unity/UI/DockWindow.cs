@@ -162,9 +162,11 @@ namespace UnityEngine.UI
 
         public DockWindow<T> Start(string title, ICommonUI<T> worker, Action editorGUI = null)
         {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             // Sloppy patch
             if (IsStarted && ScenePlaybackDetector.IsPlaying)
                 IsStarted = false;
+#endif
 
             if (!IsStarted)
             {

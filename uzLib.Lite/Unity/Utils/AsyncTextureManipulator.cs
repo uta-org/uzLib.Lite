@@ -1,15 +1,19 @@
 ﻿using System;
-using Unity.Collections;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms.VisualStyles;
 using System.Drawing;
-using Unity.Jobs;
 using uzLib.Lite.Extensions;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+using Unity.Collections;
+using Unity.Jobs;
+#endif
 
 namespace UnityEngine.Utils
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
     using Core;
     using Extensions;
 
@@ -327,4 +331,5 @@ namespace UnityEngine.Utils
         }
      *
      */
+#endif
 }

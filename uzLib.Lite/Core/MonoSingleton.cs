@@ -3,6 +3,7 @@ using UnityEngine.Extensions;
 
 namespace UnityEngine.Core
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
     /// <summary>
     ///     Inherit from this base class to create a singleton.
     ///     e.g. public class MyClassName : Singleton<MyClassName> {}
@@ -86,4 +87,5 @@ namespace UnityEngine.Core
             if (!ExecuteInEditMode) m_ShuttingDown = true;
         }
     }
+#endif
 }

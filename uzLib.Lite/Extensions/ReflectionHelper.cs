@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 using Debug = UnityEngine.Debug;
 
 namespace uzLib.Lite.Extensions
@@ -49,3 +51,4 @@ namespace uzLib.Lite.Extensions
         }
     }
 }
+#endif

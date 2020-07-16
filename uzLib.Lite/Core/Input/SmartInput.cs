@@ -1,14 +1,24 @@
 ﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+extern alias SysDrawing;
 
 using System;
 using System.Globalization;
 using System.Text;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 using _System.Drawing;
+#else
+
+using SysDrawing::System.Drawing;
+
+#endif
 
 using Console = Colorful.Console;
 
 namespace uzLib.Lite.Core.Input
 {
+    extern alias SysDrawing;
+
     /// <summary>
     /// The SmartInput class
     /// </summary>
@@ -21,7 +31,7 @@ namespace uzLib.Lite.Core.Input
         /// <returns></returns>
         public static bool NextConfirm(string title)
         {
-            return NextConfirm(title, _System.Drawing.Color.LightGray);
+            return NextConfirm(title, Color.LightGray);
         }
 
         /// <summary>
@@ -30,7 +40,7 @@ namespace uzLib.Lite.Core.Input
         /// <param name="title">The title.</param>
         /// <param name="color">The color.</param>
         /// <returns></returns>
-        public static bool NextConfirm(string title, _System.Drawing.Color color)
+        public static bool NextConfirm(string title, Color color)
         {
             ConsoleKey response;
             do

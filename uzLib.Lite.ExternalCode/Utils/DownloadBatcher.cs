@@ -333,7 +333,7 @@ namespace uzLib.Lite.ExternalCode.Utils
             if (!m_Managers.Remove(manager))
                 Debug.LogError("Couldn't find any web client to remove!");
 
-            if (manager.Target is IDisposable disposable)
+            if (manager?.Target is IDisposable disposable)
                 disposable.Dispose();
 
             m_DownloadAvailable = true;

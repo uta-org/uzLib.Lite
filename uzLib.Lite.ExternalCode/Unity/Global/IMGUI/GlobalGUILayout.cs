@@ -256,7 +256,9 @@ namespace UnityEngine.Global.IMGUI
             public string EditorTitle { get; set; } = "Select a file";
             public string[] EditorFilters { get; set; } = { "Image files", "png, jpg, jpeg, bmp, gif, tif" };
 
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             internal bool IsEditor => !ScenePlaybackDetector.IsPlaying;
+#endif
 
             public Rect Rect { get; internal set; }
             public bool ShowPath { get; set; } = true;
@@ -398,6 +400,7 @@ namespace UnityEngine.Global.IMGUI
             GUI.enabled = isEnabled;
             if (buttonCallback?.Invoke("Browse...", GUILayout.MaxWidth(100)) ?? GUILayout.Button("Browse...", GUILayout.MaxWidth(100)))
             {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
                 if (settings.IsEditor)
                 {
 #if UNITY_EDITOR
@@ -448,8 +451,11 @@ namespace UnityEngine.Global.IMGUI
             }
 
             return path;
-
-            //return string.Empty;
+            }
+#else
+            }
+            return string.Empty;
+#endif
         }
 
         /// <summary>
@@ -1038,7 +1044,9 @@ namespace UnityEngine.Global.IMGUI
 
         public class ScrollViewSettings
         {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
             internal bool IsEditor => ScenePlaybackDetector.IsPlaying;
+#endif
 
             private Vector2 ScrollPosition { get; }
             private Vector2 ViewSize { get; }
@@ -1118,6 +1126,7 @@ namespace UnityEngine.Global.IMGUI
                 var options = GetOptions();
                 bool hasOptions = !options.IsNullOrEmpty();
 
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
                 if (!IsEditor)
                 {
                     if (AlwaysShowHorizontal && AlwaysShowVertical && HorizontalScrollbar != null && VerticalScrollbar != null && Background != null)
@@ -1210,7 +1219,10 @@ namespace UnityEngine.Global.IMGUI
 
                 return EditorGUILayout.BeginScrollView(ScrollPosition);
 #else
-                    return default;
+                return default;
+#endif
+#else
+                return default;
 #endif
             }
         }

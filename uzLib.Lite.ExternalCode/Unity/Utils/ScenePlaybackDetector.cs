@@ -1,4 +1,6 @@
-﻿#if UNITY_EDITOR
+﻿#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
+#if UNITY_EDITOR
 
 #if false
 using UnityEditor;
@@ -44,4 +46,5 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils
     }
 }
 
+#endif
 #endif

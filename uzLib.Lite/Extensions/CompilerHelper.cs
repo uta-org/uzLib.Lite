@@ -1,13 +1,25 @@
-﻿using System;
+﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+extern alias SysDrawing;
+
+using System;
 using System.Collections.Generic;
 using System.IO;
-
-#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
 
 using Microsoft.Build.BuildEngine;
 using Microsoft.Build.Evaluation;
 using Microsoft.Build.Execution;
 using Microsoft.Build.Utilities;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+using System.Drawing;
+#else
+
+using SysDrawing::System.Drawing;
+
+//using System.Drawing.Imaging;
+
+#endif
+
 using Console = Colorful.Console;
 
 #else
@@ -118,7 +130,7 @@ namespace uzLib.Lite.Extensions
             if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(envVar, EnvironmentVariableTarget.Machine)))
             {
 #if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
-                Console.WriteLine($"You must restart this process to take of the new env var '{envVar}'!", System.Drawing.Color.Yellow);
+                Console.WriteLine($"You must restart this process to take of the new env var '{envVar}'!", Color.Yellow);
 #else
                 Debug.LogWarning($"You must restart this proccess to take of the new env var '{envVar}'!");
 #endif

@@ -14,6 +14,7 @@ using UnityEditor;
 
 namespace UnityEngine.Global.IMGUI
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
     public static class GlobalGUIUtility
     {
         // As alternative fix?
@@ -224,4 +225,5 @@ namespace UnityEngine.Global.IMGUI
                 : Event.current.mousePosition;
         }
     }
+#endif
 }

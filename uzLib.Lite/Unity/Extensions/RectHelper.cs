@@ -1,5 +1,6 @@
 ﻿namespace UnityEngine.Extensions
 {
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
     public static class RectHelper
     {
         public static int GetLength(this Rect rect)
@@ -22,4 +23,5 @@
             return new Rect(rect.position.x, rect.position.y, rect.width - width, rect.height);
         }
     }
+#endif
 }

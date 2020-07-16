@@ -3,9 +3,9 @@
   <!--
   <Target Name="BeforeBuild">
     <PropertyGroup>
-      <CustomOutputPath Condition="'$(Platform)' == 'uzSourceToolkit'">..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
-      <CustomOutputPath Condition="'$(Platform)' == 'uzCraft'">..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
-      <CustomOutputPath Condition="'$(Platform)' == 'uzSurfaceMapper'">..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(Platform)' == 'uzSourceToolkit'">..\..\..\..\VIZZUTA\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(Platform)' == 'uzCraft'">..\..\..\..\VIZZUTA\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
+      <CustomOutputPath Condition="'$(Platform)' == 'uzSurfaceMapper'">..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</CustomOutputPath>
       <CustomOutputPath Condition="'$(CustomOutputPath)' == ''">bin\ForUnity\Release\</CustomOutputPath>
     </PropertyGroup>
   </Target>
@@ -48,20 +48,20 @@
     <!--
     <Choose>
       <When Condition="'$(Platform)' == 'uzSourceToolkit'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <When Condition="'$(Platform)' == 'uzCraft'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <When Condition="'$(Platform)' == 'uzSurfaceMapper'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <Otherwise>
         <OutputPath>bin\ForUnity\Release\</OutputPath>
       </Otherwise>
     </Choose>
     -->
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>DEBUG;UNITY_2020, UNITY_2019, UNITY_2018, UNITY_2017, UNITY_5, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
@@ -74,8 +74,23 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|SteamScraper'">
+    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzCraft'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -85,7 +100,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzSurfaceMapper'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -95,7 +110,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzBuildingSystem'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -105,7 +120,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzProceduralCityGen'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -142,20 +157,20 @@
     <!--
     <Choose>
       <When Condition="'$(Platform)' == 'uzSourceToolkit'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <When Condition="'$(Platform)' == 'uzCraft'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <When Condition="'$(Platform)' == 'uzSurfaceMapper'">
-        <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+        <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
       </When>
       <Otherwise>
         <OutputPath>bin\ForUnity\Release\</OutputPath>
       </Otherwise>
     </Choose>
     -->
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\UnitySourceToolkit\Assets\UnitedTeamworkAssociation\UnitySourceToolkit\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -165,7 +180,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzCraft'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzCraft\Assets\UnitedTeamworkAssociation\uzCraft\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -175,7 +190,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzSurfaceMapper'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -185,7 +200,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzBuildingSystem'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzBuildingSystem\Assets\UnitedTeamworkAssociation\uzBuildingSystem\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -195,7 +210,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|uzProceduralCityGen'">
-    <OutputPath>..\..\..\..\United Teamwork Association\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzProceduralCityGen\Assets\UnitedTeamworkAssociation\uzProceduralCityGen\Scripts\Utilities\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER, UNITY_EDITOR</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -203,6 +218,21 @@
     <LangVersion>latest</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|SteamScraper'">
+    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <Optimize>false</Optimize>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DebugSymbols>true</DebugSymbols>
+    <GenerateSerializationAssemblies>On</GenerateSerializationAssemblies>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ForUnityEditor|AnyCPU' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|x64' OR '$(Configuration)|$(Platform)' == 'ForUnityEditor|x86' ">
     <OutputPath>bin\ForUnity\Release\</OutputPath>
@@ -321,6 +351,67 @@
     <LangVersion>latest</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzSourceToolkit'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|SteamScraper'">
+    <LangVersion>latest</LangVersion>
+    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzCraft'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzSurfaceMapper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzBuildingSystem'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzProceduralCityGen'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|uzSourceToolkit'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|SteamScraper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|uzCraft'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|uzSurfaceMapper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|uzBuildingSystem'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|uzProceduralCityGen'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityEditor|SteamScraper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|uzSourceToolkit'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|SteamScraper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|uzCraft'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|uzSurfaceMapper'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|uzBuildingSystem'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnityAsPackage|uzProceduralCityGen'">
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(Configuration)'=='ForUnity' Or '$(Configuration)'=='ForUnityAsPackage' Or '$(Configuration)'=='ForUnityEditor' ">
@@ -743,6 +834,12 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Drawing.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity3D.UnityEngine.2018.1.6-f1\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
