@@ -357,7 +357,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|SteamScraper'">
     <LangVersion>latest</LangVersion>
-    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+    <OutputPath>..\..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|uzCraft'">
     <LangVersion>latest</LangVersion>
