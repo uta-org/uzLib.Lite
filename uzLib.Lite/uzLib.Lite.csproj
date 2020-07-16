@@ -74,8 +74,8 @@
     <DocumentationFile>
     </DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|SteamScraper'">
-    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|SteamScraper'">
+    <OutputPath>..\..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>false</Optimize>
@@ -219,8 +219,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|SteamScraper'">
-    <OutputPath>..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|SteamScraper'">
+    <OutputPath>..\..\SteamScraper\libs\uzLib.Lite\net461\Debug\</OutputPath>
     <DefineConstants>
     </DefineConstants>
     <Optimize>false</Optimize>

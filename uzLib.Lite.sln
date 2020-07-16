@@ -462,8 +462,8 @@ Global
 		{E4E60A46-FB59-4284-A011-9299D6BD5263}.Release|x86.Build.0 = Release|x86
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|SteamScraper.ActiveCfg = Debug|Any CPU
-		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|SteamScraper.Build.0 = Debug|Any CPU
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|SteamScraper.ActiveCfg = Debug|SteamScraper
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|SteamScraper.Build.0 = Debug|SteamScraper
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|uzBuildingSystem.ActiveCfg = Debug|uzBuildingSystem
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|uzBuildingSystem.Build.0 = Debug|uzBuildingSystem
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|uzCraft.ActiveCfg = Debug|uzCraft
@@ -482,8 +482,8 @@ Global
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.Debug|x86.Build.0 = Debug|x86
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|Any CPU.ActiveCfg = ForUnity|Any CPU
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|Any CPU.Build.0 = ForUnity|Any CPU
-		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|SteamScraper.ActiveCfg = ForUnity|Any CPU
-		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|SteamScraper.Build.0 = ForUnity|Any CPU
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|SteamScraper.ActiveCfg = ForUnity|SteamScraper
+		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|SteamScraper.Build.0 = ForUnity|SteamScraper
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|uzBuildingSystem.ActiveCfg = ForUnity|uzBuildingSystem
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|uzBuildingSystem.Build.0 = ForUnity|uzBuildingSystem
 		{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}.ForUnity|uzCraft.ActiveCfg = ForUnity|uzCraft
