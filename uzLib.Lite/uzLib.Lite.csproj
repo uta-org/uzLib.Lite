@@ -772,6 +772,20 @@
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\ReflectionHelper.cs" />
+    <Compile Include="Extensions\SQL\CommandInfo.cs" />
+    <Compile Include="Extensions\SQL\DbHelperMySQL.cs" />
+    <Compile Include="Extensions\SQL\DbHelperOleDb.cs" />
+    <Compile Include="Extensions\SQL\DbHelperOra.cs" />
+    <Compile Include="Extensions\SQL\DbHelperSQL.cs" />
+    <Compile Include="Extensions\SQL\DbHelperSQLP.cs" />
+    <Compile Include="Extensions\SQL\DESEncrypt.cs" />
+    <Compile Include="Extensions\SQL\HelperFunctions.cs" />
+    <Compile Include="Extensions\SQL\MatchingExtention.cs" />
+    <Compile Include="Extensions\SQL\ObjectPropertyInfoField.cs" />
+    <Compile Include="Extensions\SQL\OracleHelper.cs" />
+    <Compile Include="Extensions\SQL\PubConstant.cs" />
+    <Compile Include="Extensions\SQL\ReflectionHelper.cs" />
+    <Compile Include="Extensions\SQL\SQLHelper.cs" />
     <Compile Include="Extensions\TimeSpanHelper.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Ninja.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Task.cs" />
@@ -831,13 +845,19 @@
       <HintPath>..\packages\HtmlAgilityPack.1.11.7\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Aliases>HTMLLib</Aliases>
     </Reference>
+    <Reference Include="MySql.Data, Version=8.0.21.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 8.0.21\Assemblies\v4.5.2\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing.Common">
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Drawing.Common.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity3D.UnityEngine.2018.1.6-f1\lib\UnityEngine.dll</HintPath>
     </Reference>
