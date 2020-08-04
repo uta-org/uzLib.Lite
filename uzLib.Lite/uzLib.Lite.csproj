@@ -769,6 +769,7 @@
     <Compile Include="Extensions\IOHelper.cs" />
     <Compile Include="Extensions\MimeTypeMap.cs" />
     <Compile Include="Extensions\NetHelper.cs" />
+    <Compile Include="Extensions\NVCHelper.cs" />
     <Compile Include="Extensions\ObjectHelper.cs" />
     <Compile Include="Extensions\ProcessHelper.cs" />
     <Compile Include="Extensions\ReflectionHelper.cs" />
@@ -786,6 +787,7 @@
     <Compile Include="Extensions\SQL\PubConstant.cs" />
     <Compile Include="Extensions\SQL\ReflectionHelper.cs" />
     <Compile Include="Extensions\SQL\SQLHelper.cs" />
+    <Compile Include="Extensions\StreamHelper.cs" />
     <Compile Include="Extensions\TimeSpanHelper.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Ninja.cs" />
     <Compile Include="Libs\CielaSpike\CielaSpike\Thread Ninja\Task.cs" />
