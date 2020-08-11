@@ -833,6 +833,7 @@
     <Compile Include="Unity\Utils\DebugTools\ThreadedDebug.cs" />
     <Compile Include="Extensions\EnumHelper.cs" />
     <Compile Include="Unity\Utils\Threading\Dispatcher.cs" />
+    <Compile Include="Utils\ConcurrentHashSet.cs" />
     <Compile Include="Utils\Threading\NamedHandler.cs" />
     <Compile Include="Utils\Threading\ThreadMarker.cs" />
   </ItemGroup>
