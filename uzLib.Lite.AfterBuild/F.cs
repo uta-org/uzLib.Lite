@@ -55,7 +55,7 @@ namespace uzLib.Lite.AfterBuild
             }
         }
 
-        public static void CopyTo(this DirectoryInfo source, DirectoryInfo target, bool overwiteFiles = true)
+        public static void CopyTo(this DirectoryInfo source, DirectoryInfo target, Predicate<FileInfo> predicate = null, bool overwiteFiles = true)
         {
             if (!source.Exists) return;
             if (!target.Exists) target.Create();
@@ -64,12 +64,15 @@ namespace uzLib.Lite.AfterBuild
                 CopyTo(sourceChildDirectory, new DirectoryInfo(Path.Combine(target.FullName, sourceChildDirectory.Name))));
 
             foreach (var sourceFile in source.GetFiles())
+            {
+                if (predicate?.Invoke(sourceFile) == true) continue;
                 sourceFile.CopyTo(Path.Combine(target.FullName, sourceFile.Name), overwiteFiles);
+            }
         }
 
-        public static void CopyTo(this DirectoryInfo source, string target, bool overwiteFiles = true)
+        public static void CopyTo(this DirectoryInfo source, string target, Predicate<FileInfo> predicate = null, bool overwiteFiles = true)
         {
-            CopyTo(source, new DirectoryInfo(target), overwiteFiles);
+            CopyTo(source, new DirectoryInfo(target), predicate, overwiteFiles);
         }
 
         public static bool Has<T>(this T type, dynamic value)

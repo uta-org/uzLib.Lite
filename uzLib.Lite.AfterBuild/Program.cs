@@ -16,6 +16,8 @@ namespace uzLib.Lite.AfterBuild
 
         private const string FolderName = "uzLib.Lite.MetaFiles";
 
+        private static string CompileDatePath => Path.Combine(Environment.CurrentDirectory, "compile.txt");
+
         [Flags]
         public enum RemoveState
         {
@@ -68,9 +70,9 @@ namespace uzLib.Lite.AfterBuild
                     var fileName = Path.GetFileNameWithoutExtension(editorFile);
 
                     var remove = (!file.Contains("uzLib.Lite.") || file.Contains("ExternalCode") ? RemoveState.Normal : RemoveState.Nothing)
-                                       | (!editorFile.Contains("uzLib.Lite.") || fileName != "UnityEditor" ? RemoveState.Editor : RemoveState.Nothing);
+                                 | (!editorFile.Contains("uzLib.Lite.") || fileName != "UnityEditor" ? RemoveState.Editor : RemoveState.Nothing);
 
-                    if (remove.Has(RemoveState.Editor) || remove.Has(RemoveState.Normal))
+                    if (remove.Has(RemoveState.Editor) || remove.Has(RemoveState.Normal) && Path.GetExtension(file) != ".meta")
                     {
                         if (remove.Has(RemoveState.Normal))
                             count = RemoveFile(file, count);
@@ -101,6 +103,9 @@ namespace uzLib.Lite.AfterBuild
                 CopyFolderContents(unityEditorFolder, FullPath, "Editor");
 
                 CopyMetaFiles(FullPath);
+
+                var compileTime = DateTime.Now.ToString();
+                File.WriteAllText(CompileDatePath, compileTime);
             }
             catch (Exception ex)
             {
@@ -110,6 +115,9 @@ namespace uzLib.Lite.AfterBuild
 
         private static void CopyFolderContents(string externalCodeFolder, string fullPath, string folderName)
         {
+            DateTime? compileTime =
+                File.Exists(CompileDatePath) ? (DateTime?)DateTime.Parse(File.ReadAllText(CompileDatePath)) : null;
+
             var copyToFolder = Path.Combine(fullPath, folderName);
             Console.WriteLine($@"Copying folder '{externalCodeFolder}' to '{copyToFolder}'...");
 
@@ -125,7 +133,15 @@ namespace uzLib.Lite.AfterBuild
 
                 Console.WriteLine($@"Copying sub-folder '{externalCodeFolder}' to '{copyToFolder}'...");
 
-                new DirectoryInfo(directory).CopyTo(folderPath);
+                new DirectoryInfo(directory).CopyTo(folderPath, fileInfo =>
+                {
+                    //bool isModified = !(compileTime.HasValue && fileInfo.LastAccessTime > compileTime.Value || !compileTime.HasValue);
+                    //Console.WriteLine(isModified ? $"{fileInfo.FullName} copied." : $"{fileInfo.FullName} skipped.");
+                    //return isModified;
+
+                    // TODO: This is already done by BeforeBuild app, but this implementation is smarter and also is done by Unity3D.
+                    return true;
+                });
             }
         }
 
@@ -146,9 +162,12 @@ namespace uzLib.Lite.AfterBuild
 
         private static void CopyMetaFiles(string fullPath)
         {
-            string tempFolder = F.GetTemporaryDirectory(F.GetTemporaryDirectory(FolderName));
+            string tempFolder = FindTempFolder();
+            // F.GetTemporaryDirectory(F.GetTemporaryDirectory(FolderName));
             string tempFolderForFiles = Path.Combine(tempFolder, "Files");
             var jsonFile = Path.Combine(tempFolder, "files.json");
+
+            Console.WriteLine($"Reading json: {jsonFile}");
 
             // If this file doesn't exists, the BeforeBuild didn't copied any file.
             if (!File.Exists(jsonFile))
@@ -156,6 +175,8 @@ namespace uzLib.Lite.AfterBuild
 
             var json = File.ReadAllText(jsonFile);
             metaFiles = JsonConvert.DeserializeObject<List<string>>(json);
+
+            Console.WriteLine($"Deserialized '{jsonFile}' reading {metaFiles.Count} files.");
 
             int count = 0;
             foreach (var metaFile in metaFiles)
@@ -173,6 +194,7 @@ namespace uzLib.Lite.AfterBuild
                 try
                 {
                     File.Copy(metaFile, origFile, true);
+                    Console.WriteLine($"Copy meta file '{metaFile}' -> '{origFile}'...");
                     ++count;
                 }
                 catch (Exception ex)
@@ -182,6 +204,13 @@ namespace uzLib.Lite.AfterBuild
             }
 
             Console.WriteLine($@"Copied back {count} meta files!");
+        }
+
+        private static string FindTempFolder()
+        {
+            return Directory.GetDirectories(Path.GetTempPath()).Where(f => f.Contains(FolderName))
+                .Select(f => new { FolderPath = f, Folder = new DirectoryInfo(f) }).OrderByDescending(o => o.Folder.LastAccessTime)
+                .FirstOrDefault()?.FolderPath;
         }
     }
 }

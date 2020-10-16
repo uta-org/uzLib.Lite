@@ -9,6 +9,9 @@ using uzLib.Lite.Extensions;
 namespace uzLib.Lite.BeforeBuild
 {
     // TODO: This was depending on uzLib.Lite to be compiled. And uzLib.Lite expects this to be compiled, solved (NOT PERMANENT) this circular reference by creating CommonDeps.
+    /// <summary>
+    /// This program copies all the .meta files in order to be improted by the AfterBuild.
+    /// </summary>
     internal class Program
     {
         private static List<string> metaFiles = new List<string>();
@@ -29,6 +32,9 @@ namespace uzLib.Lite.BeforeBuild
                 string OutputPath = args[1].Replace(@"""", "");
                 //args.Try(1, "..\\..\\..\\..\\United Teamwork Association\\Unity\\Assets\\UnitySourceToolkit\\Assets\\UnitedTeamworkAssociation\\UnitySourceToolkit\\Scripts\\Utilities\\uzLib.Lite")
                 //.Replace(@"""", "");
+
+                if (Path.GetExtension(MSBuildProjectFullPath) == ".csproj")
+                    MSBuildProjectFullPath = Path.GetDirectoryName(MSBuildProjectFullPath);
 
                 Console.WriteLine($@"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($@"{nameof(OutputPath)}: {OutputPath}");
@@ -103,6 +109,8 @@ namespace uzLib.Lite.BeforeBuild
                 {
                     var jsonFile = Path.Combine(tempFolder, "files.json");
                     File.WriteAllText(jsonFile, JsonConvert.SerializeObject(metaFiles, Formatting.Indented));
+
+                    Console.WriteLine($"Serialized .meta files to '{jsonFile}'...");
                 }
             }
             catch (Exception ex)

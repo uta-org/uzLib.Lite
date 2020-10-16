@@ -730,7 +730,9 @@
     <Compile Include="Libs\Unity-WinForms\Utility\KeyHelper.cs" />
     <Compile Include="Libs\Unity-WinForms\Utility\MathHelper.cs" />
     <Compile Include="Libs\Unity-WinForms\Utility\swfHelper.cs" />
+    <Compile Include="Unity\Extensions\FormHelper.cs" />
     <Compile Include="Unity\Extensions\MathHelper.cs" />
+    <Compile Include="Unity\Extensions\PaintArgs.cs" />
     <Compile Include="Unity\Extensions\UIHelper.cs" />
     <Compile Include="Unity\Extensions\GUIStyleHelper.cs" />
     <Compile Include="Unity\Extensions\VectorHelper.cs" />
