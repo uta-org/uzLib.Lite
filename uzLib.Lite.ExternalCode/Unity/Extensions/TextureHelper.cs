@@ -70,7 +70,7 @@ namespace UnityEngine.Extensions
             var croppedTexture = new Texture2D((int)sprite.rect.width, (int)sprite.rect.height);
             croppedTexture.name = sprite.name;
 
-            var texture = sprite.texture.isReadable ? sprite.texture : sprite.texture.DuplicateTexture();
+            var texture = sprite.texture.IsReadable() ? sprite.texture : sprite.texture.DuplicateTexture();
             var rect = sprite.textureRect;
             var pixels = texture.GetPixels((int)rect.x,
                 (int)(sprite.texture.height - rect.yMax),
@@ -102,7 +102,7 @@ namespace UnityEngine.Extensions
         /// <returns></returns>
         public static IEnumerable<Texture2D> GetTextures(this Texture2D _texture, params UnityMinifiedNode[] nodes)
         {
-            var texture = _texture.isReadable ? _texture : _texture.DuplicateTexture();
+            var texture = _texture.IsReadable() ? _texture : _texture.DuplicateTexture();
 
             foreach (var node in nodes)
             {
@@ -123,6 +123,12 @@ namespace UnityEngine.Extensions
 
                 yield return croppedTexture;
             }
+        }
+
+        public static bool IsReadable(this Texture2D tex)
+        {
+            var isReadableMethod = tex.GetType().GetMethod("IsReadable");
+            return (bool)isReadableMethod.Invoke(tex, null);
         }
 
         /// <summary>

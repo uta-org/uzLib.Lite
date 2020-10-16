@@ -2,7 +2,8 @@
 using System.Collections;
 using System.IO;
 using System.Reflection;
-using CielaSpike;
+
+//using CielaSpike;
 using UnityEngine.Extensions;
 using uzLib.Lite.Extensions;
 
@@ -15,6 +16,7 @@ using UnityEditor;
 namespace UnityEngine.Global.IMGUI
 {
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
     public static class GlobalGUIUtility
     {
         // As alternative fix?
@@ -180,7 +182,7 @@ namespace UnityEngine.Global.IMGUI
         {
             if (callback == null) throw new ArgumentNullException(nameof(callback));
 
-            yield return Ninja.JumpBack;
+            //yield return Ninja.JumpBack; // TODO
 
             var filename = NetHelper.GetNameAndExtensionFrom(url, out var data).ToLowerInvariant();
             var extension = Path.GetExtension(filename);
@@ -189,6 +191,8 @@ namespace UnityEngine.Global.IMGUI
                 throw new Exception("Data from url isn't an image!"); // (Url: {url})
 
             callback(data, filename);
+
+            yield break;
         }
 
         /// <summary>
@@ -225,5 +229,6 @@ namespace UnityEngine.Global.IMGUI
                 : Event.current.mousePosition;
         }
     }
+
 #endif
 }

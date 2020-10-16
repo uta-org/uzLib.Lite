@@ -181,9 +181,8 @@
     <Reference Include="UnityEditor">
       <HintPath>..\packages\Unity3D.UnityEditor.2018.1.6-f1\lib\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Unity3D.UnityEngine.2018.3.5.1\lib\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>..\packages\Unity3D.UnityEngine.2018.1.6-f1\lib\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

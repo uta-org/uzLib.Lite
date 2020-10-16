@@ -9,7 +9,18 @@ namespace UnityEngine.Utils.DebugTools
 {
     public static class ThreadedDebug
     {
-        private static double TimeRunning => (DateTime.Now - Process.GetCurrentProcess().StartTime).TotalSeconds;
+        private static double TimeRunning
+        {
+            get
+            {
+#if !UNITY_WEBGL_API
+                return (DateTime.Now - Process.GetCurrentProcess().StartTime).TotalSeconds;
+#else
+              return Time.realtimeSinceStartup;
+#endif
+            }
+        }
+
         private static string FormattedTime => $"{TimeRunning.ConvertSecondsToDate()} ({TimeRunning:F2} s)";
 
         public static void Log(object obj, bool jumpBack = true)
