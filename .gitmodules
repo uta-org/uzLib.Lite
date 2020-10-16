@@ -16,3 +16,7 @@
 	path = uzLib.Lite.ExternalCode/Libs/Unity-WinForms-Skin
 	url = https://github.com/uta-org/Unity-WinForms-GUISkin-Tests.git
 	branch = visual-studio
+[submodule "CommonDeps/uzLib.Lite"]
+	path = CommonDeps/uzLib.Lite
+	url = https://github.com/uta-org/uzLib.Lite.git
+	branch = unity-1.2.0

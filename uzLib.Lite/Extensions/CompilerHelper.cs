@@ -28,6 +28,8 @@ using UnityEngine;
 
 #endif
 
+using System;
+
 namespace uzLib.Lite.Extensions
 {
     /// <summary>

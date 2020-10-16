@@ -1,32 +1,33 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows.Forms.VisualStyles;
-using System.Drawing;
-using uzLib.Lite.Extensions;
 
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
 using Unity.Collections;
 using Unity.Jobs;
+
 #endif
 
 namespace UnityEngine.Utils
 {
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
-    using Core;
+
     using Extensions;
 
-    // TODO: Create ASM Definitions for this
-#if UNITY_2018_3_OR_NEWER
+    // Use this because we on the uzLib (not ExternalCode) and this doesn't matter by the moment because we are using 2018.2 nuget package.
+    using UnityEngine.Experimental.Rendering;
 
-    using Rendering;
+    //    // TODO: Create ASM Definitions for this
+    //#if UNITY_2018_3_OR_NEWER
 
-#else
+    //    using Rendering;
 
-    using Rendering.Experimental;
+    //#else
 
-#endif
+    //    using Rendering.Experimental;
+
+    //#endif
 
     // TODO: Re3search if Sprite.Create can be async
     // If not search for a method that crops textures using Color[] and NativeArray<Color>

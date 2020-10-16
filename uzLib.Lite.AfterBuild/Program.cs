@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
-using uzLib.Lite.Extensions;
-using uzLib.Lite.ExternalCode.Extensions;
-using IOHelper = uzLib.Lite.Extensions.IOHelper;
+
+//using uzLib.Lite.Extensions;
+//using uzLib.Lite.ExternalCode.Extensions;
+//using IOHelper = uzLib.Lite.Extensions.IOHelper;
 
 namespace uzLib.Lite.AfterBuild
 {
@@ -83,7 +84,7 @@ namespace uzLib.Lite.AfterBuild
                 {
                     if (!folder.Contains(@"\.Code"))
                     {
-                        IOHelper.DeleteDirectory(folder);
+                        F.DeleteDirectory(folder);
 
                         Console.WriteLine($@"Deleted folder '{folder}'!");
                         ++count;
@@ -145,7 +146,7 @@ namespace uzLib.Lite.AfterBuild
 
         private static void CopyMetaFiles(string fullPath)
         {
-            string tempFolder = IOHelper.GetTemporaryDirectory(IOHelper.GetTemporaryDirectory(FolderName));
+            string tempFolder = F.GetTemporaryDirectory(F.GetTemporaryDirectory(FolderName));
             string tempFolderForFiles = Path.Combine(tempFolder, "Files");
             var jsonFile = Path.Combine(tempFolder, "files.json");
 

@@ -21,7 +21,7 @@ using SysDrawing::System.Drawing;
 
 namespace uzLib.Lite.Extensions
 {
-    extern alias SysDrawing;
+    //extern alias SysDrawing;
 
     /// <summary>
     /// The BitmapHelper helper

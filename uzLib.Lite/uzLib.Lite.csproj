@@ -100,7 +100,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzSurfaceMapper'">
-    <OutputPath>..\..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\UnitedTeamworkAssociation\uzSurfaceMapper\Scripts\Utilities\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\VIZZUTA\uzSurfaceMapper\Libraries\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -541,10 +541,6 @@
           <HintPath>..\packages\TidyNetPortable.1.0.0\lib\TidyNetPortable.dll</HintPath>
           <Private>False</Private>
         </Reference>
-        <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-          <HintPath>..\packages\Unity3D.UnityEngine.2018.3.5.1\lib\UnityEngine.dll</HintPath>
-          <Private>False</Private>
-        </Reference>
         <Reference Include="TexturePacker.Lib.Unity">
           <HintPath>..\packages\TexturePacker.Lib.1.0.1\lib\net461\ForUnity\TexturePacker.Lib.Unity.dll</HintPath>
           <Aliases>TexLib</Aliases>
@@ -926,7 +922,7 @@
     <Exec Condition="'$(Configuration)' == 'ForUnityAsPackage'" Command="$(VSLibCompilationCommand)" />
     <!--- END TODO -->
     <Message Text="Executing cleanup..." Importance="High" />
-    <Exec Command="&quot;E:\VISUAL STUDIO\Visual Studio Projects\uzLib.Lite\uzLib.Lite.BeforeBuild\bin\Release\uzLib.Lite.BeforeBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
+    <Exec Command="&quot;..\uzLib.Lite.BeforeBuild\bin\Release\uzLib.Lite.BeforeBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
   </Target>
   <Target Name="AfterBuild" Condition="'$(Configuration)' == 'ForUnity' Or '$(Configuration)' == 'ForUnityEditor' Or '$(Configuration)' == 'ForUnityAsPackage'">
     <!--- TODO: This is not working yet -->
@@ -937,6 +933,6 @@
     <Exec Condition="'$(Configuration)' == 'ForUnityAsPackage'" Command="$(VSLibCompilationCommand)" />
     <!--- END TODO -->
     <Message Text="Executing cleanup..." Importance="High" />
-    <Exec Command="&quot;E:\VISUAL STUDIO\Visual Studio Projects\uzLib.Lite\uzLib.Lite.AfterBuild\bin\Release\uzLib.Lite.AfterBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
+    <Exec Command="&quot;..\uzLib.Lite.AfterBuild\bin\Release\uzLib.Lite.AfterBuild.exe&quot; &quot;$(MSBuildProjectFullPath)&quot; &quot;$(OutputPath)&quot;" />
   </Target>
 </Project>

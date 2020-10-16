@@ -8,6 +8,7 @@ using uzLib.Lite.Extensions;
 
 namespace uzLib.Lite.BeforeBuild
 {
+    // TODO: This was depending on uzLib.Lite to be compiled. And uzLib.Lite expects this to be compiled, solved (NOT PERMANENT) this circular reference by creating CommonDeps.
     internal class Program
     {
         private static List<string> metaFiles = new List<string>();
@@ -23,14 +24,30 @@ namespace uzLib.Lite.BeforeBuild
 
             try
             {
-                string MSBuildProjectFullPath = Path.GetDirectoryName(args.Try(0, "E:\\VISUAL STUDIO\\Visual Studio Projects\\uzLib.Lite\\uzLib.Lite"));
-                string OutputPath = args.Try(1, "..\\..\\..\\..\\United Teamwork Association\\Unity\\Assets\\UnitySourceToolkit\\Assets\\UnitedTeamworkAssociation\\UnitySourceToolkit\\Scripts\\Utilities\\uzLib.Lite")
-                    .Replace(@"""", "");
+                string MSBuildProjectFullPath = args[0];
+                // Path.GetDirectoryName(args.Try(0, "E:\\VISUAL STUDIO\\Visual Studio Projects\\uzLib.Lite\\uzLib.Lite")); // TODO: Better approach
+                string OutputPath = args[1].Replace(@"""", "");
+                //args.Try(1, "..\\..\\..\\..\\United Teamwork Association\\Unity\\Assets\\UnitySourceToolkit\\Assets\\UnitedTeamworkAssociation\\UnitySourceToolkit\\Scripts\\Utilities\\uzLib.Lite")
+                //.Replace(@"""", "");
 
                 Console.WriteLine($@"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}");
                 Console.WriteLine($@"{nameof(OutputPath)}: {OutputPath}");
 
-                string FullPath = Path.GetFullPath(Path.Combine(MSBuildProjectFullPath ?? throw new InvalidOperationException(), OutputPath));
+                string FullPath = "";
+                try
+                {
+                    FullPath = Path.GetFullPath(Path.Combine(
+                        MSBuildProjectFullPath ?? throw new InvalidOperationException(),
+                        OutputPath));
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{nameof(FullPath)}: {FullPath}\n" +
+                                      $"{nameof(MSBuildProjectFullPath)}: {MSBuildProjectFullPath}\n" +
+                                      $"{nameof(OutputPath)}: {OutputPath}");
+                    throw;
+                }
+
                 if (FullPath.EndsWith("Editor"))
                     FullPath = Path.GetDirectoryName(FullPath);
 
@@ -82,7 +99,7 @@ namespace uzLib.Lite.BeforeBuild
 
                 Console.WriteLine($@"Copied {count} meta files!");
 
-                if (!metaFiles.IsNullOrEmpty())
+                if (metaFiles?.Count > 0)
                 {
                     var jsonFile = Path.Combine(tempFolder, "files.json");
                     File.WriteAllText(jsonFile, JsonConvert.SerializeObject(metaFiles, Formatting.Indented));

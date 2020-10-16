@@ -44,6 +44,18 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UniGif.VisualStudio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniGif.1.0.1\lib\net461\UniGif.VisualStudio.dll</HintPath>
+    </Reference>
+    <Reference Include="UniGif.VisualStudio.UnityEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniGif.1.0.1\lib\net461\Editor\UniGif.VisualStudio.UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="uzLib.Lite">
+      <HintPath>..\CommonDeps\uzLib.Lite\uzLib.Lite.dll</HintPath>
+    </Reference>
+    <Reference Include="uzLib.Lite.ExternalCode, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\UniGif.1.0.1\lib\net461\uzLib.Lite.ExternalCode.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -52,12 +64,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\uzLib.Lite\uzLib.Lite.csproj">
-      <Project>{D4DA84F9-521F-438B-9C70-7FE8F4D1F32A}</Project>
-      <Name>uzLib.Lite</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
