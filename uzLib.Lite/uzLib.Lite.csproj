@@ -100,7 +100,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForUnity|uzSurfaceMapper'">
-    <OutputPath>..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapper\Assets\VIZZUTA\uzSurfaceMapper\Libraries\uzLib.Lite\</OutputPath>
+    <OutputPath>..\..\..\VIZZUTA\Unity\Assets\uzSurfaceMapperDemo\Assets\VIZZUTA\uzSurfaceMapperDemo\Libraries\uzLib.Lite\</OutputPath>
     <DefineConstants>TRACE;UNITY_2018, UNITY_2018_3_OR_NEWER</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

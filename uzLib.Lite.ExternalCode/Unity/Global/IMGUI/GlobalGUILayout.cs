@@ -451,7 +451,6 @@ namespace UnityEngine.Global.IMGUI
             }
 
             return path;
-            }
 #else
             }
             return string.Empty;
