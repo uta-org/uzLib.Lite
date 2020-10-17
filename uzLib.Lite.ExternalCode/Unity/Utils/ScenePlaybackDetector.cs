@@ -11,7 +11,7 @@ using UnityEditor.Callbacks;
 
 namespace uzLib.Lite.ExternalCode.Unity.Utils
 {
-    public class ScenePlaybackDetector
+    public static class ScenePlaybackDetector
     {
         /// <summary>
         ///     Gets a value indicating whether this instance is playing. (Alternative to check if we are on editor)
@@ -34,7 +34,7 @@ namespace uzLib.Lite.ExternalCode.Unity.Utils
 
 namespace uzLib.Lite.ExternalCode.Unity.Utils
 {
-    public static ScenePlaybackDetector
+    public static class ScenePlaybackDetector
     {
         /// <summary>
         ///     Gets a value indicating whether this instance is playing. (Alternative to check if we are on editor)

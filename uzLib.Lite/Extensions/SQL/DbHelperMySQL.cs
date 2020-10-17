@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -26,7 +28,7 @@ namespace HD.DBHelper
         {
         }
 
-        #region 公用方法
+#region 公用方法
 
         /// <summary>
         /// 得到最大值
@@ -103,9 +105,9 @@ namespace HD.DBHelper
             }
         }
 
-        #endregion 公用方法
+#endregion 公用方法
 
-        #region 执行简单SQL语句
+#region 执行简单SQL语句
 
         /// <summary>
         /// 执行SQL语句，返回影响的记录数
@@ -529,9 +531,9 @@ namespace HD.DBHelper
             }
         }
 
-        #endregion 执行简单SQL语句
+#endregion 执行简单SQL语句
 
-        #region 执行带参数的SQL语句
+#region 执行带参数的SQL语句
 
         /// <summary>
         /// 执行SQL语句，返回影响的记录数
@@ -873,6 +875,8 @@ namespace HD.DBHelper
             }
         }
 
-        #endregion 执行带参数的SQL语句
+#endregion 执行带参数的SQL语句
     }
 }
+
+#endif
