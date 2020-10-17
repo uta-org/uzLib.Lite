@@ -3,9 +3,16 @@ using System.Collections;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using UnityEngine;
+
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+
+using UnityEngine.Core;
+
+#else
+
 using uzLib.Lite.ExternalCode.Core;
 
-//using uzLib.Lite.ExternalCode.Extensions;
+#endif
 
 namespace uzLib.Lite.ExternalCode.Unity.Utils.Threading
 {

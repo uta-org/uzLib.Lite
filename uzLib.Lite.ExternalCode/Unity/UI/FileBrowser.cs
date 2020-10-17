@@ -1,7 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+
+#if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
+
+using UnityEngine.Core;
+
+#else
+
 using uzLib.Lite.ExternalCode.Core;
+
+#endif
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
@@ -18,7 +27,7 @@ namespace UnityEngine.UI
     }
 
     // ReSharper disable once RedundantNameQualifier
-    public class FileBrowser : uzLib.Lite.ExternalCode.Core.MonoSingleton<FileBrowser>
+    public class FileBrowser : MonoSingleton<FileBrowser>
     {
         // Called when the user clicks cancel or select
         public delegate void FinishedCallback(string path);

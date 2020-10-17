@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using _System.Drawing;
 using Unity.API;
 using UnityEngine;
 using UnityEngine.Global.IMGUI;
 using uzLib.Lite.ExternalCode.Extensions;
+
+#if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
+
+using uzLib.Lite.Extensions;
+
+#endif
 
 namespace uzLib.Lite.ExternalCode.Unity.Extensions
 {

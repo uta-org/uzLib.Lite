@@ -1,4 +1,5 @@
-﻿using System;
+﻿// ReSharper disable RedundantUsingDirective
+using System;
 using System.Linq;
 using UnityEngine;
 using uzLib.Lite.ExternalCode.Unity.Global.IMGUI;
@@ -7,6 +8,16 @@ using uzLib.Lite.ExternalCode.WinFormsSkins.Workers;
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 
 using UnityEngine.Extensions;
+
+#endif
+
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
+using System.Drawing;
+
+#else
+
+using _System.Drawing;
 
 #endif
 
@@ -367,7 +378,8 @@ namespace uzLib.Lite.ExternalCode.Extensions
             return rect;
         }
 
-        public static Rect ToRect(this System.Drawing.Rectangle rectangle)
+        // ReSharper disable once RedundantNameQualifier
+        public static Rect ToRect(this Rectangle rectangle)
         {
             return new Rect(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
         }

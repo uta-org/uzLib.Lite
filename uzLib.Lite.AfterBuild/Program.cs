@@ -126,21 +126,23 @@ namespace uzLib.Lite.AfterBuild
 
             foreach (var directory in Directory.GetDirectories(externalCodeFolder))
             {
-                if (directory.Contains("bin") || directory.Contains("obj") || directory.Contains("Properties"))
+                var dir = directory.Replace("\\", "/");
+                if (dir.Contains("/bin") || dir.Contains("/obj") || dir.Contains("/Properties"))
                     continue;
 
                 var folderPath = Path.Combine(copyToFolder, GetLastDirectoryName(directory));
 
-                Console.WriteLine($@"Copying sub-folder '{externalCodeFolder}' to '{copyToFolder}'...");
+                Console.WriteLine($@"Copying sub-folder '{directory}' to '{copyToFolder}'...");
 
-                new DirectoryInfo(directory).CopyTo(folderPath, fileInfo =>
+                new DirectoryInfo(directory).CopyTo(folderPath, (sourceFile, targetFile) =>
                 {
                     //bool isModified = !(compileTime.HasValue && fileInfo.LastAccessTime > compileTime.Value || !compileTime.HasValue);
                     //Console.WriteLine(isModified ? $"{fileInfo.FullName} copied." : $"{fileInfo.FullName} skipped.");
                     //return isModified;
 
-                    // TODO: This is already done by BeforeBuild app, but this implementation is smarter and also is done by Unity3D.
-                    return true;
+                    // This is already done by BeforeBuild app, but this implementation is smarter and also is done by Unity3D.
+                    Console.WriteLine($"\t'{sourceFile.FullName}' -> '{targetFile}'");
+                    return false;
                 });
             }
         }

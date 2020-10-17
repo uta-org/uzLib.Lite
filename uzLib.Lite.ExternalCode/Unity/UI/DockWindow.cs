@@ -4,13 +4,17 @@ using System.Linq;
 using Unity.Controls;
 using UnityEngine.Global;
 using UnityEngine.UI.Interfaces;
-using uzLib.Lite.ExternalCode.Core;
 using uzLib.Lite.ExternalCode.Extensions;
 using uzLib.Lite.ExternalCode.Unity.Utils;
 
 #if !(!UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5)
 
-using uzLib.Lite.Extensions;
+//using uzLib.Lite.Extensions;
+using uzLib.Lite.Core;
+
+#else
+
+using uzLib.Lite.ExternalCode.Core;
 
 #endif
 

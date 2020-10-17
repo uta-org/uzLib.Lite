@@ -1,5 +1,14 @@
 ﻿using System;
+
+#if !UNITY_2020 && !UNITY_2019 && !UNITY_2018 && !UNITY_2017 && !UNITY_5
+
 using uzLib.Lite.ExternalCode.Core;
+
+#else
+
+using uzLib.Lite.Core;
+
+#endif
 
 namespace UnityEngine.Core
 {

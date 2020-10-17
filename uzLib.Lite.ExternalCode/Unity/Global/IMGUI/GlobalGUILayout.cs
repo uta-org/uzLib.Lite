@@ -6,9 +6,7 @@ using UnityEngine.Extensions;
 using UnityEngine.UI;
 using UnityGif;
 
-using uzLib.Lite.ExternalCode.Core;
 using uzLib.Lite.ExternalCode.Extensions;
-using uzLib.Lite.ExternalCode.Unity.Utils;
 
 #if UNITY_EDITOR
 
@@ -19,6 +17,12 @@ using UnityEditor;
 #if UNITY_2020 || UNITY_2019 || UNITY_2018 || UNITY_2017 || UNITY_5
 
 using uzLib.Lite.Extensions;
+using uzLib.Lite.Core;
+using uzLib.Lite.ExternalCode.Unity.Utils;
+
+#else
+
+using uzLib.Lite.ExternalCode.Core;
 
 #endif
 

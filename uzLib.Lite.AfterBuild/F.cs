@@ -45,17 +45,19 @@ namespace uzLib.Lite.AfterBuild
                 Thread.Sleep(1);
                 Directory.Delete(dir, true);
             }
-            catch (IOException)
+            catch (IOException ex)
             {
-                DeleteDir(dir);
+                //DeleteDir(dir);
+                Console.WriteLine(ex);
             }
-            catch (UnauthorizedAccessException)
+            catch (UnauthorizedAccessException ex)
             {
-                DeleteDir(dir);
+                //DeleteDir(dir);
+                Console.WriteLine(ex);
             }
         }
 
-        public static void CopyTo(this DirectoryInfo source, DirectoryInfo target, Predicate<FileInfo> predicate = null, bool overwiteFiles = true)
+        public static void CopyTo(this DirectoryInfo source, DirectoryInfo target, Func<FileInfo, string, bool> predicate = null, bool overwiteFiles = true)
         {
             if (!source.Exists) return;
             if (!target.Exists) target.Create();
@@ -65,12 +67,13 @@ namespace uzLib.Lite.AfterBuild
 
             foreach (var sourceFile in source.GetFiles())
             {
-                if (predicate?.Invoke(sourceFile) == true) continue;
-                sourceFile.CopyTo(Path.Combine(target.FullName, sourceFile.Name), overwiteFiles);
+                var targetFile = Path.Combine(target.FullName, sourceFile.Name);
+                if (predicate?.Invoke(sourceFile, targetFile) == true) continue;
+                sourceFile.CopyTo(targetFile, overwiteFiles);
             }
         }
 
-        public static void CopyTo(this DirectoryInfo source, string target, Predicate<FileInfo> predicate = null, bool overwiteFiles = true)
+        public static void CopyTo(this DirectoryInfo source, string target, Func<FileInfo, string, bool> predicate = null, bool overwiteFiles = true)
         {
             CopyTo(source, new DirectoryInfo(target), predicate, overwiteFiles);
         }
